@@ -9,12 +9,12 @@ export const siteData = {
     { label: "Membership", href: "/membership", current: false },
   ],
   heroIcon: {
-    label: "View Paintings",
+    label: "Learn More",
     href: "#content",
   },
   masthead: {
-    heading: "Studio Workshop",
-    location: "Nashville, TN",
-    meta: "~ Established 2026 ~",
+    heading: "Friends of Seguin Island",
+    location: "Bath, Maine",
+    meta: "~ Est. 1986 ~",
   },
 };

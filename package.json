@@ -1,5 +1,5 @@
 {
-  "name": "astro-sugarcube",
+  "name": "friends-of-seguin-island",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -13,8 +13,6 @@
     "cms": "decap-server"
   },
   "dependencies": {
-    "@sanity/client": "^7.22.1",
-    "@sanity/image-url": "^2.1.1",
     "@unpic/astro": "^1.0.2",
     "astro": "^7.3.2",
     "validation-enhancer": "^1.0.3",
