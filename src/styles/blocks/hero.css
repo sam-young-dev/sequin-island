@@ -66,6 +66,7 @@
   color: var(--skip-link-color);
   border-radius: 50%;
   animation: hero-skip-link-float 2.4s ease-in-out infinite;
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 .hero__skip-link-icon__inner {
@@ -82,7 +83,6 @@
 .hero__skip-link:focus-visible .hero__skip-link-icon {
   background: var(--skip-link-color);
   color: var(--color-brand-dark);
-  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 @keyframes hero-skip-link-float {
