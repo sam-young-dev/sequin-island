@@ -30,31 +30,42 @@
 }
 
 .hero__skip-link {
-  --skip-link-color: var(--color-brand-primary);
-  --flow-space: var(--space-xs);
+  --skip-link-color: var(--color-neutral-surface-default);
+  --flow-space: var(--space-2xs);
 
   grid-column: 1;
-  grid-row: 2;
+  grid-row: 3;
+  align-self: end;
   z-index: 1;
+  padding-block-end: var(--space-lg);
   font-weight: var(--font-medium);
-  font-size: var(--size-step-0);
+  font-size: var(--size-step-00);
   text-align: center;
   text-decoration: none;
   line-height: var(--leading-fine);
   color: var(--skip-link-color);
   max-width: 12ch;
+  opacity: 0.85;
+  transition: opacity var(--transition-base);
+}
+
+.hero__skip-link:hover,
+.hero__skip-link:focus-visible {
+  opacity: 1;
 }
 
 .hero__skip-link-icon {
   display: grid;
   place-items: center;
   margin-inline: auto;
-  font-size: var(--size-step-3);
-  height: max(50px, var(--size-step-7));
+  font-size: var(--size-step-0);
+  height: max(40px, var(--size-step-4));
   aspect-ratio: 1/1;
-  background: var(--skip-link-color);
-  color: var(--color-neutral-on-loud);
+  background: transparent;
+  border: 1px solid var(--skip-link-color);
+  color: var(--skip-link-color);
   border-radius: 50%;
+  animation: hero-skip-link-float 2.4s ease-in-out infinite;
 }
 
 .hero__skip-link-icon__inner {
@@ -64,12 +75,29 @@
 
 .hero__skip-link-label {
   display: block;
-  color: var(--color-neutral-on-loud);
+  color: var(--skip-link-color);
 }
 
-.hero__skip-link:hover .hero__skip-link-icon {
-  transform: translateY(5%);
-  transition: transform var(--transition-bounce);
+.hero__skip-link:hover .hero__skip-link-icon,
+.hero__skip-link:focus-visible .hero__skip-link-icon {
+  background: var(--skip-link-color);
+  color: var(--color-brand-dark);
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+@keyframes hero-skip-link-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__skip-link-icon {
+    animation: none;
+  }
 }
 
 .hero__label {

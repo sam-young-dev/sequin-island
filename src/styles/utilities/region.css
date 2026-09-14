@@ -13,3 +13,25 @@ CUSTOM PROPERTIES AND CONFIGURATION
 .region[data-bg="tinted"] {
     background-color: var(--color-neutral-surface-lowered);
 }
+
+.region[data-bg="loud"] {
+    background-color: var(--color-fill-loud);
+    color: var(--color-on-loud);
+}
+
+.region[data-bg="loud"] :is(h1, h2, h3, h4) {
+    color: var(--color-on-loud);
+}
+
+.region[data-bg="loud"] blockquote {
+    font-size: var(--size-step-2);
+}
+
+.region[data-bg="loud"] blockquote footer {
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-weight: var(--font-bold);
+    font-size: var(--size-step-00);
+    letter-spacing: var(--uppercase-kerning);
+    color: var(--color-on-loud);
+}

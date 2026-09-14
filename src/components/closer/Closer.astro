@@ -9,7 +9,7 @@ import { siteData } from '../../data/site-data'
     <div class="logo-container">
       <Image
         src={logo}
-        alt={"logo icon"}
+        alt={"Friends of Seguin Island logo"}
         height={200}
         loading="lazy"
       />
@@ -28,7 +28,7 @@ import { siteData } from '../../data/site-data'
     </div>
 
     {siteData.navItems.length > 0 && (
-      <nav aria-label="{{ data.navLabel }}" class="nav">
+      <nav aria-label="Footer" class="nav">
         <ul class="cluster" role="list">
           {siteData.navItems.map((item) => (
             <li>

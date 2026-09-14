@@ -8,6 +8,7 @@ Your tax-deductible gift plays a vital role in preserving the Seguin Island Ligh
 By donating, you become part of the family here at Friends of Seguin Island Light Station.
 
 <p><a class="button" href="https://seguinisland.ejoinme.org/donations" target="_blank" rel="noreferrer">Donate Now</a></p>
+<p><small>Opens ejoinme.org in a new tab to complete your donation.</small></p>
 
 ## Additional Ways to Give
 

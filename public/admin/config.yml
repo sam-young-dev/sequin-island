@@ -23,6 +23,7 @@ collections:
           - { label: Hero Heading, name: heroHeading, widget: string }
           - { label: Intro, name: intro, widget: text }
           - { label: Primary CTA Label, name: primaryCtaLabel, widget: string }
+          - { label: Primary CTA Body, name: primaryCtaBody, widget: text }
           - { label: Primary CTA Link, name: primaryCtaHref, widget: string }
           - {
               label: Secondary CTA Label,
@@ -30,10 +31,21 @@ collections:
               widget: string,
             }
           - {
+              label: Secondary CTA Body,
+              name: secondaryCtaBody,
+              widget: text,
+            }
+          - {
               label: Secondary CTA Link,
               name: secondaryCtaHref,
               widget: string,
             }
+          - {
+              label: Evidence Heading,
+              name: evidenceHeading,
+              widget: string,
+            }
+          - { label: Evidence Body, name: evidenceBody, widget: text }
           - { label: Blog Heading, name: blogHeading, widget: string }
           - { label: Body, name: body, widget: markdown }
 

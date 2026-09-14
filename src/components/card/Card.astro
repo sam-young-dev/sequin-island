@@ -1,8 +1,8 @@
 ---
-const { href, label } = Astro.props;
+const { href, label, variant } = Astro.props;
 ---
 
-<a class="card" href={href} aria-label={label}>
+<a class="card" href={href} aria-label={label} data-card-variant={variant}>
   <div class="wrapper flow">
     <slot />
   </div>
