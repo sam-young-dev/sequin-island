@@ -1,0 +1,71 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+site_url: https://sam-studio-6.netlify.app/
+display_url: https://sam-studio-6.netlify.app/
+logo_url: /seguin-island-logo.jpg
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: home
+    label: Home Page
+    files:
+      - name: home
+        label: Home Page Content
+        file: src/content/home/index.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text }
+          - { label: Hero Eyebrow, name: heroEyebrow, widget: string }
+          - { label: Hero Heading, name: heroHeading, widget: string }
+          - { label: Intro, name: intro, widget: text }
+          - { label: Primary CTA Label, name: primaryCtaLabel, widget: string }
+          - { label: Primary CTA Link, name: primaryCtaHref, widget: string }
+          - {
+              label: Secondary CTA Label,
+              name: secondaryCtaLabel,
+              widget: string,
+            }
+          - {
+              label: Secondary CTA Link,
+              name: secondaryCtaHref,
+              widget: string,
+            }
+          - { label: Blog Heading, name: blogHeading, widget: string }
+          - { label: Body, name: body, widget: markdown }
+
+  - name: pages
+    label: Site Pages
+    folder: src/content/pages
+    create: false
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: blog
+    label: Blog Posts
+    folder: src/content/blog
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Publish Date, name: publishDate, widget: datetime }
+      - { label: Excerpt, name: excerpt, widget: text }
+      - {
+          label: Draft,
+          name: draft,
+          widget: boolean,
+          required: false,
+          default: false,
+        }
+      - { label: Body, name: body, widget: markdown }

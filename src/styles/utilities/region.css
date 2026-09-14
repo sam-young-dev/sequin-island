@@ -1,0 +1,15 @@
+/* 
+REGION UTILITY
+Consistent block padding for page sections
+
+CUSTOM PROPERTIES AND CONFIGURATION
+--region-space: The vertical padding of the region
+*/
+.region {
+    padding-block: var(--region-space, 1rem);
+    position: relative;
+}
+
+.region[data-bg="tinted"] {
+    background-color: var(--color-neutral-surface-lowered);
+}

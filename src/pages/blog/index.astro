@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (left, right) => right.data.publishDate.getTime() - left.data.publishDate.getTime(),
+);
+---
+
+<BaseLayout title="Keeper's Blog" description="Stories and updates from Seguin Island Light Station.">
+  <div class="region wrapper prose flow">
+    <h1>Keeper's Blog</h1>
+    <p>Stories, seasonal updates, and preservation news from Seguin Island Light Station.</p>
+
+    {
+      posts.length > 0 ? (
+        <ul>
+          {posts.map((post) => (
+            <li>
+              <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+              <p>{post.data.excerpt}</p>
+              <small>{post.data.publishDate.toLocaleDateString("en-US", { dateStyle: "long" })}</small>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No posts have been published yet. Use Decap CMS to add the first entry.</p>
+      )
+    }
+  </div>
+</BaseLayout>

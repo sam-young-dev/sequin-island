@@ -1,0 +1,33 @@
+.closer {
+  background: var(--color-interactive-fill-default);
+  color: var(--color-foreground-inverse);
+  padding-block: clamp(2rem, 50vb, 4rem) var(--gutter);
+  font-weight: var(--font-bold);
+  padding-top: clamp(1rem, 50vb, 2rem);
+  padding-bottom: 2rem;
+}
+
+.closer svg[role="img"][width][height] {
+  --color-svg-fill: var(--color-foreground-inverse);
+  --color-svg-stroke: var(--color-foreground-inverse);
+  width: 100%;
+  height: auto;
+  background: unset;
+  padding: unset;
+}
+
+.logo-container {
+  display: grid;
+  place-items: center;
+}
+
+.closer__contact {
+  --flow-space: var(--space-sm);
+  text-align: center;
+  font-weight: var(--font-normal);
+  line-height: var(--leading-normal);
+}
+
+.closer__contact a {
+  color: inherit;
+}

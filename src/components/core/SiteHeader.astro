@@ -1,0 +1,41 @@
+---
+import { Image } from '@unpic/astro';
+
+import { siteData } from '../../data/site-data'
+import logo from '../../assets/seguin-island-logo.jpg'
+---
+
+<header class="site-head">
+  <div class="wrapper">
+    <div class="repel site-head__inner">
+      <div class="site-head__brand">
+        <a href="/">
+          <Image
+            src={logo}
+            alt="logo"
+            height={40}
+            loading="eager"
+            fetchpriority="high"
+            draggable="false"
+          />
+        </a>
+      </div>
+      <nav aria-label="primary" class="nav">
+        <ul class="cluster" role="list">
+          {siteData.navItems.map((item) => (
+          <li>
+            <a href={item.href} {...(item.current ? {'aria-current': 'page'} : {})}>{item.label}</a>
+          </li>
+        ))}
+          <li>
+            <a href="/donate">
+              <button class="button">
+                Donate
+              </button>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>

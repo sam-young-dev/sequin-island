@@ -1,0 +1,42 @@
+---
+import { Image } from "@unpic/astro";
+import logo from '../../assets/seguin-island-logo.jpg';
+import { siteData } from '../../data/site-data'
+---
+
+<div class="closer">
+  <div class="wrapper flow">
+    <div class="logo-container">
+      <Image
+        src={logo}
+        alt={"logo icon"}
+        height={200}
+        loading="lazy"
+      />
+    </div>
+
+    <div class="closer__contact">
+      <p><a href={`mailto:${siteData.contactEmail}`}>{siteData.contactEmail}</a></p>
+      <p>
+        {siteData.mailingAddress.map((line, index) => (
+          <>
+            {line}
+            {index < siteData.mailingAddress.length - 1 && <br />}
+          </>
+        ))}
+      </p>
+    </div>
+
+    {siteData.navItems.length > 0 && (
+      <nav aria-label="{{ data.navLabel }}" class="nav">
+        <ul class="cluster" role="list">
+          {siteData.navItems.map((item) => (
+            <li>
+              <a href={item.href} {...(item.current ? {'aria-current': 'page'} : {})}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
+  </div>
+</div>
