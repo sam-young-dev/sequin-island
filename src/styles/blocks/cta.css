@@ -1,0 +1,119 @@
+/*
+HOME CTA BLOCK
+The homepage's primary conversion moment: a proof strip of real
+preservation facts leading into two stacked, numbered asks
+(become a member / learn the island's history).
+*/
+
+.home-cta__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+  padding-block-end: var(--space-lg);
+  border-block-end: var(--stroke);
+}
+
+@media (max-width: 40rem) {
+  .home-cta__stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+.home-cta__stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs, 0.5rem);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 360ms var(--ease-out), transform 360ms var(--ease-out);
+}
+
+.home-cta__stat:nth-child(2) {
+  transition-delay: 90ms;
+}
+
+.home-cta__stat:nth-child(3) {
+  transition-delay: 180ms;
+}
+
+.home-cta--visible .home-cta__stat {
+  opacity: 1;
+  transform: none;
+}
+
+.home-cta__num {
+  font-family: var(--font-sans);
+  font-weight: var(--font-bold);
+  font-size: var(--size-step-5);
+  color: var(--color-brand-primary);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.home-cta__label {
+  font-size: var(--size-step-00);
+  color: var(--color-text-quiet);
+}
+
+.home-cta__eyebrow {
+  font-family: var(--font-sans);
+  font-weight: var(--font-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--uppercase-kerning);
+  font-size: var(--size-step-00);
+  color: var(--color-text-quiet);
+}
+
+.home-cta__entry {
+  display: grid;
+  grid-template-columns: minmax(2.5rem, auto) 1fr;
+  gap: var(--space-lg);
+  align-items: start;
+  padding-block: var(--space-lg);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 380ms var(--ease-out), transform 380ms var(--ease-out);
+}
+
+.home-cta--visible .home-cta__entry {
+  opacity: 1;
+  transform: none;
+}
+
+.home-cta__entry--secondary {
+  transition-delay: 90ms;
+}
+
+.home-cta__entry-num {
+  font-family: var(--font-mono);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  line-height: 1;
+  color: var(--color-brand-primary);
+  opacity: 0.35;
+}
+
+.home-cta__entry h2,
+.home-cta__entry h3 {
+  font-size: var(--size-step-4);
+}
+
+.home-cta__entry--secondary a {
+  color: var(--color-brand-primary);
+  font-weight: var(--font-medium);
+}
+
+.home-cta__rule {
+  display: block;
+  border: none;
+  border-block-start: var(--stroke);
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-cta__stat,
+  .home-cta__entry {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}

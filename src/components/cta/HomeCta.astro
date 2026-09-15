@@ -1,0 +1,104 @@
+---
+interface Props {
+  primaryLabel: string;
+  primaryBody: string;
+  primaryHref: string;
+  secondaryLabel: string;
+  secondaryBody: string;
+  secondaryHref: string;
+}
+
+const { primaryLabel, primaryBody, primaryHref, secondaryLabel, secondaryBody, secondaryHref } = Astro.props;
+---
+
+<div class="region wrapper flow home-cta">
+  <div class="home-cta__stats" role="list">
+    <div class="home-cta__stat" role="listitem">
+      <span class="home-cta__num" data-count-to="1986" data-plain>0</span>
+      <span class="home-cta__label">Stewarded by volunteers since</span>
+    </div>
+    <div class="home-cta__stat" role="listitem">
+      <span class="home-cta__num" data-count-to="7200" data-suffix="+">0</span>
+      <span class="home-cta__label">signatures saved the Fresnel lens</span>
+    </div>
+    <div class="home-cta__stat" role="listitem">
+      <span class="home-cta__num" data-count-to="1" data-plain>0</span>
+      <span class="home-cta__label">of 1 first-order lens north of Rhode Island</span>
+    </div>
+  </div>
+
+  <div class="home-cta__ledger">
+    <p class="home-cta__eyebrow">Support the Island</p>
+
+    <div class="home-cta__entry home-cta__entry--primary">
+      <span class="home-cta__entry-num">01</span>
+      <div class="flow">
+        <h2>{primaryLabel}</h2>
+        <p>{primaryBody}</p>
+        <p><a class="button" href={primaryHref}>{primaryLabel} →</a></p>
+      </div>
+    </div>
+
+    <hr class="home-cta__rule" />
+
+    <div class="home-cta__entry home-cta__entry--secondary">
+      <span class="home-cta__entry-num">02</span>
+      <div class="flow">
+        <h3>{secondaryLabel}</h3>
+        <p>{secondaryBody}</p>
+        <p><a href={secondaryHref}>{secondaryLabel} →</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function formatCount(n: number, plain: boolean) {
+    return plain ? String(n) : n.toLocaleString("en-US");
+  }
+
+  function animateCount(el: HTMLElement) {
+    const target = parseInt(el.dataset.countTo || "0", 10);
+    const suffix = el.dataset.suffix || "";
+    const plain = el.hasAttribute("data-plain");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduced) {
+      el.textContent = formatCount(target, plain) + suffix;
+      return;
+    }
+
+    const duration = 900;
+    const start = performance.now();
+
+    function tick(now: number) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = formatCount(Math.round(target * eased), plain) + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  const root = document.querySelector<HTMLElement>(".home-cta");
+  const nums = document.querySelectorAll<HTMLElement>(".home-cta__num");
+
+  if (root && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          root.classList.add("home-cta--visible");
+          nums.forEach(animateCount);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.35 },
+    );
+    observer.observe(root);
+  } else if (root) {
+    root.classList.add("home-cta--visible");
+    nums.forEach(animateCount);
+  }
+</script>

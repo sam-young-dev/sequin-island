@@ -20,17 +20,12 @@ const { heading, photos } = Astro.props;
       <ul class="gallery" role="list">
         {photos.map((photo, index) => (
           <li class="gallery__item">
-            <figure class="flow">
-              <img
-                src={photo.image}
-                alt={photo.alt}
-                width="1600"
-                height="1200"
-                loading={index < 2 ? "eager" : "lazy"}
-                decoding="async"
-              />
-              <figcaption>{photo.caption}</figcaption>
-            </figure>
+            <img
+              src={photo.image}
+              alt={`${photo.alt} — ${photo.caption}`}
+              loading={index < 2 ? "eager" : "lazy"}
+              decoding="async"
+            />
           </li>
         ))}
       </ul>

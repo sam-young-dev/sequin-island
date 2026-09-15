@@ -1,80 +1,39 @@
+/*
+A true masonry: CSS columns let each photo keep its native aspect
+ratio (no object-fit cropping), while still reading as one considered
+grid. Captions live in the alt text rather than as visible chrome.
+*/
 .gallery {
-  --gallery-row: clamp(9rem, 16vw, 13rem);
-
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: var(--gallery-row);
-  grid-auto-flow: dense;
-  gap: var(--space-s);
+  column-count: 2;
+  column-gap: var(--space-s);
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.gallery__item {
-  height: 100%;
+@media (min-width: 35rem) {
+  .gallery {
+    column-count: 3;
+  }
 }
 
-.gallery__item figure {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xs);
-  height: 100%;
-  margin: 0;
+@media (min-width: 55rem) {
+  .gallery {
+    column-count: 4;
+  }
+}
+
+.gallery__item {
+  display: inline-block;
+  width: 100%;
+  break-inside: avoid;
+  margin-block-end: var(--space-s);
 }
 
 .gallery__item img {
   display: block;
-  flex: 1 1 auto;
-  min-height: 0;
   width: 100%;
-  object-fit: cover;
-  overflow: hidden;
+  height: auto;
   border-radius: var(--radius-s);
   background-color: var(--color-neutral-fill-normal);
-}
-
-.gallery__item figcaption {
-  flex: 0 0 auto;
-  font-style: italic;
-  font-size: var(--size-step-00);
-  line-height: var(--leading-fine, 1.3);
-  color: var(--color-text-quiet);
-  max-width: 42ch;
-}
-
-/* A quiet mosaic rhythm: every sixth photo runs large, every fourth runs wide. */
-.gallery__item:nth-child(6n + 1) {
-  grid-column: span 2;
-  grid-row: span 2;
-}
-
-.gallery__item:nth-child(4n) {
-  grid-column: span 2;
-}
-
-@media (max-width: 55rem) {
-  .gallery {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 35rem) {
-  .gallery {
-    grid-template-columns: 1fr;
-    grid-auto-rows: auto;
-  }
-
-  .gallery__item,
-  .gallery__item:nth-child(6n + 1),
-  .gallery__item:nth-child(4n) {
-    grid-column: span 1;
-    grid-row: auto;
-  }
-
-  .gallery__item img,
-  .gallery__item:nth-child(6n + 1) img {
-    height: auto;
-    aspect-ratio: 4 / 3;
-  }
 }

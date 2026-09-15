@@ -4,6 +4,7 @@ import { getCollection, getEntry, render } from "astro:content";
 import lighthouseImage from "../assets/seguin-island-hero.jpg";
 import Card from "../components/card/Card.astro";
 import Hero from "../components/hero/Hero.astro";
+import HomeCta from "../components/cta/HomeCta.astro";
 import PhotoGallery from "../components/gallery/PhotoGallery.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
@@ -49,23 +50,16 @@ const { Content } = await render(home);
     </div>
   </div>
 
+  <HomeCta
+    primaryLabel={home.data.primaryCtaLabel}
+    primaryBody={home.data.primaryCtaBody}
+    primaryHref={home.data.primaryCtaHref}
+    secondaryLabel={home.data.secondaryCtaLabel}
+    secondaryBody={home.data.secondaryCtaBody}
+    secondaryHref={home.data.secondaryCtaHref}
+  />
+
   <PhotoGallery heading={home.data.galleryHeading} photos={home.data.galleryPhotos} />
-
-  <div class="region wrapper">
-    <div class="switcher">
-      <div class="card flow" data-card-variant="primary">
-        <h2>{home.data.primaryCtaLabel}</h2>
-        <p>{home.data.primaryCtaBody}</p>
-        <p><a class="button" href={home.data.primaryCtaHref}>{home.data.primaryCtaLabel} →</a></p>
-      </div>
-
-      <div class="card flow">
-        <h2>{home.data.secondaryCtaLabel}</h2>
-        <p>{home.data.secondaryCtaBody}</p>
-        <p><a href={home.data.secondaryCtaHref}>{home.data.secondaryCtaLabel} →</a></p>
-      </div>
-    </div>
-  </div>
 
   <div class="region wrapper flow" data-bg="tinted">
     <h2>{home.data.blogHeading}</h2>
