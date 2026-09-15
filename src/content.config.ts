@@ -19,6 +19,16 @@ const home = defineCollection({
     evidenceBody: z.string(),
     evidenceQuote: z.string(),
     evidenceQuoteAttribution: z.string(),
+    galleryHeading: z.string().default("The Island in Every Light"),
+    galleryPhotos: z
+      .array(
+        z.object({
+          image: z.string(),
+          alt: z.string(),
+          caption: z.string(),
+        }),
+      )
+      .default([]),
     blogHeading: z.string().default("Latest from the island"),
   }),
 });

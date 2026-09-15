@@ -1,0 +1,39 @@
+---
+interface Photo {
+  image: string;
+  alt: string;
+  caption: string;
+}
+
+interface Props {
+  heading: string;
+  photos: Photo[];
+}
+
+const { heading, photos } = Astro.props;
+---
+
+{
+  photos.length > 0 && (
+    <div class="region wrapper flow">
+      <h2>{heading}</h2>
+      <ul class="gallery" role="list">
+        {photos.map((photo, index) => (
+          <li class="gallery__item">
+            <figure class="flow">
+              <img
+                src={photo.image}
+                alt={photo.alt}
+                width="1600"
+                height="1200"
+                loading={index < 2 ? "eager" : "lazy"}
+                decoding="async"
+              />
+              <figcaption>{photo.caption}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}

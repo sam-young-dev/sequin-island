@@ -46,6 +46,27 @@ collections:
               widget: string,
             }
           - { label: Evidence Body, name: evidenceBody, widget: text }
+          - {
+              label: Gallery Heading,
+              name: galleryHeading,
+              widget: string,
+            }
+          - label: Gallery Photos
+            name: galleryPhotos
+            widget: list
+            fields:
+              - label: Photo
+                name: image
+                widget: image
+                media_folder: /public/images/gallery
+                public_folder: /images/gallery
+              - label: Alt Text
+                name: alt
+                widget: string
+                hint: Describe what's in the photo for screen readers.
+              - label: Caption
+                name: caption
+                widget: string
           - { label: Blog Heading, name: blogHeading, widget: string }
           - { label: Body, name: body, widget: markdown }
 

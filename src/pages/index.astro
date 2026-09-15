@@ -4,6 +4,7 @@ import { getCollection, getEntry, render } from "astro:content";
 import lighthouseImage from "../assets/seguin-island-hero.jpg";
 import Card from "../components/card/Card.astro";
 import Hero from "../components/hero/Hero.astro";
+import PhotoGallery from "../components/gallery/PhotoGallery.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const home = await getEntry("home", "index");
@@ -47,6 +48,8 @@ const { Content } = await render(home);
       </blockquote>
     </div>
   </div>
+
+  <PhotoGallery heading={home.data.galleryHeading} photos={home.data.galleryPhotos} />
 
   <div class="region wrapper">
     <div class="switcher">
