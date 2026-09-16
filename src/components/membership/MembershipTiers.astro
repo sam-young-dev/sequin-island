@@ -1,0 +1,122 @@
+---
+import CheckIcon from "/src/assets/check.svg?raw";
+
+interface Tier {
+  name: string;
+  price: string;
+  benefits: string[];
+}
+
+interface Props {
+  heading: string;
+  tiers: Tier[];
+  ctaLabel: string;
+  ctaHref: string;
+}
+
+const { heading, tiers, ctaLabel, ctaHref } = Astro.props;
+
+// Benefits are cumulative (each tier repeats everything lower tiers include),
+// so the full, de-duplicated list — in first-seen order, lowest tier first —
+// becomes the comparison table's rows.
+const rows: string[] = [];
+const seen = new Set<string>();
+
+for (const tier of tiers) {
+  for (const benefit of tier.benefits) {
+    if (!seen.has(benefit)) {
+      seen.add(benefit);
+      rows.push(benefit);
+    }
+  }
+}
+---
+
+<section class="tier-comparison flow" aria-labelledby="tier-comparison-heading">
+  <h2 id="tier-comparison-heading">{heading}</h2>
+
+  <ul class="tier-cards" role="list">
+    {
+      tiers.map((tier) => (
+        <li class="tier-card flow">
+          <div class="tier-card__head">
+            <h3 class="tier-card__name">{tier.name}</h3>
+            <p class="tier-card__price">{tier.price}</p>
+          </div>
+          <ul class="tier-card__benefits flow" role="list">
+            {tier.benefits.map((benefit) => (
+              <li>
+                <span class="tier-card__icon" set:html={CheckIcon} />
+                {benefit}
+              </li>
+            ))}
+          </ul>
+          <a
+            class="button tier-card__cta"
+            data-button-variant="secondary"
+            href={ctaHref}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`${ctaLabel} — ${tier.name}, ${tier.price}`}
+          >
+            {ctaLabel}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="tier-table-wrap">
+    <table class="tier-table">
+      <caption class="visually-hidden">
+        Comparison of membership levels and the benefits each one includes
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">
+            <span class="visually-hidden">Benefit</span>
+          </th>
+          {
+            tiers.map((tier) => (
+              <th scope="col">
+                <p class="tier-table__name">{tier.name}</p>
+                <p class="tier-table__price">{tier.price}</p>
+                <a
+                  class="button tier-table__cta"
+                  data-button-variant="secondary"
+                  href={ctaHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${ctaLabel} — ${tier.name}, ${tier.price}`}
+                >
+                  {ctaLabel}
+                </a>
+              </th>
+            ))
+          }
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((benefit) => (
+            <tr>
+              <th scope="row">{benefit}</th>
+              {tiers.map((tier) => (
+                <td class={tier.benefits.includes(benefit) ? "tier-table__yes" : "tier-table__no"}>
+                  {tier.benefits.includes(benefit) ? (
+                    <>
+                      <span class="tier-table__icon" set:html={CheckIcon} />
+                      <span class="visually-hidden">Included</span>
+                    </>
+                  ) : (
+                    <span class="visually-hidden">Not included</span>
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

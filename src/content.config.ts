@@ -38,6 +38,28 @@ const pages = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
+    eyebrow: z.string().optional(),
+  }),
+});
+
+const membership = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/membership" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    eyebrow: z.string().optional(),
+    ctaLabel: z.string(),
+    ctaHref: z.string(),
+    ctaNote: z.string().optional(),
+    tiersHeading: z.string().default("Compare Membership Levels"),
+    sustainingNote: z.string().optional(),
+    tiers: z.array(
+      z.object({
+        name: z.string(),
+        price: z.string(),
+        benefits: z.array(z.string()),
+      }),
+    ),
   }),
 });
 
@@ -52,4 +74,4 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { home, pages, blog };
+export const collections = { home, pages, membership, blog };

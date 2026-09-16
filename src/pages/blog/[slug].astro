@@ -4,22 +4,53 @@ import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+    (left, right) => right.data.publishDate.getTime() - left.data.publishDate.getTime(),
+  );
 
-  return posts.map((post) => ({
+  return posts.map((post, index) => ({
     params: { slug: post.id },
-    props: { post },
+    props: {
+      post,
+      newerPost: posts[index - 1],
+      olderPost: posts[index + 1],
+    },
   }));
 }
 
-const { post } = Astro.props;
+const { post, newerPost, olderPost } = Astro.props;
 const { Content } = await render(post);
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
   <article class="region wrapper prose flow">
+    <a class="back-link" href="/blog">&larr; Back to Keeper&rsquo;s Blog</a>
     <h1>{post.data.title}</h1>
-    <p><small>{post.data.publishDate.toLocaleDateString("en-US", { dateStyle: "long" })}</small></p>
+    <p class="byline">
+      <span>Keeper&rsquo;s Blog</span>
+      <span aria-hidden="true">&middot;</span>
+      <time datetime={post.data.publishDate.toISOString()}>
+        {post.data.publishDate.toLocaleDateString("en-US", { dateStyle: "long" })}
+      </time>
+    </p>
+    <hr />
     <Content />
+
+    {(olderPost || newerPost) && (
+      <nav class="post-nav" aria-label="More posts">
+        {olderPost && (
+          <a class="post-nav__link post-nav__link--previous" href={`/blog/${olderPost.id}/`}>
+            <span class="post-nav__direction">&larr; Older</span>
+            <span class="post-nav__title">{olderPost.data.title}</span>
+          </a>
+        )}
+        {newerPost && (
+          <a class="post-nav__link post-nav__link--next" href={`/blog/${newerPost.id}/`}>
+            <span class="post-nav__direction">Newer &rarr;</span>
+            <span class="post-nav__title">{newerPost.data.title}</span>
+          </a>
+        )}
+      </nav>
+    )}
   </article>
 </BaseLayout>

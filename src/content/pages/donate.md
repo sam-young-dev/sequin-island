@@ -1,6 +1,7 @@
 ---
 title: Donate
 description: Support the preservation of Seguin Island Light Station with a tax-deductible gift.
+eyebrow: Give
 ---
 
 Your tax-deductible gift plays a vital role in preserving the Seguin Island Light Station and ensuring this historic beacon remains accessible for generations to come. Every contribution strengthens the ongoing mission of the Friends of Seguin Island Light Station.
@@ -9,6 +10,8 @@ By donating, you become part of the family here at Friends of Seguin Island Ligh
 
 <p><a class="button" href="https://seguinisland.ejoinme.org/donations" target="_blank" rel="noreferrer">Donate Now</a></p>
 <p><small>Opens ejoinme.org in a new tab to complete your donation.</small></p>
+
+---
 
 ## Additional Ways to Give
 

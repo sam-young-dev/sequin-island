@@ -15,6 +15,7 @@
 @import "./utilities/visually-hidden.css";
 
 @import "./blocks/prose.css";
+@import "./blocks/meta.css";
 @import "./blocks/site-head.css";
 @import "./blocks/site-foot.css";
 @import "./blocks/hero.css";
@@ -24,5 +25,6 @@
 @import "./blocks/card.css";
 @import "./blocks/cta.css";
 @import "./blocks/gallery.css";
+@import "./blocks/tiers.css";
 @import "./blocks/product.css";
 @import "./blocks/slider.css";

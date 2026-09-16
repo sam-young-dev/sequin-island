@@ -1,0 +1,162 @@
+/* TIERS BLOCK
+Membership level comparison. Renders as a stack of cards on narrow
+viewports (each card repeats its own full benefit list, since there's
+no room to compare columns side by side) and swaps to a real
+side-by-side comparison table once the viewport is wide enough to read
+tier columns at a glance.
+*/
+
+.tier-comparison h2 {
+  font-size: var(--size-step-4);
+}
+
+/* Cards: default, and the only layout below the table's breakpoint */
+.tier-cards {
+  --grid-item-min: 15.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--grid-item-min), 1fr));
+  gap: var(--space-md);
+  align-items: stretch;
+}
+
+.tier-card {
+  --flow-space: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.5rem;
+  border: 1px solid var(--color-surface-border);
+  border-radius: 7px;
+  background-color: var(--color-surface-default);
+}
+
+.tier-card__head {
+  --flow-space: var(--space-3xs);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5em;
+}
+
+.tier-card__name {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--size-step-2);
+  line-height: var(--leading-heading);
+  color: var(--color-brand-primary);
+}
+
+.tier-card__price {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--size-step-0);
+  color: var(--color-text-quiet);
+}
+
+.tier-card__benefits {
+  --flow-space: var(--space-xs);
+  flex-grow: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tier-card__benefits li {
+  display: flex;
+  gap: 0.6em;
+  align-items: flex-start;
+  font-size: var(--size-step-0);
+  line-height: var(--leading-body);
+}
+
+.tier-card__icon {
+  flex-shrink: 0;
+  width: 1.1em;
+  height: 1.1em;
+  margin-block-start: 0.2em;
+  color: var(--color-brand-primary);
+}
+
+.tier-card__cta {
+  align-self: flex-start;
+  margin-block-start: var(--space-sm);
+}
+
+/* Table: hidden until there's room for tier columns to breathe */
+.tier-table-wrap {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .tier-cards {
+    display: none;
+  }
+
+  .tier-table-wrap {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .tier-table {
+    table-layout: fixed;
+  }
+
+  .tier-table th:first-child {
+    width: 30%;
+  }
+
+  .tier-table thead th {
+    vertical-align: top;
+    text-align: center;
+  }
+
+  .tier-table__name {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--size-step-1);
+    line-height: var(--leading-heading);
+    color: var(--color-brand-primary);
+  }
+
+  .tier-table__price {
+    margin: var(--space-3xs) 0 0;
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
+    font-size: var(--size-step-0);
+    color: var(--color-text-quiet);
+  }
+
+  .tier-table__cta {
+    margin-block-start: var(--space-sm);
+  }
+
+  .tier-table tbody th {
+    text-align: left;
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-normal);
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: var(--size-step-0);
+    line-height: var(--leading-body);
+    color: var(--color-text-normal);
+  }
+
+  .tier-table td {
+    text-align: center;
+  }
+
+  .tier-table__icon {
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    color: var(--color-brand-primary);
+  }
+
+  .tier-table__no::before {
+    content: "\2013";
+    color: var(--color-text-quieter);
+  }
+}

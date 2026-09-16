@@ -43,7 +43,7 @@ preservation facts leading into two stacked, numbered asks
 
 .home-cta__num {
   font-family: var(--font-sans);
-  font-weight: var(--font-bold);
+  font-weight: var(--font-weight-bold);
   font-size: var(--size-step-5);
   color: var(--color-brand-primary);
   font-variant-numeric: tabular-nums;
@@ -51,16 +51,16 @@ preservation facts leading into two stacked, numbered asks
 }
 
 .home-cta__label {
-  font-size: var(--size-step-00);
+  font-size: var(--size-step-0);
   color: var(--color-text-quiet);
 }
 
 .home-cta__eyebrow {
   font-family: var(--font-sans);
-  font-weight: var(--font-bold);
+  font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   letter-spacing: var(--uppercase-kerning);
-  font-size: var(--size-step-00);
+  font-size: var(--size-step-0);
   color: var(--color-text-quiet);
 }
 
@@ -99,7 +99,7 @@ preservation facts leading into two stacked, numbered asks
 
 .home-cta__entry--secondary a {
   color: var(--color-brand-primary);
-  font-weight: var(--font-medium);
+  font-weight: var(--font-weight-medium);
 }
 
 .home-cta__rule {

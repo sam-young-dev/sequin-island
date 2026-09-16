@@ -38,11 +38,11 @@
   align-self: end;
   z-index: 1;
   padding-block-end: var(--space-lg);
-  font-weight: var(--font-medium);
-  font-size: var(--size-step-00);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--size-step-0);
   text-align: center;
   text-decoration: none;
-  line-height: var(--leading-fine);
+  line-height: var(--leading-heading);
   color: var(--skip-link-color);
   max-width: 12ch;
   opacity: 0.85;
@@ -111,7 +111,7 @@
   font-size: var(--size-step-8);
   text-align: center;
   text-decoration: none;
-  line-height: var(--leading-fine);
+  line-height: var(--leading-heading);
   color: var(--skip-link-color);
   max-width: 20ch;
 }
@@ -126,7 +126,7 @@
   /* font-weight: var(--font-weight-bold); */
   /* font-size: var(--size-step-8); */
   /* text-align: center; */
-  /* line-height: var(--leading-fine); */
+  /* line-height: var(--leading-heading); */
   /* text-decoration: none; */
   /* max-width: 20ch; */
   color: var(--skip-link-color);

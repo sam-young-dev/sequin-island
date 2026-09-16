@@ -15,12 +15,16 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
 
     {
       posts.length > 0 ? (
-        <ul>
+        <ul class="post-list" role="list">
           {posts.map((post) => (
-            <li>
-              <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+            <li class="flow">
+              <h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2>
               <p>{post.data.excerpt}</p>
-              <small>{post.data.publishDate.toLocaleDateString("en-US", { dateStyle: "long" })}</small>
+              <p class="byline">
+                <time datetime={post.data.publishDate.toISOString()}>
+                  {post.data.publishDate.toLocaleDateString("en-US", { dateStyle: "long" })}
+                </time>
+              </p>
             </li>
           ))}
         </ul>

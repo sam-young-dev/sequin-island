@@ -146,3 +146,7 @@ article {
   max-width: 65ch;
   margin-inline: auto;
 }
+
+.prose img:not(.not-prose) {
+  border-radius: var(--radius-s);
+}

@@ -1,0 +1,38 @@
+---
+import { getEntry } from "astro:content";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MembershipTiers from "../components/membership/MembershipTiers.astro";
+
+const membership = await getEntry("membership", "index");
+
+if (!membership) {
+  throw new Error("Missing membership content entry at src/content/membership/index.md");
+}
+
+const { title, description, eyebrow, ctaLabel, ctaHref, ctaNote, tiersHeading, sustainingNote, tiers } =
+  membership.data;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="region wrapper prose flow">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    <p>
+      <a class="button" href={ctaHref} target="_blank" rel="noreferrer">{ctaLabel}</a>
+    </p>
+    {ctaNote && <p><small>{ctaNote}</small></p>}
+  </article>
+
+  <div class="region wrapper">
+    <MembershipTiers heading={tiersHeading} tiers={tiers} ctaLabel={ctaLabel} ctaHref={ctaHref} />
+  </div>
+
+  {
+    sustainingNote && (
+      <div class="region wrapper prose">
+        <p>{sustainingNote}</p>
+      </div>
+    )
+  }
+</BaseLayout>

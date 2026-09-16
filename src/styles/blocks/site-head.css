@@ -1,8 +1,8 @@
 .site-head {
   letter-spacing: var(--uppercase-kerning);
-  line-height: var(--leading-flat);
+  line-height: var(--leading-none);
   font-size: var(--size-step-0);
-  font-weight: var(--font-bold);
+  font-weight: var(--font-weight-bold);
   padding-block-start: var(--space-md);
   padding-block-end: var(--space-md);
 }

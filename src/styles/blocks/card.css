@@ -44,9 +44,9 @@
 
 .card[data-card-variant="feature"] .card__meta {
   font-family: var(--font-sans);
-  font-weight: var(--font-bold);
+  font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   letter-spacing: var(--uppercase-kerning);
   color: var(--color-brand-primary);
-  font-size: var(--size-step-00);
+  font-size: var(--size-step-0);
 }

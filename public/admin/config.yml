@@ -70,6 +70,74 @@ collections:
           - { label: Blog Heading, name: blogHeading, widget: string }
           - { label: Body, name: body, widget: markdown }
 
+  - name: membership
+    label: Membership Page
+    files:
+      - name: membership
+        label: Membership Page Content
+        file: src/content/membership/index.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text }
+          - {
+              label: Eyebrow,
+              name: eyebrow,
+              widget: string,
+              required: false,
+              hint: "Small label shown above the page title, e.g. 'Support the Island'.",
+            }
+          - {
+              label: CTA Button Label,
+              name: ctaLabel,
+              widget: string,
+              hint: "e.g. 'Purchase Membership'",
+            }
+          - {
+              label: CTA Link,
+              name: ctaHref,
+              widget: string,
+              hint: "The external ejoinme.org membership checkout link.",
+            }
+          - {
+              label: CTA Note,
+              name: ctaNote,
+              widget: string,
+              required: false,
+              hint: "Small print shown under the CTA button.",
+            }
+          - {
+              label: Comparison Section Heading,
+              name: tiersHeading,
+              widget: string,
+              default: "Compare Membership Levels",
+              hint: "Heading shown above the tier comparison.",
+            }
+          - {
+              label: Sustaining Membership Note,
+              name: sustainingNote,
+              widget: string,
+              required: false,
+              hint: "e.g. 'Become a sustaining member for just $10 a month.'",
+            }
+          - label: Membership Tiers
+            name: tiers
+            widget: list
+            summary: "{{fields.name}} — {{fields.price}}"
+            hint: "List levels from lowest to highest price so the comparison reads left to right."
+            fields:
+              - { label: Tier Name, name: name, widget: string }
+              - {
+                  label: Price,
+                  name: price,
+                  widget: string,
+                  hint: "e.g. '$50' or '$1000+'",
+                }
+              - label: Benefits
+                name: benefits
+                widget: list
+                hint: "Each tier should list ALL of its benefits, including the ones shared with lower tiers, so the page can compare them."
+                field: { label: Benefit, name: benefit, widget: string }
+
   - name: pages
     label: Site Pages
     folder: src/content/pages
@@ -80,6 +148,13 @@ collections:
     fields:
       - { label: Title, name: title, widget: string }
       - { label: Description, name: description, widget: text }
+      - {
+          label: Eyebrow,
+          name: eyebrow,
+          widget: string,
+          required: false,
+          hint: "Small label shown above the page title, e.g. 'Our Story'.",
+        }
       - { label: Body, name: body, widget: markdown }
 
   - name: blog

@@ -1,0 +1,163 @@
+/* META BLOCK
+Editorial meta patterns for how standalone pages and blog posts present
+their header information: a small label above a title, a byline row
+below it, a return link, and a labelled list of details (e.g. contact
+info). Mirrors the label typographic voice already used for buttons and
+card meta (sans, bold, uppercase, letter-spaced) rather than introducing
+a new voice.
+*/
+
+.eyebrow {
+  --flow-space: var(--space-md, 1.5rem);
+
+  display: block;
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--uppercase-kerning);
+  font-size: var(--size-step-0);
+  color: var(--color-text-quiet);
+}
+
+/* Keep an eyebrow tight to the title it introduces */
+.prose .eyebrow + :is(h1, h2, h3, h4) {
+  --flow-space: var(--space-2xs, 0.5rem);
+}
+
+.byline {
+  --flow-space: var(--space-2xs, 0.5rem);
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.6em;
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--uppercase-kerning);
+  font-size: var(--size-step-0);
+  color: var(--color-text-quiet);
+}
+
+/* Keep a byline close to the heading it describes */
+.prose :is(h1, h2, h3, h4) + .byline {
+  --flow-space: var(--space-2xs, 0.5rem);
+}
+
+.back-link {
+  --flow-space: 0;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--uppercase-kerning);
+  font-size: var(--size-step-0);
+  color: var(--color-text-quiet);
+  text-decoration: none;
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+  color: var(--color-brand-primary);
+}
+
+/* A labelled list of details (e.g. contact information), reusing the
+prose dt/dd rhythm but in the label voice rather than body copy. */
+.meta-list dt {
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--uppercase-kerning);
+  font-size: var(--size-step-0);
+  color: var(--color-text-quiet);
+}
+
+.meta-list address {
+  font-style: normal;
+}
+
+.post-nav {
+  --flow-space: var(--space-2xl, 3rem);
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg, 2rem);
+  padding-block-start: var(--space-lg, 2rem);
+  border-block-start: var(--stroke);
+}
+
+.post-nav__link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs, 0.5rem);
+  text-decoration: none;
+  color: inherit;
+}
+
+.post-nav__link--next {
+  grid-column: 2;
+  text-align: right;
+  align-items: flex-end;
+}
+
+.post-nav__direction {
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--uppercase-kerning);
+  font-size: var(--size-step-0);
+  color: var(--color-text-quiet);
+}
+
+.post-nav__title {
+  font-family: var(--font-sans);
+  font-weight: var(--font-medium, 500);
+  font-size: var(--size-step-1);
+  color: var(--color-brand-primary);
+}
+
+.post-nav__link:hover .post-nav__title,
+.post-nav__link:focus-visible .post-nav__title {
+  text-decoration: underline;
+  text-underline-offset: 0.2lh;
+}
+
+@media (max-width: 30rem) {
+  .post-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .post-nav__link--next {
+    grid-column: 1;
+    text-align: left;
+    align-items: flex-start;
+  }
+}
+
+/* A divided list of posts, echoing how article listings separate
+entries with a rule rather than bullet points. */
+.post-list li + li {
+  padding-block-start: var(--space-xl, 2.5rem);
+  border-block-start: var(--stroke);
+}
+
+.post-list h2 {
+  font-size: var(--size-step-3);
+}
+
+.post-list h2 a {
+  text-decoration: none;
+}
+
+.post-list h2 a:hover,
+.post-list h2 a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.2ex;
+}
+
+.post-list .byline {
+  --flow-space: var(--space-2xs, 0.5rem);
+}
