@@ -1,0 +1,116 @@
+---
+import { mapPlaces } from "../../data/island-map";
+---
+
+<div class="island-map" data-island-map>
+  <div class="island-map__stage" data-stage data-state="idle">
+    <p class="island-map__status" data-status role="status">Loading the 3D map…</p>
+
+    <div class="island-map__labels" aria-hidden="true">
+      {mapPlaces.map((place) => (
+        <button class="island-map__label" type="button" tabindex="-1" data-place={place.key}>
+          {place.name}
+        </button>
+      ))}
+    </div>
+
+    <div class="island-map__info flow" data-info aria-live="polite" hidden>
+      <div class="repel">
+        <h3 data-info-name></h3>
+        <button class="island-map__close" type="button" data-info-close aria-label="Close">×</button>
+      </div>
+      <p data-info-description></p>
+    </div>
+
+    <button class="island-map__reset button" data-button-variant="secondary" type="button" data-reset>
+      Reset view
+    </button>
+
+    <p class="island-map__credit">
+      Elevation and imagery: USGS · Map data ©
+      <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
+    </p>
+  </div>
+
+  <div class="island-map__places sidebar flow">
+    <h2>Places on the island</h2>
+    <ul class="flow" role="list">
+      {mapPlaces.map((place) => (
+        <li>
+          <button class="island-map__place" type="button" aria-pressed="false" data-place={place.key}>
+            {place.name}
+          </button>
+        </li>
+      ))}
+    </ul>
+    <p class="island-map__hint">
+      Drag to turn the island. Scroll or pinch to zoom. Right-drag or use two fingers to move around.
+    </p>
+  </div>
+</div>
+
+<script>
+  import { mapPlaces } from "../../data/island-map";
+  import type { IslandMap } from "./viewer";
+
+  const root = document.querySelector<HTMLElement>("[data-island-map]")!;
+  const stage = root.querySelector<HTMLElement>("[data-stage]")!;
+  const status = root.querySelector<HTMLElement>("[data-status]")!;
+  const info = root.querySelector<HTMLElement>("[data-info]")!;
+  const infoName = root.querySelector<HTMLElement>("[data-info-name]")!;
+  const infoDescription = root.querySelector<HTMLElement>("[data-info-description]")!;
+  const placeButtons = [...root.querySelectorAll<HTMLButtonElement>(".island-map__place")];
+  const labels = [...root.querySelectorAll<HTMLElement>(".island-map__label")];
+
+  let map: IslandMap | null = null;
+
+  function showPlace(key: string | null) {
+    const place = mapPlaces.find((p) => p.key === key);
+    placeButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.place === key)));
+    info.hidden = !place;
+    if (place) {
+      infoName.textContent = place.name;
+      infoDescription.textContent = place.description;
+    }
+  }
+
+  placeButtons.forEach((button) =>
+    button.addEventListener("click", () => {
+      const key = button.getAttribute("aria-pressed") === "true" ? null : button.dataset.place!;
+      showPlace(key);
+      map?.select(key);
+    }),
+  );
+
+  root.querySelector("[data-info-close]")!.addEventListener("click", () => {
+    showPlace(null);
+    map?.select(null);
+  });
+
+  root.querySelector("[data-reset]")!.addEventListener("click", () => {
+    showPlace(null);
+    map?.resetView();
+  });
+
+  // Load three.js and the terrain only when the map is about to scroll into view.
+  const loader = new IntersectionObserver(
+    async (entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      loader.disconnect();
+      stage.dataset.state = "loading";
+      try {
+        const { createIslandMap } = await import("./viewer");
+        map = await createIslandMap(stage, { labels, onSelect: showPlace });
+        stage.dataset.state = "ready";
+        status.textContent = "";
+      } catch (error) {
+        console.error(error);
+        stage.dataset.state = "error";
+        status.innerHTML =
+          'The 3D map couldn’t load in this browser. <a href="/terrain/aerial.jpg">View the aerial photo instead</a>.';
+      }
+    },
+    { rootMargin: "200px" },
+  );
+  loader.observe(stage);
+</script>

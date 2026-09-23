@@ -1,0 +1,187 @@
+/*
+ISLAND MAP
+The interactive 3D terrain map (src/components/island-map/).
+The stage holds the WebGL canvas with HTML labels and panels on top.
+The places list sits alongside through the sidebar composition.
+*/
+.island-map {
+  --sidebar-size: 16rem;
+  --sidebar-wrap-at: 60%;
+  --sidebar-gap: var(--space-lg);
+}
+
+.island-map__stage {
+  position: relative;
+  overflow: hidden;
+  block-size: min(78svh, 52rem);
+  min-block-size: 26rem;
+  border-radius: 7px;
+  background: #d6e2e8;
+  isolation: isolate;
+}
+
+.island-map__canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+
+.island-map__canvas:active {
+  cursor: grabbing;
+}
+
+.island-map__status {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  padding: var(--space-md);
+  text-align: center;
+  color: var(--color-stone-800);
+}
+
+.island-map__stage[data-state="ready"] .island-map__status:empty {
+  display: none;
+}
+
+/* Labels are positioned by the viewer each frame via transform. */
+.island-map__labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.island-map__stage:not([data-state="ready"]) .island-map__labels,
+.island-map__stage:not([data-state="ready"]) .island-map__reset {
+  display: none;
+}
+
+.island-map__label {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  translate: -50% -100%;
+  padding: 0.3em 0.6em;
+  border: none;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.9);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.25);
+  color: var(--color-stone-800);
+  font-family: var(--font-sans);
+  font-size: var(--size-step-00);
+  font-weight: var(--font-bold);
+  white-space: nowrap;
+  cursor: pointer;
+  pointer-events: auto;
+  will-change: transform;
+}
+
+/* Pointer stalk from the label down to the spot it marks. */
+.island-map__label::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline-start: 50%;
+  inline-size: 2px;
+  block-size: 0.6em;
+  translate: -50% 0;
+  background: inherit;
+}
+
+.island-map__label:hover,
+.island-map__label[data-selected] {
+  background: var(--color-brand-dark);
+  color: var(--color-brand-light);
+}
+
+.island-map__label[data-selected] {
+  z-index: 1;
+}
+
+.island-map__info {
+  --flow-space: var(--space-2xs);
+  position: absolute;
+  inset-block-end: var(--space-md);
+  inset-inline-start: var(--space-md);
+  max-inline-size: min(26rem, calc(100% - 2 * var(--space-md)));
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 7px;
+  background: rgb(255 255 255 / 0.95);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 0.2);
+  font-size: var(--size-step-0);
+}
+
+.island-map__info[hidden] {
+  display: none;
+}
+
+.island-map__info h3 {
+  font-size: var(--size-step-1);
+}
+
+.island-map__close {
+  border: none;
+  background: none;
+  font-size: var(--size-step-2);
+  line-height: 1;
+  cursor: pointer;
+  color: var(--color-stone-800);
+}
+
+.island-map__reset {
+  position: absolute;
+  inset-block-start: var(--space-sm);
+  inset-inline-end: var(--space-sm);
+}
+
+.island-map__credit {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  padding: 0.15em 0.5em;
+  border-start-start-radius: 7px;
+  background: rgb(255 255 255 / 0.75);
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  color: var(--color-stone-800);
+}
+
+.island-map__credit a {
+  color: inherit;
+}
+
+.island-map__places ul {
+  --flow-space: var(--space-2xs);
+  padding: 0;
+}
+
+.island-map__place {
+  inline-size: 100%;
+  padding: var(--space-2xs) var(--space-sm);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 7px;
+  background: var(--color-neutral-surface-default);
+  color: inherit;
+  font-family: var(--font-sans);
+  font-size: var(--size-step-0);
+  text-align: start;
+  cursor: pointer;
+  transition: border-color var(--transition-base);
+}
+
+.island-map__place:hover {
+  border-color: var(--color-brand-primary);
+}
+
+.island-map__place[aria-pressed="true"] {
+  border-color: var(--color-brand-dark);
+  background: var(--color-brand-dark);
+  color: var(--color-brand-light);
+}
+
+.island-map__hint {
+  font-size: var(--size-step-00);
+  color: var(--color-text-quiet);
+}

@@ -1,0 +1,32 @@
+{
+  "name": "Seguin Island",
+  "crs": "EPSG:26919",
+  "extent": {
+    "xmin": 438515,
+    "ymin": 4839056,
+    "xmax": 439450,
+    "ymax": 4840497
+  },
+  "width": 935,
+  "height": 1441,
+  "metersPerPixel": 1.0,
+  "elevation": {
+    "min": -1.0,
+    "max": 45.982,
+    "units": "m"
+  },
+  "heightmap": {
+    "file": "heightmap.png",
+    "encoding": "elevation = min + (R * 256 + G) / 65535 * (max - min)"
+  },
+  "aerial": {
+    "file": "aerial.jpg",
+    "width": 1870,
+    "height": 2882
+  },
+  "sources": {
+    "elevation": "USGS 3D Elevation Program (3DEP), public domain",
+    "imagery": "USGS National Agriculture Imagery Program (NAIP), public domain",
+    "bounds": "OpenStreetMap contributors (ODbL), relation 11068163"
+  }
+}
