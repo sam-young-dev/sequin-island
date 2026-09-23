@@ -6,15 +6,6 @@ export const siteData = {
     { label: "About", href: "/about" },
     { label: "Keeper's Blog", href: "/blog" },
     { label: "Contact", href: "/contact" },
-    { label: "Membership", href: "/membership", current: false },
+    { label: "Membership", href: "/membership" },
   ],
-  heroIcon: {
-    label: "View Paintings",
-    href: "#content",
-  },
-  masthead: {
-    heading: "Studio Workshop",
-    location: "Nashville, TN",
-    meta: "~ Established 2026 ~",
-  },
 };

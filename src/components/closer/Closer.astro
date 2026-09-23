@@ -32,7 +32,7 @@ import { siteData } from '../../data/site-data'
         <ul class="cluster" role="list">
           {siteData.navItems.map((item) => (
             <li>
-              <a href={item.href} {...(item.current ? {'aria-current': 'page'} : {})}>{item.label}</a>
+              <a href={item.href} {...(Astro.url.pathname.startsWith(item.href) ? {'aria-current': 'page'} : {})}>{item.label}</a>
             </li>
           ))}
         </ul>

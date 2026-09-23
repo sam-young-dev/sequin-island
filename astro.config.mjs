@@ -10,7 +10,6 @@ export default defineConfig({
     plugins: [sugarcube()],
   },
   image: {
-    domains: ["cdn.sanity.io"],
     service: imageService({
       placeholder: "blurhash",
       layout: "constrained",

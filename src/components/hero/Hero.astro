@@ -1,9 +1,8 @@
 ---
 import { Image } from '@unpic/astro';
 import ArrowDownIcon from '/src/assets/arrow-down.svg?raw';
-import { siteData } from '../../data/site-data';
 
-const { image, width, height, label, href, showIcon = false} = Astro.props;
+const { image, width, height, label = 'Learn more', href = '#content', showIcon = false } = Astro.props;
 ---
 
 <div class="hero">
@@ -17,9 +16,9 @@ const { image, width, height, label, href, showIcon = false} = Astro.props;
     draggable="false"
   />
   {showIcon && (
-    <a href={href || siteData.heroIcon.href} class="hero__skip-link flow">
+    <a href={href} class="hero__skip-link flow">
       <span class="hero__skip-link-icon"><div class="hero__skip-link-icon__inner" set:html={ArrowDownIcon}></div></span>
-      <span class="hero__skip-link-label">{label || siteData.heroIcon.label}</span>
+      <span class="hero__skip-link-label">{label}</span>
     </a>
   )}
   {!showIcon && <div class="hero__content"><slot /></div>}
