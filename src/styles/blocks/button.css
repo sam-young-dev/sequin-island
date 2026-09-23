@@ -1,15 +1,16 @@
 .button {
   --button-bg: var(--color-interactive-fill-default);
   --button-text: var(--color-interactive-text-default);
-  --button-x-padding: 0.75em;
-  --button-y-padding: 0.5em;
+  --button-bg-hover: color-mix(in oklab, var(--button-bg), black 14%);
+  --button-x-padding: 1.15em;
+  --button-y-padding: 0.85em;
   --button-gutter: 0.5ch;
   --focus-color: var(--color-interactive-fill-default);
 
   display: inline-flex;
   gap: var(--button-gutter);
   align-items: center;
-  line-height: var(--leading-flat);
+  line-height: var(--leading-none);
   position: relative;
   border: none;
   cursor: pointer;
@@ -19,12 +20,14 @@
   text-transform: uppercase;
   letter-spacing: var(--uppercase-kerning);
   text-decoration: none;
-  font-size: var(--size-step-00);
-  font-weight: var(--font-bold);
+  font-family: var(--font-body);
+  font-size: var(--size-step--1);
+  font-weight: var(--font-weight-bold);
+  transition: background-color var(--transition-base);
 }
 
 .button:hover {
-  filter: brightness(105%);
+  background: var(--button-bg-hover);
 }
 
 .button:active {
@@ -32,6 +35,14 @@
 }
 
 /* Variant exceptions */
+/* Support: the one Keeper's Brick action per screen (Donate) */
+.button[data-button-variant="support"] {
+  --button-bg: var(--color-brand-brick);
+  --button-bg-hover: var(--color-brand-brick-deep);
+  --button-text: var(--color-brand-light);
+  --focus-color: var(--color-brand-brick);
+}
+
 .button[data-button-variant="secondary"] {
   --button-bg: var(--color-fill-loud);
   --button-text: var(--color-on-loud);

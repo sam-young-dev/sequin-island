@@ -4,6 +4,10 @@ import Header from '../components/core/SiteHeader.astro';
 import Closer from '../components/closer/Closer.astro';
 import SiteFooter from '../components/core/SiteFooter.astro';
 
+import "@fontsource-variable/source-serif-4/opsz.css";
+import "@fontsource-variable/source-serif-4/opsz-italic.css";
+import "@fontsource-variable/public-sans/wght.css";
+import sourceSerifLatin from "@fontsource-variable/source-serif-4/files/source-serif-4-latin-opsz-normal.woff2?url";
 import "virtual:sugarcube.css";
 import "../styles/index.css";
 
@@ -16,6 +20,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="preload" href={sourceSerifLatin} as="font" type="font/woff2" crossorigin />
     <MetaInfo
       title={title}
       description={description}

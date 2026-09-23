@@ -1,0 +1,390 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-23T21:51:37.689377+00:00",
+  "title": "Design System: Friends of Seguin Island",
+  "extensions": {
+    "colorMeta": {
+      "granite-gray": {
+        "role": "primary",
+        "displayName": "Granite Gray",
+        "canonical": "oklch(55.4% 0.014 59.4)",
+        "tonalRamp": [
+          "#0e0a08",
+          "#28231f",
+          "#443e3a",
+          "#635c57",
+          "#867f79",
+          "#aaa39e",
+          "#d0c9c4",
+          "#f3ede9"
+        ]
+      },
+      "keeper-brick": {
+        "role": "secondary",
+        "displayName": "Keeper's Brick",
+        "canonical": "oklch(48.3% 0.090 33.4)",
+        "tonalRamp": [
+          "#1e0100",
+          "#3e150d",
+          "#612f24",
+          "#874b3d",
+          "#ad6d5e",
+          "#d09386",
+          "#f3bbaf",
+          "#ffe1d6"
+        ]
+      },
+      "seguin-navy": {
+        "role": "tertiary",
+        "displayName": "Seguin Navy",
+        "canonical": "oklch(31.8% 0.067 250.7)",
+        "tonalRamp": [
+          "#000b1c",
+          "#10253b",
+          "#28425c",
+          "#426080",
+          "#6483a5",
+          "#8ba8c7",
+          "#b3ceea",
+          "#daf1ff"
+        ]
+      },
+      "fog": {
+        "role": "tertiary",
+        "displayName": "Fog",
+        "canonical": "oklch(90.5% 0.015 229.0)",
+        "tonalRamp": [
+          "#070c0e",
+          "#1f2528",
+          "#394145",
+          "#565f64",
+          "#788287",
+          "#9da6ab",
+          "#c3ccd0",
+          "#e8f0f4"
+        ]
+      },
+      "keeper-black": {
+        "role": "neutral",
+        "displayName": "Keeper Black",
+        "canonical": "oklch(19.0% 0.026 98.0)",
+        "tonalRamp": [
+          "#0d0b04",
+          "#262419",
+          "#434033",
+          "#615e4e",
+          "#848170",
+          "#a8a595",
+          "#cecbbd",
+          "#f1efe2"
+        ]
+      },
+      "charcoal": {
+        "role": "neutral",
+        "displayName": "Charcoal",
+        "canonical": "oklch(26.9% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(20.5% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "ink-quiet": {
+        "role": "neutral",
+        "displayName": "Ink Quiet",
+        "canonical": "oklch(43.9% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "station-stone": {
+        "role": "neutral",
+        "displayName": "Station Stone",
+        "canonical": "oklch(26.8% 0.006 34.3)",
+        "tonalRamp": [
+          "#0e0a09",
+          "#272322",
+          "#433f3d",
+          "#615c5b",
+          "#847f7e",
+          "#a8a3a2",
+          "#cec9c8",
+          "#f3edec"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(92.2% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "tinted-surface": {
+        "role": "neutral",
+        "displayName": "Tinted Surface",
+        "canonical": "oklch(97.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "keeper-brick-deep": {
+        "role": "secondary",
+        "displayName": "Keeper's Brick Deep",
+        "canonical": "#733b2f",
+        "tonalRamp": [
+          "#1e0100",
+          "#3e150d",
+          "#612f24",
+          "#874b3d",
+          "#ad6d5e",
+          "#d09386",
+          "#f3bbaf",
+          "#ffe1d6"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page h1s and the hero heading; Granite Gray, white in the hero."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section h2s."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card and sub-section h3s; 600 inside .prose."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Georgia reading text across the site."
+      },
+      "body-prose": {
+        "displayName": "Body (prose)",
+        "purpose": "Long-form history and Keeper's Blog text: line-height 2, 70ch measure."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase buttons and header nav, tracked 0.04ch."
+      },
+      "map-label": {
+        "displayName": "Map label",
+        "purpose": "Bold sans pill labels on the 3D map."
+      }
+    },
+    "shadows": [
+      {
+        "name": "map-label",
+        "value": "0 1px 4px rgb(0 0 0 / 0.25)",
+        "purpose": "White pill labels floating over the terrain."
+      },
+      {
+        "name": "map-panel",
+        "value": "0 2px 12px rgb(0 0 0 / 0.2)",
+        "purpose": "Place-detail panel over the map."
+      }
+    ],
+    "motion": [
+      {
+        "name": "transition-base",
+        "value": "250ms ease",
+        "purpose": "Card and place-button border color on hover."
+      },
+      {
+        "name": "transition-bounce",
+        "value": "400ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Hero skip-link arrow nudge on hover."
+      },
+      {
+        "name": "press",
+        "value": "scale(99%)",
+        "purpose": "Active-state transform for buttons and cards."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "intrinsic",
+        "value": "none",
+        "purpose": "No media queries; fluid clamp type/spacing plus switcher and sidebar compositions."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Square uppercase Granite Gray action; one per group.",
+      "html": "<a class=\"ds-btn\" href=\"#\">Become a Member →</a>",
+      "css": ".ds-btn { display: inline-flex; gap: 0.5ch; align-items: center; color: #fff; padding: 0.85em 1.15em; font-weight: 700; font-size: 0.875rem; border: none; border-radius: 0; text-transform: uppercase; letter-spacing: 0.05rem; text-decoration: none; font-family: 'Source Serif 4 Variable', Georgia, serif; cursor: pointer; background: #79716b; } .ds-btn:hover { background: color-mix(in oklab, #79716b, black 14%); } .ds-btn:active { transform: scale(99%); } .ds-btn:focus-visible { outline: 2px solid #79716b; outline-offset: 0.2lh; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Charcoal companion action and the map reset control.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\">Learn Our History →</a>",
+      "css": ".ds-btn-secondary { display: inline-flex; gap: 0.5ch; align-items: center; color: #fff; padding: 0.85em 1.15em; font-weight: 700; font-size: 0.875rem; border: none; border-radius: 0; text-transform: uppercase; letter-spacing: 0.05rem; text-decoration: none; font-family: 'Source Serif 4 Variable', Georgia, serif; cursor: pointer; background: #262626; } .ds-btn-secondary:hover { background: color-mix(in oklab, #262626, black 14%); } .ds-btn-secondary:active { transform: scale(99%); } .ds-btn-secondary:focus-visible { outline: 2px solid #171406; outline-offset: 0.2lh; }"
+    },
+    {
+      "name": "Link Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Whole-card link for blog posts; hairline border turns Granite on hover.",
+      "html": "<a class=\"ds-card\" href=\"#\"><h3>Pardon our dust!</h3><p>Tower tours pause while the crew works on the tower.</p><small>July 28, 2026</small></a>",
+      "css": ".ds-card { display: block; max-width: 22rem; padding: 1.5rem; border: 1px solid #e5e5e5; border-radius: 7px; background: #fff; color: #171717; text-decoration: none; font-family: 'Source Serif 4 Variable', Georgia, serif; transition: border-color 250ms ease; } .ds-card h3 { margin: 0 0 1rem; font-family: 'Public Sans Variable', -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 1.5rem; color: #79716b; } .ds-card p { margin: 0 0 1rem; } .ds-card small { color: #525252; } .ds-card:hover { border-color: #79716b; } .ds-card:active { transform: scale(99%); } .ds-card:focus-visible { outline: 2px solid #79716b; outline-offset: 4px; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Plain white field with hairline stroke.",
+      "html": "<label class=\"ds-label\">Email<input class=\"ds-input\" type=\"email\" placeholder=\"keeper@example.org\"></label>",
+      "css": ".ds-label { display: grid; gap: 0.5rem; font-family: 'Source Serif 4 Variable', Georgia, serif; font-weight: 500; color: #171717; max-width: 22rem; } .ds-input { padding: 0.5em 0.8em; border: 1px solid #e5e5e5; border-radius: 0.2rem; background: #fff; color: #525252; font: inherit; font-weight: 400; } .ds-input::placeholder { color: #737373; } .ds-input:focus-visible { outline: 2px solid #79716b; outline-offset: 2px; }"
+    },
+    {
+      "name": "Site Navigation",
+      "kind": "nav",
+      "refersTo": "button-primary",
+      "description": "Header cluster: Public Sans links ending in the Brick Donate button.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\">About</a><a href=\"#\" aria-current=\"page\">Island Map</a><a href=\"#\">Keeper&#39;s Blog</a><a href=\"#\">Membership</a><a class=\"ds-nav-cta\" href=\"#\">Donate</a></nav>",
+      "css": ".ds-nav { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; font-family: 'Public Sans Variable', -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 1rem; font-weight: 600; } .ds-nav a { color: #171717; text-decoration-thickness: 1px; text-underline-offset: 0.3em; text-decoration-color: transparent; } .ds-nav a:hover, .ds-nav a[aria-current=page] { text-decoration-color: currentColor; } .ds-nav a[aria-current=page] { color: #79716b; } .ds-nav .ds-nav-cta { background: #8a4a3c; color: #fff; padding: 0.85em 1.15em; font-family: 'Source Serif 4 Variable', Georgia, serif; font-size: 0.875rem; font-weight: 700; letter-spacing: 0.05rem; text-transform: uppercase; text-decoration: none; } .ds-nav .ds-nav-cta:hover { background: #733b2f; } .ds-nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 0.2lh; }"
+    },
+    {
+      "name": "Hero",
+      "kind": "custom",
+      "refersTo": "display",
+      "description": "Full-bleed island photo under a dark gradient, coordinates eyebrow and white h1 (photo approximated by a sky gradient here).",
+      "html": "<div class=\"ds-hero\"><div class=\"ds-hero-inner\"><p>43°42'26\"N, 69°45'28\"W</p><h1>Your Island Adventure Starts Here</h1></div></div>",
+      "css": ".ds-hero { position: relative; display: grid; place-items: center; min-height: 18rem; background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.45) 35%, rgba(0,0,0,0.6) 100%), linear-gradient(160deg, #6f9cc4, #3f6f95 55%, #5d6b4a); color: #fff; } .ds-hero-inner { padding: 2rem; font-family: 'Source Serif 4 Variable', Georgia, serif; } .ds-hero h1 { margin: 0.5rem 0 0; max-width: 20ch; font-family: 'Public Sans Variable', -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: clamp(2rem, 1.64rem + 1.82vw, 3rem); color: inherit; text-wrap: balance; } .ds-hero p { margin: 0; }"
+    },
+    {
+      "name": "Map Label",
+      "kind": "chip",
+      "refersTo": "map-label",
+      "description": "White pill with pointer stalk over the Fog stage; inverts to Keeper Black when selected.",
+      "html": "<div class=\"ds-map\"><button class=\"ds-map-label\">Seguin Light</button><button class=\"ds-map-label\" data-selected>Tramway</button></div>",
+      "css": ".ds-map { display: flex; gap: 1.5rem; align-items: flex-start; padding: 1.5rem 1.5rem 2rem; background: #d6e2e8; border-radius: 7px; } .ds-map-label { position: relative; padding: 0.3em 0.6em; border: none; border-radius: 999px; background: rgb(255 255 255 / 0.9); box-shadow: 0 1px 4px rgb(0 0 0 / 0.25); color: #292524; font-family: 'Public Sans Variable', -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 1rem; font-weight: 700; white-space: nowrap; cursor: pointer; } .ds-map-label::after { content: ''; position: absolute; top: 100%; left: 50%; width: 2px; height: 0.6em; translate: -50% 0; background: inherit; } .ds-map-label:hover, .ds-map-label[data-selected] { background: #171406; color: #fff; } .ds-map-label:focus-visible { outline: 2px solid #171406; outline-offset: 3px; }"
+    },
+    {
+      "name": "Support Button",
+      "kind": "button",
+      "refersTo": "button-support",
+      "description": "The one Keeper's Brick action per screen: Donate.",
+      "html": "<a class=\"ds-btn-support\" href=\"#\">Donate</a>",
+      "css": ".ds-btn-support { display: inline-flex; gap: 0.5ch; align-items: center; color: #fff; padding: 0.85em 1.15em; font-weight: 700; font-size: 0.875rem; border: none; border-radius: 0; text-transform: uppercase; letter-spacing: 0.05rem; text-decoration: none; font-family: 'Source Serif 4 Variable', Georgia, serif; cursor: pointer; background: #8a4a3c; } .ds-btn-support:hover { background: #733b2f; } .ds-btn-support:active { transform: scale(99%); } .ds-btn-support:focus-visible { outline: 2px solid #8a4a3c; outline-offset: 0.2lh; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Granite & Fog",
+    "overview": "The site takes its palette from the island. Granite Gray is the 1857 tower's stone. Fog is the blue-gray haze Seguin is known for, and it already sits behind the 3D map. Keeper's Brick is the red-brown brick of the keeper's house and station buildings. White is the clapboard trim and the page. Everything is set on plain white with hairline edges, and the photographs of the island do the atmospheric work.\n\nThe voice is warm and welcoming, not austere. Surfaces are flat and uncluttered. Reading text is set in Source Serif 4 with generous line spacing, so history and caretaker posts read like a letter from the island rather than a brochure. Headings are set in Public Sans in Granite Gray: sturdy, open, and civic, like federal station signage. Buttons are square, bold, uppercase serif, echoing the letterspaced serif caps of the logo. They should feel inviting to press, never severe.\n\nDensity is low and roomy: fluid spacing that grows with the viewport, one wide wrapper, and sections separated by generous vertical padding or a pale tinted band.",
+    "keyCharacteristics": [
+      "White page, hairline borders, no decorative shadows.",
+      "Granite Gray headings and primary actions. Keeper's Brick marks the one support action (Donate).",
+      "Source Serif 4 body text with generous (1.85) line-height in long-form prose.",
+      "Square, uppercase buttons. Softly rounded (7px) cards and panels.",
+      "Full-bleed island photography under a dark gradient for heroes.",
+      "Fog-blue stage for the 3D map, with white pill labels."
+    ],
+    "rules": [
+      {
+        "name": "The Granite Rule",
+        "body": "Granite Gray carries headings and the single primary action in any group. If two things on a screen are Granite Gray buttons, one of them should be secondary.",
+        "section": "colors"
+      },
+      {
+        "name": "The Brick Rule",
+        "body": "Keeper's Brick is an accent, not a fill for reading surfaces. Use it on small areas, never as a background behind paragraphs. Where Granite and Brick sit side by side, Brick is the one that draws the eye, so it is spent on the support action (Donate) and nothing else competes with it on the same screen.",
+        "section": "colors"
+      },
+      {
+        "name": "The Fog Belongs to the Sea Rule",
+        "body": "Fog is reserved for map and sea contexts. It is not a general-purpose \"light blue\" for panels.",
+        "section": "colors"
+      },
+      {
+        "name": "The Letter from the Island Rule",
+        "body": "Long-form content (history, the Keeper's Blog, facilities) is always set in `.prose flow`: Source Serif 4, `--leading-prose`, and 70ch maximum. Don't set long-form text in the sans.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Page Rule",
+        "body": "Nothing on the page itself casts a shadow. Only things floating over the map (or, in future, over imagery) may.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** set every heading in Granite Gray Public Sans and long-form content in `.prose flow` Source Serif 4.",
+      "**Do** keep action buttons square and uppercase, and containers at 7px.",
+      "**Do** use real Seguin photography under the hero gradient for any full-bleed moment.",
+      "**Do** reference brand colors through their tokens (`--color-brand-brick`, `--color-brand-fog`, `--color-brand-navy`), never as raw hex.",
+      "**Do** use only token names that exist: `--font-weight-*`, `--leading-{heading,body,prose,none,snug,tight,normal,relaxed,loose}`, `--size-step-{-2..10}`, and `--space-{3xs..3xl}` plus their pairs. Check the compiled CSS before adding a new `var()`.",
+      "**Do** keep the logo on white or very pale surfaces so Seguin Navy reads."
+    ],
+    "donts": [
+      "**Don't** use the starter kit's pink `accent` tokens. They are not part of Seguin's palette.",
+      "**Don't** use a second Brick-filled element on a screen that already shows the Donate button (see Brick Rule).",
+      "**Don't** add shadows to page-level cards or buttons (see Flat Page Rule).",
+      "**Don't** use Keeper's Brick as a background behind body text (see Brick Rule).",
+      "**Don't** rely on the dark-mode token set. `body` hard-codes a white background, so dark mode is not shipped."
+    ]
+  }
+}

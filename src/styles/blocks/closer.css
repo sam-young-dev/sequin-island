@@ -2,7 +2,7 @@
   background: var(--color-interactive-fill-default);
   color: var(--color-foreground-inverse);
   padding-block: clamp(2rem, 50vb, 4rem) var(--gutter);
-  font-weight: var(--font-bold);
+  font-weight: var(--font-weight-bold);
   padding-top: clamp(1rem, 50vb, 2rem);
   padding-bottom: 2rem;
 }
@@ -24,7 +24,7 @@
 .closer__contact {
   --flow-space: var(--space-sm);
   text-align: center;
-  font-weight: var(--font-normal);
+  font-weight: var(--font-weight-normal);
   line-height: var(--leading-normal);
 }
 

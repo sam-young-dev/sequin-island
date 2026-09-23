@@ -18,12 +18,3 @@
 .card:active {
   transform: scale(99%);
 }
-
-.product-card {
-  --flow-space: var(--space-2xs);
-  padding: 1rem;
-  border-radius: 7px;
-  color: inherit;
-  text-decoration: none;
-  background-color: var(--color-neutral-surface-default);
-}

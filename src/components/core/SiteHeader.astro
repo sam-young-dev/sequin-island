@@ -1,5 +1,5 @@
 ---
-import { Image } from '@unpic/astro';
+import { Image } from 'astro:assets';
 
 import { siteData } from '../../data/site-data'
 import logo from '../../assets/seguin-island-logo.jpg'
@@ -12,7 +12,7 @@ import logo from '../../assets/seguin-island-logo.jpg'
         <a href="/">
           <Image
             src={logo}
-            alt="logo"
+            alt={`${siteData.title}, home`}
             height={40}
             loading="eager"
             fetchpriority="high"
@@ -28,11 +28,12 @@ import logo from '../../assets/seguin-island-logo.jpg'
           </li>
         ))}
           <li>
-            <a href="/donate">
-              <button class="button">
-                Donate
-              </button>
-            </a>
+            <a
+              class="button"
+              data-button-variant="support"
+              href="/donate"
+              {...(Astro.url.pathname.startsWith('/donate') ? {'aria-current': 'page'} : {})}
+            >Donate</a>
           </li>
         </ul>
       </nav>
