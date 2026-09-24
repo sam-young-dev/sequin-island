@@ -15,7 +15,7 @@ related_targets: ["src/components/tide-clock/TideClock.astro"]
 
 **Constraints:** no invented schedule, prices or landing window. NOAA predictions are for Hunniwell Point (station 8417177), labelled as such. Page must work without JS (static tide note, route list).
 
-**Unresolved:** the caretaker season end (Labor Day vs Columbus Day); the dock tie-up rule once the pier is finished; which part of the tide cycle closes the beach landing; whether the ferry operator is current.
+**Unresolved:** (2026-09-24: until FOSILS confirms, the page treats the newest statement as current, so passengers land on the small beach until the pier is finished and all "dock" wording is gone.) the caretaker season end (Labor Day vs Columbus Day); the dock tie-up rule once the pier is finished; which part of the tide cycle closes the beach landing; whether the ferry operator is current.
 
 ## Direction contract
 

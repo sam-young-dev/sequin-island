@@ -25,6 +25,7 @@ One primary action, one quiet route to a single gift.
 }
 
 .support__terms {
+  max-width: 60ch;
   color: var(--color-text-quiet);
 }
 

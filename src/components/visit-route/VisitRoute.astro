@@ -64,7 +64,7 @@ const { stops } = Astro.props;
     tour = null;
   }
 
-  // Walk the stops in order, landing to lantern, once. Any click or drag hands control back.
+  // Walk the stops in order, landing to lantern, once. Any click, drag, focus or key hands control back.
   function playTour(index = 0) {
     const key = buttons[index]?.dataset.place;
     if (!key) return stopTour();
@@ -117,6 +117,9 @@ const { stops } = Astro.props;
       setStatus("");
       stage.addEventListener("pointerdown", stopTour);
       stage.addEventListener("wheel", stopTour, { passive: true });
+      // Keyboard and screen-reader users take over the same way: by arriving.
+      root.addEventListener("focusin", stopTour);
+      root.addEventListener("keydown", stopTour);
       // Once the stage is mostly in view, walk the route. With reduced motion, just start at the landing.
       const arrive = new IntersectionObserver(
         (entries) => {

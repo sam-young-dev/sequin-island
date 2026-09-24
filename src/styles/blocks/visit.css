@@ -19,11 +19,28 @@ page's ledger, so the page reads as one log of the island.
   letter-spacing: -0.02em;
 }
 
-.visit-intro__lead {
+.visit-intro__text {
+  --flow-space: var(--space-sm);
   flex: 0 1 38rem;
+}
+
+.visit-intro__lead {
   font-size: var(--size-step-2);
-  line-height: var(--leading-snug);
+  line-height: var(--leading-normal);
   text-wrap: pretty;
+}
+
+/* Off season only: said once, before the trip, so nobody plans today from it */
+.visit-intro__season {
+  margin-block-start: var(--space-sm);
+  padding-block-start: var(--space-xs);
+  border-block-start: var(--stroke-solid);
+  line-height: var(--leading-prose);
+  text-wrap: pretty;
+}
+
+.visit-intro__season[hidden] {
+  display: none;
 }
 
 /* Steps ------------------------------------------------------------------------
@@ -227,7 +244,7 @@ reading fills in, the ones behind you stay dark. */
   max-width: 60ch;
   margin-block-start: var(--space-xs);
   font-size: var(--size-step-2);
-  line-height: var(--leading-snug);
+  line-height: var(--leading-normal);
   text-wrap: pretty;
 }
 
@@ -288,6 +305,13 @@ reading fills in, the ones behind you stay dark. */
   text-align: start;
   font-family: var(--font-heading);
   font-weight: var(--font-weight-semibold);
+}
+
+/* Row headers for screen readers; they read like the rest of the row */
+.visit-table th {
+  font-weight: inherit;
+  line-height: inherit;
+  text-align: start;
 }
 
 .visit-table td:last-child {

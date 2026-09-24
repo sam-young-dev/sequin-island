@@ -17,6 +17,15 @@ walk in order, strung on one hairline like a trail.
   min-block-size: 22rem;
 }
 
+/* While the terrain loads, or where it can't, the island's own aerial photo sits
+   under a veil of Fog, so the stage shows Seguin rather than an empty panel.
+   It's the texture the viewer is about to fetch anyway. */
+.route__stage:is([data-state="loading"], [data-state="error"]) {
+  background:
+    linear-gradient(color-mix(in oklab, var(--color-brand-fog) 82%, transparent), color-mix(in oklab, var(--color-brand-fog) 82%, transparent)),
+    url("/terrain/aerial.jpg") center / cover var(--color-brand-fog);
+}
+
 .route__stops {
   flex: 1 1 20rem;
   max-inline-size: 30rem;

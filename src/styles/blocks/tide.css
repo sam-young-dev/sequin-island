@@ -37,7 +37,7 @@ the one band on the site that takes it outside the map.
 }
 
 .tide__heading {
-  font-size: var(--size-step-3);
+  font-size: var(--size-step-4);
   font-weight: var(--font-weight-semibold);
   color: var(--tide-ink);
 }
@@ -69,7 +69,7 @@ the one band on the site that takes it outside the map.
   margin-block-start: var(--space-2xs);
   max-width: 38ch;
   font-size: var(--size-step-2);
-  line-height: var(--leading-snug);
+  line-height: var(--leading-normal);
   min-block-size: 1lh;
 }
 
@@ -93,11 +93,23 @@ the one band on the site that takes it outside the map.
   opacity: 0.35;
 }
 
+/* Without JS there is no curve to draw: keep the facts and the NOAA link,
+   and don't hold open an empty chart. */
+.tide[data-state="static"] :is(.tide__height, .tide__plot, .tide__controls) {
+  display: none;
+}
+
+/* While NOAA answers (or if it doesn't), a dashed waterline holds the chart's
+   place, so the band reads as waiting rather than broken. */
+.tide:is([data-state="loading"], [data-state="error"]) .tide__plot {
+  background: linear-gradient(to right, var(--tide-rule) 60%, transparent 0) 0 50% / 14px 1px repeat-x;
+}
+
 /* Status column ----------------------------------------------------------- */
 .tide__status {
   grid-area: status;
   font-size: var(--size-step-0);
-  line-height: var(--leading-snug);
+  line-height: var(--leading-normal);
 }
 
 .tide__status > div {
@@ -167,14 +179,15 @@ the one band on the site that takes it outside the map.
   stroke-linejoin: round;
 }
 
-/* The curve draws in once, left to right, when the prediction lands. */
+/* The curve draws in once, left to right, when the prediction lands.
+   Stepping to another day swaps it without replaying the draw. */
 @media (prefers-reduced-motion: no-preference) {
-  .tide[data-state="ready"] .tide__svg {
+  .tide[data-state="ready"]:not([data-drawn]) .tide__svg {
     animation: tide-draw 1400ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
-  .tide[data-state="ready"] .tide__marks,
-  .tide[data-state="ready"] .tide__now {
+  .tide[data-state="ready"]:not([data-drawn]) .tide__marks,
+  .tide[data-state="ready"]:not([data-drawn]) .tide__now {
     animation: tide-settle 600ms 700ms ease-out both;
   }
 }
@@ -338,7 +351,28 @@ the one band on the site that takes it outside the map.
   max-width: 80ch;
 }
 
-.tide__reset {
+.tide__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-sm);
+  align-items: center;
+}
+
+.tide__hint {
+  color: var(--tide-ink);
+}
+
+.tide:not([data-state="ready"]) .tide__hint {
+  visibility: hidden;
+}
+
+.tide__days {
+  display: flex;
+  gap: var(--space-3xs);
+}
+
+.tide__button {
+  min-block-size: 2.25rem;
   padding: 0.35em 0.8em;
   border: 1px solid var(--tide-ink);
   border-radius: 0;
@@ -350,13 +384,18 @@ the one band on the site that takes it outside the map.
   cursor: pointer;
 }
 
-.tide__reset:hover {
+.tide__button:hover:not(:disabled) {
   background: var(--color-brand-dark);
   border-color: var(--color-brand-dark);
   color: var(--color-brand-light);
 }
 
-.tide__reset[hidden] {
+.tide__button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.tide__button[hidden] {
   display: none;
 }
 

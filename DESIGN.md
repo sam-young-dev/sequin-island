@@ -201,7 +201,7 @@ A restrained, mineral palette: warm stone gray and near-black on white, with fog
 - **Regions:** Page sections use `.region`, with vertical padding of `space.xl` (42–48px). Alternate sections may take the tinted band.
 - **Compositions:** CUBE compositions do the layout: `flow` for vertical rhythm, `cluster` for nav rows, `repel` for header and footer, `switcher` for side-by-side CTA cards that stack when narrow, `grid` for blog cards, and `sidebar` for the map and its places list (a 16rem sidebar that wraps at 60%).
 - **Spacing:** Every step is a fluid clamp from a smaller mobile value to a larger desktop value, so layouts breathe without breakpoints. Responsiveness is intrinsic. The one media-query breakpoint is the Tide band's (max-width 52rem), where its readout, chart and status stack into one column.
-- **Ledger pages:** Fact-heavy pages (the home page's distinctions, Plan Your Visit) run as a sequence of regions, each with a bold step-7 h2, a step-3 lead of about 52ch, and ruled ledger rows beneath.
+- **Ledger pages:** Fact-heavy pages (the home page's distinctions, Plan Your Visit) run as a sequence of regions, each with a bold step-7 h2 (step 6 on Plan Your Visit), a step-2 lead at `--leading-normal` of about 52–60ch, and ruled ledger rows beneath. Multi-line leads never sit below 1.3 line-height.
 - **Hero:** Full-bleed, with the image covering the grid and the content anchored to its foot.
 
 ## Elevation & Depth
@@ -275,19 +275,21 @@ A station log: one fact per ruled row.
 ### Tide Band (signature)
 The sea on the page: today's predicted tide, on Plan Your Visit.
 - **Band:** Full-bleed Fog, padded `space.md-lg`, with Station Stone text. Text selection inside it inverts to Keeper Black.
-- **Readout (top left):** An h2 at step 3, the time in tabular Public Sans, the height now at `--size-step-9` in bold tabular Keeper Black (-0.03em, with the unit at 0.4em), and one serif sentence giving the trend and the next high or low.
-- **Status (right):** Season, Caretakers and Tower as a definition list. Each entry is opened by a `--tide-rule` hairline, with the term in small semibold Public Sans and key values in bold Keeper Black.
+- **Readout (top left):** An h2 at step 4 that names the day on show ("The tide today", "The tide on Saturday"), the time in tabular Public Sans, the height now at `--size-step-9` in bold tabular Keeper Black (-0.03em, with the unit at 0.4em), and one serif sentence giving the trend and the next high or low.
+- **Status (right):** Season, Landing, Caretakers and Tower as a definition list, at `--leading-normal`. Landing restates the published access rule and links to Coming ashore. Each entry is opened by a `--tide-rule` hairline, with the term in small semibold Public Sans and key values in bold Keeper Black.
 - **Chart (full width):** The curve is a 2px Keeper Black line over a `--tide-water` fill, on a Station Stone baseline. Clock ticks every six hours are set in tabular sans. Midnight ticks are bold Keeper Black and carry a dashed `--tide-rule` divider. The high and low marks give the height in bold over the time.
 - **Now and scrub:** The now-marker is a 2px Granite rule with a Granite dot ringed in Fog. A transparent range input over the plot lets pointer, touch and arrow keys read any time. It shows a Keeper Black cursor and a square, outlined "Back to now" control, and Escape also returns to now. When the plot has focus, it shows a 2px Keeper Black outline.
-- **Motion:** The curve draws in once, left to right (1400ms, the bounce easing), then the marks and now-marker fade in (600ms, after 700ms). Nothing else animates, and reduced motion skips both.
-- **Span:** Phones get 24 hours of tide and wider screens 36.
+- **Motion:** The curve draws in once, left to right (1400ms, the bounce easing), then the marks and now-marker fade in (600ms, after 700ms). Stepping to another day swaps the curve without replaying the draw. Nothing else animates, and reduced motion skips both.
+- **Span:** Phones get 24 hours of tide and wider screens 36. Today starts a few hours back; a later day starts at its midnight.
+- **Days:** Square outlined Previous day / Next day controls in the caption step up to six days ahead. A later day opens read at 9 am with the cursor showing, and Back to now returns to today. A visible hint says the curve can be dragged or read with the arrow keys, and a polite status line announces each reading as it loads.
+- **Without JS:** The band renders in a `static` state with its facts, the source caption and a NOAA link; the height, plot and controls stay hidden. While loading or after an error, a dashed `--tide-rule` waterline holds the plot's place.
 
 ### Visit Route
 The Island Map stage reused for one walk, landing to lantern.
 - **Stage:** The same Fog stage and white pill labels, `min(70svh, 44rem)` tall (at least 22rem). The named route trail is drawn heavier than the other trails (a 1.1 tube radius against 0.45) in white with a slight glow.
 - **Stops:** An ordered list beside the stage. Each stop is a full-width, borderless, 7px-cornered button with a semibold Public Sans name at step 2 over a quiet serif detail. A 12px Granite ring marks each stop, and a 2px Hairline thread strings the rings together.
 - **States:** Hover takes the Tinted Surface fill. The selected stop (`aria-pressed="true"`) fills Keeper Black and its ring fills white, matching the map's places list.
-- **Tour:** When the stage comes into view, the camera walks the stops once, 2.6s each. Any click or drag hands control back. With reduced motion it simply starts at the landing.
+- **Tour:** When the stage comes into view, the camera walks the stops once, 2.6s each. Any click, drag, focus or key press hands control back. With reduced motion it simply starts at the landing.
 
 ## Do's and Don'ts
 

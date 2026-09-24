@@ -1,7 +1,9 @@
 ---
 // Today's predicted tide for the approach to Seguin, drawn from NOAA's
 // Hunniwell Point station at the mouth of the Kennebec. The band renders its
-// season and island facts at build time; the curve loads in the browser.
+// season and island facts at build time; the curve loads in the browser, and
+// can step forward up to a week for planning a trip. Without JS the band keeps
+// its facts and a link to NOAA, and the empty chart stays out of the way.
 import { seasonCopy, seasonState } from "../../lib/season";
 
 interface Props {
@@ -14,21 +16,28 @@ const season = seasonCopy(seasonState());
 const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id=8417177";
 ---
 
-<section class="tide" aria-labelledby="tide-heading" data-tide data-state="loading">
+<section class="tide" aria-labelledby="tide-heading" data-tide data-state="static">
   <div class="wrapper tide__inner">
     <div class="tide__readout">
-      <h2 id="tide-heading" class="tide__heading">The tide today</h2>
-      <p class="tide__when" data-when>Loading the prediction…</p>
+      <h2 id="tide-heading" class="tide__heading" data-heading>The tide today</h2>
+      <p class="tide__when" data-when>Predicted by NOAA for the mouth of the Kennebec.</p>
       <p class="tide__height"><span data-height>–</span><span class="tide__unit"> ft</span></p>
       <p class="tide__trend" data-trend>
-        <noscript>Tide predictions load from NOAA with JavaScript. <a href={NOAA_PAGE}>See Hunniwell Point tides on NOAA</a>.</noscript>
+        <noscript>The tide chart loads from NOAA with JavaScript. <a href={NOAA_PAGE}>See the week’s Hunniwell Point tides on NOAA</a>.</noscript>
       </p>
+      <p class="visually-hidden" role="status" data-announce></p>
     </div>
 
     <dl class="tide__status">
       <div>
         <dt>Season</dt>
         <dd><strong data-season>{season.season}</strong>. The season runs Memorial Day to Labor Day.</dd>
+      </div>
+      <div>
+        <dt>Landing</dt>
+        <dd>
+          <strong>About three quarters of the tide cycle</strong>, from the small beach, until the new pier is finished. <a href="#coming-ashore">How to come ashore</a>
+        </dd>
       </div>
       <div>
         <dt>Caretakers</dt>
@@ -58,8 +67,15 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
         <input class="tide__scrub" id="tide-scrub" type="range" min="0" max="360" step="1" value="60" data-scrub disabled />
       </div>
       <figcaption class="tide__source">
-        <span>Predicted heights above mean lower low water at Hunniwell Point, Fort Popham (<a href={NOAA_PAGE}>NOAA station 8417177</a>), 3.6 miles north of the island. Times are Maine time.</span>
-        <button class="tide__reset" type="button" data-back hidden>Back to now</button>
+        <span>Predicted heights above low water (mean lower low water) at Hunniwell Point, Fort Popham (<a href={NOAA_PAGE}>NOAA station 8417177</a>), 3.6 miles north of the island. Times are Maine time.</span>
+        <span class="tide__controls" data-controls>
+          <span class="tide__hint">Drag across the curve, or use the arrow keys, to read any time.</span>
+          <span class="tide__days" role="group" aria-label="Day">
+            <button class="tide__button" type="button" data-day-step="-1" disabled>Previous day</button>
+            <button class="tide__button" type="button" data-day-step="1">Next day</button>
+          </span>
+          <button class="tide__button" type="button" data-back hidden>Back to now</button>
+        </span>
       </figcaption>
     </figure>
   </div>
@@ -71,6 +87,9 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
   const STATION = "8417177";
   const API = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter";
   const HOUR = 3_600_000;
+  const DAY = 24 * HOUR;
+  const DAYS_AHEAD = 6; // a week, today included
+  const PLAN_HOUR = 9; // a future day opens on its morning
   const STEP = 6 * 60_000; // NOAA's 6-minute prediction interval
   let BEFORE = 6 * HOUR;
   let SPAN = 36 * HOUR;
@@ -89,6 +108,9 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
   const cursor = $("[data-cursor]");
   const scrub = $<HTMLInputElement>("[data-scrub]");
   const back = $<HTMLButtonElement>("[data-back]");
+  const heading = $("[data-heading]");
+  const announce = $("[data-announce]");
+  const dayButtons = [...root.querySelectorAll<HTMLButtonElement>("[data-day-step]")];
 
   // Station times are Maine wall-clock times. Everything here works in "naive"
   // milliseconds: that wall-clock time read as if it were UTC.
@@ -131,6 +153,8 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
   let lo = 0;
   let hi = 10;
   let scrubbed = false;
+  /** Days ahead of today on show: 0 is today, with the now-marker. */
+  let day = 0;
 
   const x = (t: number) => ((t - start) / SPAN) * 100;
   const y = (v: number) => ((hi - v) / (hi - lo)) * 100;
@@ -168,6 +192,12 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
       scrub.value = String(Math.round((now - start) / STEP));
       describe(now, true);
     }
+  }
+
+  function dayName(offset: number) {
+    if (offset === 0) return "today";
+    if (offset === 1) return "tomorrow";
+    return `on ${weekday(maineNow() + offset * DAY)}`;
   }
 
   function draw() {
@@ -213,16 +243,25 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
   }
 
   async function load() {
+    // The curve draws in on the first load only; stepping days just swaps it.
+    if (series.length) root.dataset.drawn = "";
     root.dataset.state = "loading";
     when.textContent = "Loading the prediction…";
     trend.textContent = "";
+    heading.textContent = `The tide ${dayName(day)}`;
+    dayButtons.forEach((button) => {
+      const next = day + Number(button.dataset.dayStep);
+      button.disabled = next < 0 || next > DAYS_AHEAD;
+    });
     // Phones get a day of tide; wider screens a day and a half.
     const narrow = root.clientWidth < 640;
     SPAN = (narrow ? 24 : 36) * HOUR;
     BEFORE = (narrow ? 4 : 6) * HOUR;
     root.toggleAttribute("data-narrow", narrow);
-    // Start on the hour, a few hours back, so the curve shows where the water has been.
-    start = Math.floor((maineNow() - BEFORE) / HOUR) * HOUR;
+    // Today starts on the hour, a few hours back, so the curve shows where the
+    // water has been. A later day starts at its midnight.
+    const midnight = Math.floor(maineNow() / DAY) * DAY + day * DAY;
+    start = day === 0 ? Math.floor((maineNow() - BEFORE) / HOUR) * HOUR : midnight;
     try {
       const [six, hilo] = await Promise.all([fetchPredictions("6"), fetchPredictions("hilo")]);
       series = six.map((p) => ({ t: parse(p.t), v: Number(p.v) }));
@@ -235,8 +274,14 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
       scrub.max = String(series.length - 1);
       scrub.disabled = false;
       draw();
-      showNow();
+      if (day === 0) {
+        backToNow();
+      } else {
+        nowMark.hidden = true;
+        readAt(midnight + PLAN_HOUR * HOUR);
+      }
       root.dataset.state = "ready";
+      announce.textContent = `${when.textContent}: ${feet(heightAt(start + Number(scrub.value) * STEP))} feet. ${trend.textContent}`;
     } catch (error) {
       console.error(error);
       root.dataset.state = "error";
@@ -249,17 +294,26 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
     }
   }
 
-  scrub.addEventListener("input", () => {
-    if (!series.length) return;
+  function readAt(t: number) {
     scrubbed = true;
-    const t = start + Number(scrub.value) * STEP;
+    scrub.value = String(Math.round((t - start) / STEP));
     place(cursor, t);
     cursor.hidden = false;
     back.hidden = false;
     describe(t, false);
+  }
+
+  scrub.addEventListener("input", () => {
+    if (!series.length) return;
+    readAt(start + Number(scrub.value) * STEP);
   });
 
   function backToNow() {
+    if (day !== 0) {
+      day = 0;
+      load();
+      return;
+    }
     scrubbed = false;
     cursor.hidden = true;
     back.hidden = true;
@@ -269,6 +323,12 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
     backToNow();
     scrub.focus();
   });
+  dayButtons.forEach((button) =>
+    button.addEventListener("click", () => {
+      day = Math.min(Math.max(day + Number(button.dataset.dayStep), 0), DAYS_AHEAD);
+      load();
+    }),
+  );
   scrub.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && scrubbed) backToNow();
   });
@@ -281,7 +341,7 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
 
   // Move the now-marker along, and reload when the window has run on too far.
   window.setInterval(() => {
-    if (root.dataset.state !== "ready") return;
+    if (root.dataset.state !== "ready" || day !== 0) return;
     if (maineNow() - start > 12 * HOUR) load();
     else showNow();
   }, 60_000);

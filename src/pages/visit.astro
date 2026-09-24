@@ -5,6 +5,7 @@ import TideClock from "../components/tide-clock/TideClock.astro";
 import VisitRoute, { type RouteStop } from "../components/visit-route/VisitRoute.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { formatDate, isoDate } from "../lib/format";
+import { seasonCopy, seasonState } from "../lib/season";
 
 // Visitor facts are taken from seguinisland.org's travel, mooring, guidelines
 // and stay pages, and from the About page. Keep them as published.
@@ -12,11 +13,19 @@ const [latest] = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (left, right) => right.data.publishDate.getTime() - left.data.publishDate.getTime(),
 );
 
+// Rendered at build time and refreshed in the browser, like the tide band's season column.
+const season = seasonState();
+const seasonNote = seasonCopy(season).note;
+// The Keeper's Guest Room was paused for the 2026 season. Once that season has
+// passed, stop stating it as current and point people to the office instead.
+const GUEST_ROOM_PAUSED = 2026;
+const guestRoomCurrent = season.opens.getUTCFullYear() <= GUEST_ROOM_PAUSED;
+
 const stops: RouteStop[] = [
   {
     key: "landing",
     name: "The landing",
-    detail: "Boats drop passengers at the dock in the cove. Please don’t land on the beach.",
+    detail: "Boats land passengers on the small beach in the cove until the new pier is finished.",
   },
   {
     key: "boat-house",
@@ -55,9 +64,12 @@ const sections = [
 >
   <div class="region wrapper visit-intro">
     <h1>Plan your visit</h1>
-    <p class="visit-intro__lead">
-      Seguin is a real island with a 9-foot tide and a small beach, so a good visit starts with the water. Here is today’s tide, then everything you need to cross, come ashore and climb to the light.
-    </p>
+    <div class="visit-intro__text">
+      <p class="visit-intro__lead">
+        Seguin is a real island with a 9-foot tide and a small beach, so a good visit starts with the water. Here is today’s tide, then everything you need to cross, come ashore and climb to the light.
+      </p>
+      <p class="visit-intro__season" data-season-note hidden={!seasonNote}>{seasonNote}</p>
+    </div>
   </div>
 
   <TideClock
@@ -87,14 +99,14 @@ const sections = [
       <section id="getting-there" class="visit-part" aria-labelledby="getting-there-heading">
         <h2 id="getting-there-heading"><span class="visit-part__num" aria-hidden="true">1</span> Getting there</h2>
         <p class="visit-part__lead">
-          The island sits two and a half miles out to sea at the mouth of the Kennebec River. Come on the ferry, or bring your own boat.
+          The island sits two and a half miles out to sea at the mouth of the Kennebec River. Come on the ferry, or in your own boat or kayak.
         </p>
         <dl class="visit-rows">
           <div class="visit-row">
             <dt>By ferry</dt>
             <dd class="flow">
               <p>
-                RippleSmith Sailing runs two trips a day from Boothbay Harbor with Captain Shawn Mercer. Call <a href="tel:+12073226726">207-322-6726</a> to book your crossing.
+                In season, RippleSmith Sailing runs two trips a day from Boothbay Harbor with Captain Shawn Mercer. Call <a href="tel:+12073226726">207-322-6726</a> to book your crossing.
               </p>
             </dd>
           </div>
@@ -105,7 +117,15 @@ const sections = [
                 Use a chart plotter for your approach rather than raster charts. The safest way in follows the lobster pot buoys and mooring buoys: the cove’s eastern edge has shallow rocks, which show as breaking waves at low tide.
               </p>
               <p>
-                Sea swell, opposing wind and tide, and a very strong river current can make for challenging conditions, and Seguin is one of the foggiest places off the coast of Maine. Roger Duncan’s cruising guide, NOAA’s Coast Pilot and the Maine Island Trail Association’s guide all cover the approach.
+                Sea swell, opposing wind and tide, and a very strong river current can make for challenging conditions, and Seguin is one of the foggiest places off the coast of Maine. Roger Duncan’s cruising guide, <a href="https://nauticalcharts.noaa.gov/publications/coast-pilot/">NOAA’s Coast Pilot</a> and the <a href="https://mita.org/">Maine Island Trail Association’s</a> guide all cover the approach.
+              </p>
+            </dd>
+          </div>
+          <div class="visit-row">
+            <dt>By kayak</dt>
+            <dd class="flow">
+              <p>
+                FOSILS doesn’t publish a separate route for paddlers. The crossing is two and a half miles of open water from the mouth of the Kennebec, in the same current, swell and fog, and the <a href="https://mita.org/">Maine Island Trail Association</a> guide covers it. Call the FOSILS office at <a href="tel:+12074434808">207-443-4808</a> before you set out.
               </p>
             </dd>
           </div>
@@ -122,15 +142,15 @@ const sections = [
             <dt>Moorings</dt>
             <dd class="flow">
               <p>
-                Five moorings in Seguin Cove, first come, first served. Drop your passengers at the dock, then take a courtesy dinghy out to your mooring and row back.
+                Five moorings in Seguin Cove, first come, first served. Drop your passengers on the beach, then take a courtesy dinghy out to your mooring and row back.
                 Mooring use is a <a href="/membership">benefit of membership</a>. Non-members are asked for a donation.
               </p>
               <table class="visit-table">
                 <caption>Suggested donation for non-members</caption>
                 <tbody>
-                  <tr><td>Up to 4 hours</td><td>$20</td></tr>
-                  <tr><td>4 to 8 hours</td><td>$30</td></tr>
-                  <tr><td>Overnight, 5 pm to 10 am</td><td>$40</td></tr>
+                  <tr><th scope="row">Up to 4 hours</th><td>$20</td></tr>
+                  <tr><th scope="row">4 to 8 hours</th><td>$30</td></tr>
+                  <tr><th scope="row">Overnight, 5 pm to 10 am</th><td>$40</td></tr>
                 </tbody>
               </table>
             </dd>
@@ -144,10 +164,10 @@ const sections = [
             </dd>
           </div>
           <div class="visit-row">
-            <dt>The dock</dt>
+            <dt>The landing</dt>
             <dd class="flow">
               <p>
-                A new pier is under way for the 2026 season. Until it’s finished, the small beach and 9-foot tide mean the island can be reached for about three quarters of the tide cycle, so <a href="#tide-heading">check the tide</a> before you set out, and watch for fog.
+                A new pier is under way. Until it’s finished, the small beach and 9-foot tide mean the island can be reached for about three quarters of the tide cycle, so <a href="#tide-heading">check the tide</a> before you set out, and watch for fog.
               </p>
             </dd>
           </div>
@@ -166,7 +186,7 @@ const sections = [
       </section>
 
       <section id="what-to-bring" class="visit-part" aria-labelledby="what-to-bring-heading">
-        <h2 id="what-to-bring-heading"><span class="visit-part__num" aria-hidden="true">4</span> What to bring, and what to leave</h2>
+        <h2 id="what-to-bring-heading"><span class="visit-part__num" aria-hidden="true">4</span> What to bring</h2>
         <p class="visit-part__lead">
           There’s no drinking water and no trash can on the island. Carry in what you need, and carry it all out again.
         </p>
@@ -197,14 +217,17 @@ const sections = [
       <section id="staying-over" class="visit-part" aria-labelledby="staying-over-heading">
         <h2 id="staying-over-heading"><span class="visit-part__num" aria-hidden="true">5</span> Staying over</h2>
         <p class="visit-part__lead">
-          Members can camp on the island. The Keeper’s Guest Room is closed for the 2026 season while renovations are under way.
+          Members can camp on the island.
+          {guestRoomCurrent
+            ? `The Keeper’s Guest Room is closed for the ${GUEST_ROOM_PAUSED} season while renovations are under way.`
+            : "Ask the office whether the Keeper’s Guest Room has reopened after its renovation."}
         </p>
         <dl class="visit-rows">
           <div class="visit-row">
             <dt>Camping</dt>
             <dd class="flow">
               <p>
-                Tents go in the picnic area along the Cove Trail. There’s room for up to eight guests at a time, about four two-person tents. A donation of $10 per guest per night is paid in full when you reserve.
+                Camping is a benefit of membership. Tents go in the picnic area along the Cove Trail. There’s room for up to eight guests at a time, about four two-person tents. A donation of $10 per guest per night is paid in full when you reserve.
               </p>
             </dd>
           </div>
@@ -213,7 +236,6 @@ const sections = [
             <dd class="flow">
               <p>
                 Reservations open March 1 each year through the FOSILS office: call <a href="tel:+12074434808">207-443-4808</a> or email <a href="mailto:keeper@seguinisland.org">keeper@seguinisland.org</a>.
-                Please take your trash with you when you leave.
               </p>
             </dd>
           </div>
@@ -228,7 +250,7 @@ const sections = [
       <div class="support__main flow">
         <h2>Moor and camp as a member</h2>
         <p class="support__lead">Every membership includes mooring use at Seguin and the chance to reserve a night on the island.</p>
-        <p class="support__terms">Memberships start at $50 a year, or become a sustaining member for $10 a month.</p>
+        <p class="support__terms">A non-member gives $20 to $40 for each mooring visit. Memberships start at $50 a year, or become a sustaining member for $10 a month.</p>
         <p class="support__actions">
           <a class="button" href="/membership">Become a Member →</a>
           <a class="support__gift" href="/donate">Or make a one-time gift</a>
@@ -239,6 +261,16 @@ const sections = [
 </BaseLayout>
 
 <script>
+  import { seasonCopy, seasonState } from "../lib/season";
+
+  // Keep the off-season note current for a page built long ago.
+  const seasonNote = document.querySelector<HTMLElement>("[data-season-note]");
+  if (seasonNote) {
+    const note = seasonCopy(seasonState()).note;
+    seasonNote.textContent = note;
+    seasonNote.hidden = !note;
+  }
+
   // Mark the step you're reading. Without JS the rail is still a list of links.
   const nav = document.querySelector<HTMLElement>("[data-visit-steps]");
   const links = [...(nav?.querySelectorAll<HTMLAnchorElement>("a[data-step]") ?? [])];
