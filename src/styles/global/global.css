@@ -32,18 +32,25 @@ body {
   font-weight: var(--font-weight-semibold);
 }
 
+/* Page titles take the same display voice as the home page's section heads:
+   bold, set solid, pulled in slightly. Working headings below stay semibold. */
 h1 {
-  font-size: var(--size-step-6);
+  font-size: var(--size-step-7);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-none);
+  letter-spacing: -0.015em;
   max-width: 20ch;
 }
 
 h2 {
   font-size: var(--size-step-5);
+  letter-spacing: -0.01em;
   max-width: 35ch;
 }
 
 h3 {
   font-size: var(--size-step-4);
+  letter-spacing: -0.005em;
   max-width: 35ch;
 }
 
@@ -62,6 +69,13 @@ h3 {
 
 small {
   font-size: var(--size-step-0);
+}
+
+/* Metadata (post dates, coordinates) speaks in the wayfinding sans, quietly */
+small:has(> time) {
+  font-family: var(--font-heading);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-quiet);
 }
 
 ins {

@@ -18,9 +18,10 @@ colors:
 typography:
   display:
     fontFamily: "Public Sans Variable, Public Sans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
-    fontSize: "clamp(2rem, 1.64rem + 1.82vw, 3rem)"
-    fontWeight: 600
-    lineHeight: 1.15
+    fontSize: "clamp(2.25rem, 1.70rem + 2.73vw, 3.75rem)"
+    fontWeight: 700
+    lineHeight: 1
+    letterSpacing: "-0.015em"
   headline:
     fontFamily: "Public Sans Variable, Public Sans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
     fontSize: "clamp(1.75rem, 1.57rem + 0.91vw, 2.25rem)"
@@ -40,7 +41,7 @@ typography:
     fontFamily: "Source Serif 4 Variable, Source Serif 4, Georgia, Cambria, Times New Roman, Times, serif"
     fontSize: "clamp(1rem, 0.95rem + 0.23vw, 1.125rem)"
     fontWeight: 400
-    lineHeight: 1.85
+    lineHeight: 1.65
   label:
     fontFamily: "Source Serif 4 Variable, Source Serif 4, Georgia, Cambria, Times New Roman, Times, serif"
     fontSize: "0.875rem"
@@ -136,7 +137,7 @@ Density is low and roomy: fluid spacing that grows with the viewport, one wide w
 **Key Characteristics:**
 - White page, hairline borders, no decorative shadows.
 - Granite Gray headings and primary actions. Keeper's Brick marks the one support action (Donate).
-- Source Serif 4 body text with generous (1.85) line-height in long-form prose.
+- Source Serif 4 body text with generous (1.65) line-height in long-form prose, lists included.
 - Square, uppercase buttons. Softly rounded (7px) cards and panels.
 - Full-bleed island photography under a dark gradient for heroes.
 - Fog-blue stage for the 3D map, with white pill labels.
@@ -181,10 +182,11 @@ A restrained, mineral palette: warm stone gray and near-black on white, with fog
 **Character:** A civic, open sans for headings and wayfinding over a bookish serif for reading. The serif carries the history and the keepers' voice, and in tracked bold caps it echoes the logo's wordmark. The sans keeps headings and nav sturdy and legible. Headings are set in Granite Gray, not black, which softens the page.
 
 ### Hierarchy
-- **Display** (600, `clamp(2rem, 1.64rem + 1.82vw, 3rem)`, line-height 1.15, max 20ch, balanced wrapping): Page h1s and the hero heading. In the hero it switches to white.
+- **Display** (700, `--size-step-7` `clamp(2.25rem, 1.70rem + 2.73vw, 3.75rem)`, line-height 1, tracking -0.015em, max 20ch, balanced wrapping): Page h1s, the hero heading, and the home page's section heads (ledger, dispatch). In the hero it switches to white; the landmark hero steps up to `--size-step-9`. Headline and title headings stay at 600 with -0.01em and -0.005em tracking.
+- **Metadata** (Public Sans, step 0, tabular numerals, Ink Quiet): Post dates (`small:has(> time)`, `.dispatch__meta`) and the hero coordinates.
 - **Headline** (600, `clamp(1.75rem, 1.57rem + 0.91vw, 2.25rem)`, max 35ch): Section h2s.
 - **Title** (600, `clamp(1.5rem, 1.36rem + 0.68vw, 1.875rem)`, max 35ch): Card and sub-section h3s.
-- **Body** (400, `clamp(1rem, 0.95rem + 0.23vw, 1.125rem)`, line-height 1.5): Source Serif 4 at a comfortable 16–18px. Inside `.prose`, paragraphs get `--leading-prose` (1.85) and a 70ch measure. Blog articles are capped at 65ch.
+- **Body** (400, `clamp(1rem, 0.95rem + 0.23vw, 1.125rem)`, line-height 1.5): Source Serif 4 at a comfortable 16–18px. Inside `.prose`, paragraphs, list items and definitions get `--leading-prose` (1.65) and a 70ch measure. Blog articles are capped at 65ch.
 - **Label** (700, uppercase, `--tracking-label` 0.05rem, 0.875rem): Buttons.
 - **Nav** (Public Sans 600, step 0 at 15–16px, no tracking): Header links. The underline appears on hover and on the current page, and the current page is set in Granite Gray.
 

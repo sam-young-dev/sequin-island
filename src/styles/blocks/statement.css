@@ -30,5 +30,5 @@ with the stewardship note hung beside it.
 }
 
 .statement__aside p {
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-prose);
 }

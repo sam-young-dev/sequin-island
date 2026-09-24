@@ -66,7 +66,9 @@ The whole block is the link.
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2xs) var(--space-md);
+  font-family: var(--font-heading);
   font-size: var(--size-step-0);
+  font-variant-numeric: tabular-nums;
   color: var(--color-text-quiet);
 }
 
