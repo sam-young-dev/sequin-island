@@ -56,6 +56,14 @@ reading fills in, the ones behind you stay dark. */
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
+  /* Steps that run past either edge fade out into the gutter, so the strip reads as scrollable */
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--wrapper-padding-inline, 1rem),
+    #000 calc(100% - var(--wrapper-padding-inline, 1rem)),
+    transparent
+  );
 }
 
 .visit-steps ol::-webkit-scrollbar {
@@ -145,6 +153,7 @@ reading fills in, the ones behind you stay dark. */
     gap: var(--space-xs);
     padding: 0;
     overflow: visible;
+    mask-image: none;
   }
 
   /* The thread between markers, darkened behind you */
@@ -195,7 +204,8 @@ reading fills in, the ones behind you stay dark. */
 .visit-part > h2 {
   display: flex;
   gap: 0.45em;
-  align-items: center;
+  /* The number sits on the heading's first line, even when it wraps */
+  align-items: start;
   font-size: var(--size-step-6);
   font-weight: var(--font-weight-bold);
   line-height: var(--leading-tight);
@@ -206,6 +216,8 @@ reading fills in, the ones behind you stay dark. */
 .visit-part__num {
   font-size: 0.55em;
   inline-size: 2em;
+  /* Centre the 1.1em-tall marker on a --leading-tight line: (leading - 1.1) / 2, in this 0.55em font */
+  margin-block-start: calc((var(--leading-tight) - 1.1) / 1.1 * 1em);
   border-color: var(--color-brand-dark);
   background: var(--color-brand-dark);
   color: var(--color-brand-light);

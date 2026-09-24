@@ -245,6 +245,7 @@ const sections = [
   const parts = links
     .map((link) => document.getElementById(link.dataset.step ?? ""))
     .filter((part): part is HTMLElement => part !== null);
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   function setCurrent(id: string | null) {
     const index = links.findIndex((link) => link.dataset.step === id);
@@ -258,7 +259,7 @@ const sections = [
     const current = links[index]?.parentElement;
     if (list && current && list.scrollWidth > list.clientWidth) {
       const left = current.offsetLeft - (list.clientWidth - current.offsetWidth) / 2;
-      list.scrollTo({ left, behavior: "smooth" });
+      list.scrollTo({ left, behavior: reduceMotion.matches ? "auto" : "smooth" });
     }
   }
 

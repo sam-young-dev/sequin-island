@@ -269,7 +269,7 @@ A station log: one fact per ruled row.
 - **Structure:** A definition list. Each row is a grid that auto-fits into claim and evidence columns, opened by a 1px solid Hairline rule, and the list is closed by one more.
 - **Claim:** Public Sans semibold in Granite Gray, snug leading.
 - **Evidence:** The reading serif.
-- **Scales:** The home page's "Only on Seguin" distinctions set the claim at `--size-step-6` over step-2 evidence at 52ch (20rem columns). Plan Your Visit's fact rows set the claim at `--size-step-4` over body-size evidence with `--leading-prose` at 60ch (18rem columns).
+- **Scales:** The home page's "Only on Seguin" distinctions set the claim at `--size-step-6` over step-2 evidence at 52ch (20rem columns). Plan Your Visit's fact rows set the claim at `--size-step-1` in a fixed 11rem label column over body-size evidence with `--leading-prose` at 68ch. The two columns open once the content is 40rem wide (a container query); narrower, the claim stacks above its evidence.
 - **Figures:** Phone numbers in a row are semibold tabular Public Sans and don't wrap. Prices sit in a small table inside the row, with the system's 1px dashed stroke, the caption above in semibold Public Sans, and the amounts right-aligned in semibold tabular Public Sans.
 
 ### Tide Band (signature)
