@@ -16,12 +16,12 @@ the one band on the site that takes it outside the map.
 
 .tide__inner {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(15rem, 26rem);
+  grid-template-columns: fit-content(46ch) minmax(15rem, 26rem) minmax(0, 1fr);
   grid-template-areas:
-    "readout status"
-    "chart chart";
+    "readout status ."
+    "chart chart chart";
   gap: var(--space-md-lg) var(--space-xl-2xl);
-  align-items: end;
+  align-items: start;
 }
 
 @media (max-width: 52rem) {
@@ -73,7 +73,20 @@ the one band on the site that takes it outside the map.
   min-block-size: 1lh;
 }
 
+.tide__access {
+  margin-block-start: var(--space-sm);
+  max-width: 42ch;
+  font-size: var(--size-step-0);
+  line-height: var(--leading-normal);
+}
+
+.tide__access strong {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
 .tide__trend a,
+.tide__access a,
 .tide__status a,
 .tide__source a {
   color: inherit;
@@ -372,7 +385,7 @@ the one band on the site that takes it outside the map.
 }
 
 .tide__button {
-  min-block-size: 2.25rem;
+  min-block-size: 2.75rem;
   padding: 0.35em 0.8em;
   border: 1px solid var(--tide-ink);
   border-radius: 0;

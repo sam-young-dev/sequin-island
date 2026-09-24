@@ -25,6 +25,9 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
       <p class="tide__trend" data-trend>
         <noscript>The tide chart loads from NOAA with JavaScript. <a href={NOAA_PAGE}>See the week’s Hunniwell Point tides on NOAA</a>.</noscript>
       </p>
+      <p class="tide__access">
+        <strong>Landing:</strong> possible for about three quarters of the tide cycle, from the small beach, until the new pier is finished. FOSILS hasn’t published exactly which part of the cycle closes it — if you’re unsure, <a href="tel:+12074434808">call the office</a> before you set out. <a href="#coming-ashore">How to come ashore</a>
+      </p>
       <p class="visually-hidden" role="status" data-announce></p>
     </div>
 
@@ -32,12 +35,6 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
       <div>
         <dt>Season</dt>
         <dd><strong data-season>{season.season}</strong>. The season runs Memorial Day to Labor Day.</dd>
-      </div>
-      <div>
-        <dt>Landing</dt>
-        <dd>
-          <strong>About three quarters of the tide cycle</strong>, from the small beach, until the new pier is finished. <a href="#coming-ashore">How to come ashore</a>
-        </dd>
       </div>
       <div>
         <dt>Caretakers</dt>

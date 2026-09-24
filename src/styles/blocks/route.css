@@ -60,7 +60,7 @@ walk in order, strung on one hairline like a trail.
   font: inherit;
   text-align: start;
   cursor: pointer;
-  transition: background-color var(--transition-base);
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 /* The stop marker: a ring that fills in when the map is there */

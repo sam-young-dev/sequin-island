@@ -2,6 +2,11 @@
 import { Image } from 'astro:assets';
 
 const { image, alt = '', width, height, label = 'Learn more', href = '#content', showIcon = false, size } = Astro.props;
+
+// The photo covers a hero that is taller than it is wide on phones, so it renders
+// wider than the viewport there. Match hero.css's min-block-size so phones get a sharp source.
+const minHeight = size === 'landmark' ? 'min(88svh, 58rem)' : 'min(62svh, 36rem)';
+const sizes = `max(100vw, calc(${minHeight} * ${(image.width / image.height).toFixed(3)}))`;
 ---
 
 <div class="hero" data-hero-size={size}>
@@ -11,7 +16,7 @@ const { image, alt = '', width, height, label = 'Learn more', href = '#content',
     width={width}
     height={height}
     widths={[640, 960, 1280, image.width].filter((w) => w <= image.width)}
-    sizes="100vw"
+    sizes={sizes}
     loading="eager"
     fetchpriority="high"
     draggable="false"

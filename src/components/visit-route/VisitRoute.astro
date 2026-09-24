@@ -18,6 +18,7 @@ const { stops } = Astro.props;
 <div class="route" data-route>
   <div class="route__stage island-map__stage" data-stage data-state="idle">
     <div class="island-map__status" data-status role="status" hidden></div>
+    <p class="visually-hidden" role="status" data-announce></p>
     <noscript>
       <div class="island-map__status">
         <p>The 3D route needs JavaScript. <a href="/terrain/aerial.jpg">View the aerial photo of the island</a>.</p>
@@ -52,9 +53,11 @@ const { stops } = Astro.props;
   const root = document.querySelector<HTMLElement>("[data-route]")!;
   const stage = root.querySelector<HTMLElement>("[data-stage]")!;
   const status = root.querySelector<HTMLElement>("[data-status]")!;
+  const announce = root.querySelector<HTMLElement>("[data-announce]")!;
   const buttons = [...root.querySelectorAll<HTMLButtonElement>(".route__button")];
   const labels = [...root.querySelectorAll<HTMLElement>(".island-map__label")];
   const TOUR_DWELL_MS = 2600;
+  const SLOW_LOAD_MS = 10_000;
 
   let map: IslandMap | null = null;
   let tour: number | null = null;
@@ -73,8 +76,14 @@ const { stops } = Astro.props;
     tour = index < buttons.length - 1 ? window.setTimeout(() => playTour(index + 1), TOUR_DWELL_MS) : null;
   }
 
+  // Buttons carry the SR-visible copy already, so the announcer just reads the
+  // matched one back — this is also how the unattended tour speaks each stop.
   function mark(key: string | null) {
     buttons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.place === key)));
+    const current = buttons.find((button) => button.dataset.place === key);
+    const name = current?.querySelector(".route__name")?.textContent;
+    const detail = current?.querySelector(".route__detail")?.textContent;
+    announce.textContent = name ? `${name}: ${detail ?? ""}` : "";
   }
 
   function setStatus(html: string) {
@@ -110,11 +119,16 @@ const { stops } = Astro.props;
     }
     stage.dataset.state = "loading";
     setStatus("<p>Loading the island…</p>");
+    const slow = window.setTimeout(
+      () => setStatus("<p>Still loading the island. The terrain is about 1.5 MB, so this can take a while on a slow connection.</p>"),
+      SLOW_LOAD_MS,
+    );
     try {
       const { createIslandMap } = await import("../island-map/viewer");
       map = await createIslandMap(stage, { labels, onSelect: mark, route: ["Lighthouse Trail"] });
       stage.dataset.state = "ready";
       setStatus("");
+      watchContext(stage.querySelector("canvas"));
       stage.addEventListener("pointerdown", stopTour);
       stage.addEventListener("wheel", stopTour, { passive: true });
       // Keyboard and screen-reader users take over the same way: by arriving.
@@ -139,9 +153,25 @@ const { stops } = Astro.props;
     } catch (error) {
       console.error(error);
       stage.dataset.state = "error";
-      setStatus('<p>The 3D route didn’t load. <button class="button" type="button" data-retry>Try again</button></p>');
+      const reason = navigator.onLine ? "The 3D route didn’t load." : "You appear to be offline, so the 3D route couldn’t load.";
+      setStatus(`<p>${reason} The stops beside it follow the same walk. <button class="button" type="button" data-retry>Try again</button></p>`);
       status.querySelector("[data-retry]")?.addEventListener("click", load, { once: true });
+    } finally {
+      window.clearTimeout(slow);
     }
+  }
+
+  // The GPU can drop the WebGL context (driver reset, too many tabs). three.js
+  // restores it when the browser allows; until then, say what happened.
+  function watchContext(canvas: HTMLCanvasElement | null) {
+    canvas?.addEventListener("webglcontextlost", () => {
+      stage.dataset.state = "paused";
+      setStatus("<p>The 3D route paused because the graphics driver reset. It should come back in a moment.</p>");
+    });
+    canvas?.addEventListener("webglcontextrestored", () => {
+      stage.dataset.state = "ready";
+      setStatus("");
+    });
   }
 
   const loader = new IntersectionObserver(
