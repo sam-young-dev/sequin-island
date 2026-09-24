@@ -1,0 +1,34 @@
+/*
+STATEMENT
+The mission, set as the page's opening sentence rather than a paragraph,
+with the stewardship note hung beside it.
+*/
+.statement {
+  --region-space: var(--space-2xl-3xl);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg) var(--space-2xl);
+  align-items: end;
+}
+
+.statement__lead {
+  flex: 999 1 36rem;
+  max-width: 30ch;
+  font-size: var(--size-step-6);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+  color: var(--color-text-normal);
+}
+
+/* Sits beside the statement's last lines on wide screens, under it when narrow */
+.statement__aside {
+  flex: 1 1 18rem;
+  max-inline-size: 28rem;
+  color: var(--color-text-quiet);
+}
+
+.statement__aside p {
+  line-height: var(--leading-relaxed);
+}

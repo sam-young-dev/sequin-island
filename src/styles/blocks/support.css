@@ -1,0 +1,80 @@
+/*
+SUPPORT
+Membership leads at display scale; history steps back beside it.
+One primary action, one quiet route to a single gift.
+*/
+.support {
+  --region-space: var(--space-2xl-3xl);
+}
+
+.support__inner {
+  display: flex;
+  flex-wrap: wrap;
+  /* Same column gap as the ledger, so the aside lands on the page's halfway column */
+  gap: var(--space-xl);
+  align-items: end;
+}
+
+.support__main {
+  --flow-space: var(--space-md);
+  flex: 1 1 32rem;
+}
+
+.support__main h2 {
+  font-size: var(--size-step-8);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-none);
+  letter-spacing: -0.02em;
+}
+
+.support__lead {
+  max-width: 34ch;
+  font-size: var(--size-step-4);
+  line-height: var(--leading-tight);
+}
+
+.support__terms {
+  color: var(--color-text-quiet);
+}
+
+.support__actions {
+  --flow-space: var(--space-lg);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-md);
+  align-items: center;
+}
+
+.support__main .button {
+  font-size: var(--size-step-0);
+  --button-y-padding: 1.1em;
+  --button-x-padding: 1.5em;
+}
+
+.support__gift {
+  display: inline-block;
+  padding-block: 0.75em;
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-normal);
+}
+
+/* The class opts it out of the global link hover, so match it here */
+.support__gift:hover {
+  text-underline-offset: 0.2lh;
+}
+
+.support__aside {
+  flex: 1 1 18rem;
+  padding-block-start: var(--space-md);
+  border-block-start: var(--stroke-solid);
+  border-color: var(--color-neutral-300);
+}
+
+.support__aside > p:not(:has(.button)) {
+  max-width: 40ch;
+}
+
+.support__aside h2 {
+  font-size: var(--size-step-4);
+}

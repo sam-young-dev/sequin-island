@@ -1,0 +1,81 @@
+/*
+DISPATCH
+The newest Keeper's Blog post, led by the caretakers' own photograph.
+The whole block is the link.
+*/
+.dispatch {
+  --region-space: var(--space-2xl-3xl);
+  --flow-space: var(--space-lg);
+}
+
+.dispatch__heading {
+  font-size: var(--size-step-7);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-none);
+  letter-spacing: -0.015em;
+}
+
+.dispatch__feature {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+  gap: var(--space-md) var(--space-xl);
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+.dispatch__feature:not([data-has-photo]) {
+  padding-block: var(--space-md-lg);
+  border-block: var(--stroke-solid);
+}
+
+.dispatch__photo {
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 7px;
+  background-color: var(--color-brand-fog);
+}
+
+.dispatch__body {
+  --flow-space: var(--space-sm);
+}
+
+.dispatch__body h3 {
+  font-size: var(--size-step-6);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-snug);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.15em;
+  transition: text-decoration-color var(--transition-base);
+}
+
+.dispatch__feature:hover h3 {
+  text-decoration-color: currentColor;
+}
+
+.dispatch__body > p:not(.dispatch__meta) {
+  max-width: 46ch;
+  font-size: var(--size-step-2);
+}
+
+.dispatch__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-md);
+  font-size: var(--size-step-0);
+  color: var(--color-text-quiet);
+}
+
+.dispatch__read {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-normal);
+}
+
+.dispatch__feature:active {
+  transform: scale(99.5%);
+}

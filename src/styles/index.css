@@ -21,4 +21,8 @@
 @import "./blocks/closer.css";
 @import "./blocks/button.css";
 @import "./blocks/card.css";
+@import "./blocks/statement.css";
+@import "./blocks/ledger.css";
+@import "./blocks/support.css";
+@import "./blocks/dispatch.css";
 @import "./blocks/island-map.css";

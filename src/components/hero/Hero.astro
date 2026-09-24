@@ -1,10 +1,10 @@
 ---
 import { Image } from 'astro:assets';
 
-const { image, alt = '', width, height, label = 'Learn more', href = '#content', showIcon = false } = Astro.props;
+const { image, alt = '', width, height, label = 'Learn more', href = '#content', showIcon = false, size } = Astro.props;
 ---
 
-<div class="hero">
+<div class="hero" data-hero-size={size}>
   <Image
     src={image}
     alt={alt}

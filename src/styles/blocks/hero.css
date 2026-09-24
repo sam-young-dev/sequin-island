@@ -106,3 +106,25 @@
   font-variant-numeric: tabular-nums;
   letter-spacing: var(--tracking-label);
 }
+
+/* Landmark: the home page's first screen. The island fills the view and the
+   heading is set at display scale, anchored where the gradient is darkest. */
+.hero[data-hero-size="landmark"] {
+  min-block-size: min(88svh, 58rem);
+}
+
+.hero[data-hero-size="landmark"] h1 {
+  font-size: var(--size-step-9);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-none);
+  letter-spacing: -0.02em;
+  max-width: 13ch;
+}
+
+.hero[data-hero-size="landmark"] .hero__content {
+  padding-block-end: var(--space-2xl-3xl);
+}
+
+.hero[data-hero-size="landmark"] .hero__coords {
+  margin-block-start: var(--space-sm-md);
+}
