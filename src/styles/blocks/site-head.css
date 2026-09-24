@@ -28,7 +28,14 @@
   --hr-stroke: var(--stroke-width) solid var(--color-brand-primary);
 }
 
+.site-head .nav .cluster {
+  --cluster-gap: 0 var(--space-sm);
+}
+
+/* Padding lifts the hit area to ~40px; the row is already that tall from the Donate button */
 .site-head .nav a:not(.button) {
+  display: inline-block;
+  padding-block: 0.75em;
   color: var(--color-text-normal);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.3em;

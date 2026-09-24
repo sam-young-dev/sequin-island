@@ -198,7 +198,7 @@ A restrained, mineral palette: warm stone gray and near-black on white, with fog
 - **Regions:** Page sections use `.region`, with vertical padding of `space.xl` (42–48px). Alternate sections may take the tinted band.
 - **Compositions:** CUBE compositions do the layout: `flow` for vertical rhythm, `cluster` for nav rows, `repel` for header and footer, `switcher` for side-by-side CTA cards that stack when narrow, `grid` for blog cards, and `sidebar` for the map and its places list (a 16rem sidebar that wraps at 60%).
 - **Spacing:** Every step is a fluid clamp from a smaller mobile value to a larger desktop value, so layouts breathe without breakpoints. There are no media-query breakpoints in the system; responsiveness is intrinsic.
-- **Hero:** Full-bleed, with the image covering a three-row grid and the content in the middle row.
+- **Hero:** Full-bleed, with the image covering the grid and the content anchored to its foot.
 
 ## Elevation & Depth
 
@@ -244,11 +244,11 @@ Warm and welcoming: plain, flat shapes, set up so that the next click is obvious
 
 ### Navigation
 - **Header:** The logo on the left (40px tall) and a cluster of Public Sans links on the right, ending with the Brick Donate button. The current page gets `aria-current="page"`. There is no dedicated mobile menu; the cluster wraps to two rows on phones.
-- **Closer:** A Granite Gray band with a centered 200px logo, contact email and mailing address, and a repeat of the nav, all in white.
+- **Closer:** A Granite Gray band with the logo centered on a white 7px plate (max 22.5rem, never upscaled), contact email and mailing address, and a centered repeat of the nav plus a plain Donate link, all in white.
 - **Footer:** A Charcoal strip with copyright and "All rights reserved."
 
 ### Hero
-A full-bleed photograph of the island with a gradient that runs from transparent to 45% black at 35% of the height to 60% black at the bottom. The content sits in the middle grid row in white: the coordinates as an eyebrow, then the h1. There is an optional round skip-link with an inline SVG arrow icon. The Hero takes an `alt` prop, which defaults to decorative.
+A full-bleed photograph of the island with a gradient that runs from transparent to 45% black at 35% of the height to 60% black at the bottom. The content sits at the foot of the photo, where the gradient is darkest, aligned to the wrapper's left edge in white: the h1, then the coordinates in tracked tabular sans beneath it. On phones the hero is at least `min(62svh, 36rem)` tall. There is an optional round skip-link with an inline SVG arrow icon. The Hero takes an `alt` prop, which defaults to decorative.
 
 ### Island Map (signature)
 - A Fog-blue stage (`min(78svh, 52rem)` tall, 7px corners) holding the WebGL terrain.

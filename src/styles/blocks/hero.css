@@ -7,6 +7,8 @@
   overflow: hidden;
   /* Keeps the white heading legible while the photo loads, or if it fails */
   background-color: var(--color-fill-loud);
+  /* Phones get a real first screen of island, not a letterbox strip */
+  min-block-size: min(62svh, 36rem);
 }
 
 .hero img {
@@ -76,35 +78,31 @@
   transition: transform var(--transition-bounce);
 }
 
-.hero__label {
-  --skip-link-color: var(--color-neutral-surface-default);
-  --flow-space: var(--space-xs);
-
-  grid-column: 1;
-  grid-row: 2;
-  z-index: 1;
-  font-weight: var(--font-weight-bold);
-  font-size: var(--size-step-8);
-  text-align: center;
-  text-decoration: none;
-  line-height: var(--leading-heading);
-  color: var(--skip-link-color);
-  max-width: 20ch;
-}
-
 .hero__content {
   --skip-link-color: var(--color-neutral-surface-default);
   --flow-space: var(--space-xs);
 
+  /* Sits at the foot of the photo, where the gradient is darkest,
+     and lines up with the wrapper so the heading shares the page's left edge */
   grid-column: 1;
-  grid-row: 2;
+  grid-row: 1 / 4;
+  align-self: end;
   z-index: 1;
+  inline-size: 100%;
+  max-inline-size: var(--wrapper-max-width);
   padding-inline: var(--wrapper-padding-inline);
-  padding-block: var(--space-lg);
-  max-inline-size: 100%;
+  padding-block: var(--space-xl);
   color: var(--skip-link-color);
 }
 
 .hero__content :is(h1, h2, h3, h4) {
   color: inherit;
+}
+
+.hero__coords {
+  margin-block-start: var(--space-xs);
+  font-family: var(--font-heading);
+  font-size: var(--size-step-0);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-label);
 }

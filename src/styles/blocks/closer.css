@@ -1,10 +1,9 @@
 .closer {
   background: var(--color-interactive-fill-default);
   color: var(--color-foreground-inverse);
-  padding-block: clamp(2rem, 50vb, 4rem) var(--gutter);
+  --flow-space: var(--space-lg);
+  padding-block: var(--space-xl) var(--space-lg);
   font-weight: var(--font-weight-bold);
-  padding-top: clamp(1rem, 50vb, 2rem);
-  padding-bottom: 2rem;
 }
 
 .closer svg[role="img"][width][height] {
@@ -19,6 +18,27 @@
 .logo-container {
   display: grid;
   place-items: center;
+}
+
+/* The logo is a white-ground JPG: give it a proper plate so the wordmark isn't cropped at the edge */
+.logo-container img {
+  inline-size: min(22.5rem, 100%);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 7px;
+  background: var(--color-white);
+}
+
+.closer .nav .cluster {
+  --cluster-gap: 0 var(--space-md);
+  --cluster-horizontal-alignment: center;
+}
+
+/* 44px tap targets without changing the visual rhythm */
+.closer .nav a {
+  display: inline-block;
+  padding-block: 0.75em;
+  color: inherit;
+  text-underline-offset: 0.25em;
 }
 
 .closer__contact {

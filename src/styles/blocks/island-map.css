@@ -186,12 +186,16 @@ The places list sits alongside through the sidebar composition.
   border-start-start-radius: 7px;
   background: rgb(255 255 255 / 0.75);
   font-family: var(--font-sans);
-  font-size: 0.7rem;
+  font-size: var(--size-step--2);
   color: var(--color-stone-800);
 }
 
 .island-map__credit a {
   color: inherit;
+}
+
+.island-map__places h2 {
+  font-size: var(--size-step-3);
 }
 
 .island-map__places ul {

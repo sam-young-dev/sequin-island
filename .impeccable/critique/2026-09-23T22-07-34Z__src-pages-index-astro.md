@@ -10,6 +10,7 @@ target_fingerprint: "sha256:5aa7a30794ad28d494b8c547c2ac58b1e7cfdb63fe5033518eca
 target_path: "C:\\Users\\scyoung\\Documents\\projects\\personal\\sequin-island\\src\\pages\\index.astro"
 timestamp: 2026-09-23T22-07-34Z
 slug: src-pages-index-astro
+closed: true
 ---
 Method: dual-agent (A: design review · B: detector/browser)
 

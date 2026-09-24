@@ -11,6 +11,11 @@
   transition: border-color var(--transition-base);
 }
 
+/* Same title size whether the card sits under a page h1 (h2) or a section h2 (h3) */
+.card :is(h2, h3) {
+  font-size: var(--size-step-4);
+}
+
 .card:hover {
   border-color: var(--color-brand-primary);
 }

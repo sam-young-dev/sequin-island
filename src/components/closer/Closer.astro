@@ -11,7 +11,9 @@ import { isCurrentSection } from '../../lib/format'
       <Image
         src={logo}
         alt={siteData.title}
-        height={200}
+        width={360}
+        widths={[360, logo.width]}
+        sizes="22.5rem"
         loading="lazy"
       />
     </div>
@@ -36,6 +38,7 @@ import { isCurrentSection } from '../../lib/format'
               <a href={item.href} {...(isCurrentSection(Astro.url.pathname, item.href) ? {'aria-current': 'page'} : {})}>{item.label}</a>
             </li>
           ))}
+          <li><a href="/donate" {...(isCurrentSection(Astro.url.pathname, '/donate') ? {'aria-current': 'page'} : {})}>Donate</a></li>
         </ul>
       </nav>
     )}

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 
+import Card from "../../components/card/Card.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { formatDate, isoDate } from "../../lib/format";
 
@@ -10,18 +11,22 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
 ---
 
 <BaseLayout title="Keeper's Blog" description="Stories and updates from Seguin Island Light Station.">
-  <div class="region wrapper prose flow">
-    <h1>Keeper's Blog</h1>
-    <p>Stories, seasonal updates, and preservation news from Seguin Island Light Station.</p>
+  <div class="region wrapper flow">
+    <div class="prose flow">
+      <h1>Keeper's Blog</h1>
+      <p>Stories, seasonal updates, and preservation news from Seguin Island Light Station.</p>
+    </div>
 
     {
       posts.length > 0 ? (
-        <ul>
+        <ul class="grid" role="list" style="--grid-item-min: 20rem">
           {posts.map((post) => (
             <li>
-              <a href={`/blog/${post.id}/`}>{post.data.title}</a>
-              <p>{post.data.excerpt}</p>
-              <small><time datetime={isoDate(post.data.publishDate)}>{formatDate(post.data.publishDate)}</time></small>
+              <Card href={`/blog/${post.id}/`}>
+                <h2>{post.data.title}</h2>
+                <p>{post.data.excerpt}</p>
+                <small><time datetime={isoDate(post.data.publishDate)}>{formatDate(post.data.publishDate)}</time></small>
+              </Card>
             </li>
           ))}
         </ul>

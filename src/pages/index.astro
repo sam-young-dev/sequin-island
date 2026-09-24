@@ -21,8 +21,8 @@ const { Content } = await render(home);
 
 <BaseLayout title={home.data.title} description={home.data.description}>
 	<Hero image={lighthouseImage} alt="Seguin Light's tower and brick keeper's house on the island summit under a summer sky">
-    <p>{home.data.heroEyebrow}</p>
     <h1>{home.data.heroHeading}</h1>
+    <p class="hero__coords">{home.data.heroEyebrow}</p>
   </Hero>
 	
   <div class="region wrapper prose flow">
@@ -50,7 +50,7 @@ const { Content } = await render(home);
     <h2>{home.data.blogHeading}</h2>
     {
       posts.length > 0 ? (
-        <ul class="grid" role="list">
+        <ul class="grid" role="list" style="--grid-item-min: 20rem">
           {posts.map((post) => (
             <li>
               <Card href={`/blog/${post.id}/`}>

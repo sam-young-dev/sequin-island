@@ -3,7 +3,7 @@ title: Annual Membership Levels
 description: Explore membership levels and benefits for supporting Seguin Island Light Station.
 ---
 
-[Purchase Membership](https://seguinisland.ejoinme.org/membership)
+<p><a class="button" href="https://seguinisland.ejoinme.org/membership" target="_blank" rel="noreferrer">Purchase Membership</a></p>
 
 ## Merchant Mariner - $1000+
 
