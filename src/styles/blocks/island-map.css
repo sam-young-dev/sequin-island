@@ -37,13 +37,24 @@ The places list sits alongside through the sidebar composition.
   inset: 0;
   display: grid;
   place-content: center;
+  justify-items: center;
+  gap: var(--space-sm);
   padding: var(--space-md);
   text-align: center;
   color: var(--color-stone-800);
 }
 
-.island-map__stage[data-state="ready"] .island-map__status:empty {
+.island-map__status[hidden] {
   display: none;
+}
+
+.island-map__status p {
+  max-inline-size: 40ch;
+  text-wrap: pretty;
+}
+
+.island-map__status a:not([class]) {
+  color: inherit;
 }
 
 /* Labels are positioned by the viewer each frame via transform. */
@@ -111,6 +122,24 @@ The places list sits alongside through the sidebar composition.
   background: rgb(255 255 255 / 0.95);
   box-shadow: 0 2px 12px rgb(0 0 0 / 0.2);
   font-size: var(--size-step-0);
+  /* Above the credit, which wraps under the panel on narrow stages */
+  z-index: 1;
+  /* Leave room for the reset button on short stages; scroll long descriptions */
+  max-block-size: calc(100% - 2 * var(--space-md) - 3rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.island-map__info-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.island-map__info-head h3 {
+  min-inline-size: 0;
+  padding-block-start: 0.35em;
 }
 
 .island-map__info[hidden] {
@@ -121,13 +150,26 @@ The places list sits alongside through the sidebar composition.
   font-size: var(--size-step-1);
 }
 
+/* 44px target; the negative margin keeps the visible icon aligned with the heading */
 .island-map__close {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  margin-block-start: -0.5rem;
+  margin-inline-end: -0.75rem;
+  padding: 0;
   border: none;
+  border-radius: 7px;
   background: none;
-  font-size: var(--size-step-2);
-  line-height: 1;
   cursor: pointer;
   color: var(--color-stone-800);
+  --focus-offset: -2px;
+}
+
+.island-map__close:hover {
+  background: var(--color-neutral-100);
 }
 
 .island-map__reset {
@@ -167,6 +209,7 @@ The places list sits alongside through the sidebar composition.
   font-family: var(--font-sans);
   font-size: var(--size-step-0);
   text-align: start;
+  overflow-wrap: anywhere;
   cursor: pointer;
   transition: border-color var(--transition-base);
 }
@@ -184,4 +227,33 @@ The places list sits alongside through the sidebar composition.
 .island-map__hint {
   font-size: var(--size-step--1);
   color: var(--color-text-quiet);
+}
+
+/* Shown in place of the buttons when JavaScript is off */
+.island-map__places noscript {
+  display: block;
+}
+
+.island-map__place-notes {
+  --flow-space: var(--space-sm);
+  font-size: var(--size-step-0);
+}
+
+.island-map__place-notes dt {
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-bold);
+}
+
+@media (forced-colors: active) {
+  .island-map__label,
+  .island-map__info {
+    border: 1px solid CanvasText;
+  }
+
+  .island-map__label[data-selected],
+  .island-map__place[aria-pressed="true"] {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
 }

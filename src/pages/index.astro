@@ -5,6 +5,7 @@ import lighthouseImage from "../assets/seguin-island-hero.jpg";
 import Card from "../components/card/Card.astro";
 import Hero from "../components/hero/Hero.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { formatDate, isoDate } from "../lib/format";
 
 const home = await getEntry("home", "index");
 const posts = (await getCollection("blog", ({ data }) => !data.draft))
@@ -52,19 +53,19 @@ const { Content } = await render(home);
         <ul class="grid" role="list">
           {posts.map((post) => (
             <li>
-              <Card href={`/blog/${post.id}/`} label={post.data.title}>
+              <Card href={`/blog/${post.id}/`}>
                 <h3>{post.data.title}</h3>
                 <p>{post.data.excerpt}</p>
-                <small>{post.data.publishDate.toLocaleDateString("en-US", { dateStyle: "long" })}</small>
+                <small><time datetime={isoDate(post.data.publishDate)}>{formatDate(post.data.publishDate)}</time></small>
               </Card>
             </li>
           ))}
         </ul>
       ) : (
-        <p>No blog posts have been published yet.</p>
+        <p>The caretakers haven't posted yet this season. In the meantime, <a href="/map">explore the island in 3D</a>.</p>
       )
     }
-    <p><a href="/blog">Visit the full blog →</a></p>
+    {posts.length > 0 && <p><a href="/blog">Visit the full blog →</a></p>}
   </div>
 
 </BaseLayout>

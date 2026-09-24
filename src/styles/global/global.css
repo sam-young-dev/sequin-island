@@ -15,9 +15,12 @@ body {
   font-size-adjust: from-font;
   min-height: 100dvh;
   margin: 0;
+  /* Long words, URLs and email addresses wrap instead of pushing the page sideways */
+  overflow-wrap: break-word;
 
   display: grid;
-  /* Header, closer and footer are auto-sized; main takes the remaining space */
+  /* Header, closer and footer are auto-sized; main takes the remaining space.
+     The skip link is absolutely positioned, so it takes no row. */
   grid-template-rows: auto 1fr auto auto;
 }
 
@@ -376,4 +379,34 @@ summary {
 
 details[open] summary {
   margin-block-end: var(--space-sm);
+}
+
+/* Hidden until a keyboard user tabs to it, then pinned over the header.
+   Doubled class so it beats .button's position: relative. */
+.skip-link.skip-link {
+  position: absolute;
+  inset-block-start: var(--space-2xs);
+  inset-inline-start: var(--space-2xs);
+  z-index: 10;
+}
+
+.skip-link.skip-link:not(:focus) {
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  :active {
+    transform: none !important;
+  }
 }

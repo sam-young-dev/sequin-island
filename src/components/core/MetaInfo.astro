@@ -1,9 +1,18 @@
 ---
-const { title, description, socialImage, allowRobots } = Astro.props;
+import { siteData } from '../../data/site-data'
+
+const { title, description, canonicalURL, socialImage, allowRobots } = Astro.props;
+
+// Every page carries the site name, except the home page, whose title already is it.
+const fullTitle = !title || title === siteData.title ? siteData.title : `${title} · ${siteData.title}`;
+const metaDescription = description?.trim() || siteData.description;
 ---
 
-<meta charset="UTF-8" />
-<meta name="description" content={description} />
-<meta name="viewport" content="width=device-width" />
+<title>{fullTitle}</title>
+<meta name="description" content={metaDescription} />
+{canonicalURL && <link rel="canonical" href={canonicalURL} />}
+{socialImage && <meta property="og:image" content={new URL(socialImage, Astro.site)} />}
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={metaDescription} />
+<meta property="og:site_name" content={siteData.title} />
 {allowRobots === false && <meta name="robots" content="noindex, nofollow" />}
-<title>{title}</title>

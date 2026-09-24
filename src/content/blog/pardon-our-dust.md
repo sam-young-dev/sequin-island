@@ -1,8 +1,8 @@
 ---
 title: Pardon our dust!
-description: desc
+description: Tower tours are paused through Friday, July 31st while we work on the tower. Here's what to see on Seguin in the meantime.
 publishDate: 2026-07-28T13:38:00.000-05:00
-excerpt: test
+excerpt: A busy summer weekend in the cove, tower repairs under way, and four ways to enjoy the island while tower tours are paused through July 31st.
 draft: false
 ---
 
@@ -33,13 +33,13 @@ We have a flywheel and other found artifacts around the side of the fog signal b
 
 One of our favorite vantage points of the first order Fresnel lens is by the signpost on your way to the fog signal building. Enjoy whale watching from this bench and take in the 9’3″ dramatic lens that Seguin is proud to share.
 
-![](https://seguinisland.org/wp-content/uploads/2026/07/IMG_0962-1-1024x768.jpeg)
+![The lighthouse lantern and brick keeper's house seen across tall grass, beside a wooden signpost of mileage signs](https://seguinisland.org/wp-content/uploads/2026/07/IMG_0962-1-1024x768.jpeg)
 
 ## Take a berry walk on the North Trail
 
 Blueberries and raspberries are in season and the best spot is the North Trail. This trail loops and has a beautiful vantage point of the cove below.
 
-![](https://seguinisland.org/wp-content/uploads/2026/07/IMG_0931-1-768x1024.jpeg)
+![A two-masted schooner anchored in the cove, seen over green shrubs from the North Trail](https://seguinisland.org/wp-content/uploads/2026/07/IMG_0931-1-768x1024.jpeg)
 
 We are missing our tower walks too but look forward to returning after this essential project. Thank you for your patience and see you soon!
 

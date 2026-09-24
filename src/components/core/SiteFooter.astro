@@ -11,5 +11,7 @@ import { siteData } from '../../data/site-data'
 </footer>
 
 <script is:inline>
-  document.getElementById("footer-year").innerText = new Date().getFullYear();
+  // The page may be served long after the build; keep the year current.
+  const footerYear = document.getElementById("footer-year");
+  if (footerYear) footerYear.textContent = String(new Date().getFullYear());
 </script>

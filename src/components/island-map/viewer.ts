@@ -51,14 +51,19 @@ export async function createIslandMap(container: HTMLElement, options: IslandMap
   // Throws if WebGL is unavailable; the caller shows a fallback.
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
 
-  const [meta, features] = await Promise.all([
-    fetchJson<TerrainMeta>(TERRAIN_URL),
-    fetchJson<Features>(FEATURES_URL),
-  ]);
-  const [heights, aerial] = await Promise.all([
-    loadHeights(BASE_URL + meta.heightmap.file, meta),
-    new THREE.TextureLoader().loadAsync(BASE_URL + meta.aerial.file),
-  ]);
+  let meta: TerrainMeta, features: Features, heights: Float32Array, aerial: THREE.Texture;
+  try {
+    [meta, features] = await Promise.all([fetchJson<TerrainMeta>(TERRAIN_URL), fetchJson<Features>(FEATURES_URL)]);
+    [heights, aerial] = await Promise.all([
+      loadHeights(BASE_URL + meta.heightmap.file, meta),
+      new THREE.TextureLoader().loadAsync(BASE_URL + meta.aerial.file),
+    ]);
+  } catch (error) {
+    // Free the GPU context so a retry doesn't stack up renderers.
+    renderer.forceContextLoss();
+    renderer.dispose();
+    throw error;
+  }
 
   const W = meta.width;
   const H = meta.height;

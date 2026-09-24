@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Page not found"
+  description="This page isn't on the Friends of Seguin Island site. It may have moved when the site was rebuilt."
+  allowRobots={false}
+>
+  <div class="region wrapper prose flow">
+    <h1>We can't find that page</h1>
+    <p>
+      It may have moved when we rebuilt the site, or the link may have a typo. These should get you back on course:
+    </p>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/map">Explore the island in 3D</a></li>
+      <li><a href="/blog">Keeper's Blog</a></li>
+      <li><a href="/membership">Become a member</a></li>
+    </ul>
+    <p>If you followed a link from another site, <a href="/contact">let us know</a> and we'll fix it.</p>
+  </div>
+</BaseLayout>

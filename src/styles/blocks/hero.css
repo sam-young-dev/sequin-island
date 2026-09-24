@@ -5,6 +5,8 @@
   justify-items: center;
   position: relative;
   overflow: hidden;
+  /* Keeps the white heading legible while the photo loads, or if it fails */
+  background-color: var(--color-fill-loud);
 }
 
 .hero img {
@@ -13,6 +15,8 @@
 
   /* remove these if you don't want the image to cover the whole hero area */
   width: 100%;
+  /* Fill the hero even when a long heading makes it taller than the photo */
+  height: 100%;
   object-fit: cover;
 }
 
@@ -96,12 +100,8 @@
   grid-row: 2;
   z-index: 1;
   padding-inline: var(--wrapper-padding-inline);
-  /* font-weight: var(--font-weight-bold); */
-  /* font-size: var(--size-step-8); */
-  /* text-align: center; */
-  /* line-height: var(--leading-heading); */
-  /* text-decoration: none; */
-  /* max-width: 20ch; */
+  padding-block: var(--space-lg);
+  max-inline-size: 100%;
   color: var(--skip-link-color);
 }
 

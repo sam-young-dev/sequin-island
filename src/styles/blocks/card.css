@@ -15,6 +15,12 @@
   border-color: var(--color-brand-primary);
 }
 
+@media (forced-colors: active) {
+  .card {
+    border-color: CanvasText;
+  }
+}
+
 .card:active {
   transform: scale(99%);
 }

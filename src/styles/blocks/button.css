@@ -50,6 +50,13 @@
   --corner-secondary-color: var(--color-brand-primary);
 }
 
+/* Windows high contrast drops background fills, so give buttons an edge */
+@media (forced-colors: active) {
+  .button {
+    border: 1px solid ButtonText;
+  }
+}
+
 .full-width.button {
   width: 100%;
   justify-content: center;
