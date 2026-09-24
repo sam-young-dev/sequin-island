@@ -1,23 +1,14 @@
 /*
 SUPPORT
-Membership leads at display scale; history steps back beside it.
+Membership alone owns the tinted band, at display scale.
 One primary action, one quiet route to a single gift.
 */
 .support {
   --region-space: var(--space-2xl-3xl);
 }
 
-.support__inner {
-  display: flex;
-  flex-wrap: wrap;
-  /* Same column gap as the ledger, so the aside lands on the page's halfway column */
-  gap: var(--space-xl);
-  align-items: end;
-}
-
 .support__main {
   --flow-space: var(--space-md);
-  flex: 1 1 32rem;
 }
 
 .support__main h2 {
@@ -62,19 +53,4 @@ One primary action, one quiet route to a single gift.
 /* The class opts it out of the global link hover, so match it here */
 .support__gift:hover {
   text-underline-offset: 0.2lh;
-}
-
-.support__aside {
-  flex: 1 1 18rem;
-  padding-block-start: var(--space-md);
-  border-block-start: var(--stroke-solid);
-  border-color: var(--color-neutral-300);
-}
-
-.support__aside > p:not(:has(.button)) {
-  max-width: 40ch;
-}
-
-.support__aside h2 {
-  font-size: var(--size-step-4);
 }

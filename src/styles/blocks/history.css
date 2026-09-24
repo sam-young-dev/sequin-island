@@ -1,0 +1,32 @@
+/*
+HISTORY
+The route to the About page, closing out the ledger's facts on the same
+white ground and the same columns, so it reads as "the story behind these"
+rather than as a second offer inside the membership band.
+*/
+.history {
+  --region-space: var(--space-xl-2xl);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+  gap: var(--space-sm) var(--space-xl);
+  align-items: baseline;
+  /* A small step past the ledger's own closing space, so the 3D link stays with the ledger */
+  padding-block-start: var(--space-md);
+}
+
+.history__heading {
+  font-size: var(--size-step-6);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  letter-spacing: -0.01em;
+}
+
+.history__body {
+  --flow-space: var(--space-md);
+}
+
+.history__body > p:not(:has(.button)) {
+  max-width: 40ch;
+  font-size: var(--size-step-2);
+  line-height: var(--leading-normal);
+}

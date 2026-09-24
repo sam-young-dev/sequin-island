@@ -69,6 +69,14 @@ const distinctions = [
     <p class="ledger__more"><a href="/map">Walk the island in 3D →</a></p>
   </section>
 
+  <section class="region wrapper history" aria-labelledby="history-heading">
+    <h2 id="history-heading" class="history__heading">{home.data.secondaryCtaLabel}</h2>
+    <div class="history__body flow">
+      <p>Visiting this historic, active lighthouse is a memorable experience for visitors of all ages.</p>
+      <p><a class="button" data-button-variant="secondary" href={home.data.secondaryCtaHref}>{home.data.secondaryCtaLabel} →</a></p>
+    </div>
+  </section>
+
   <div class="region support" data-bg="tinted">
     <div class="wrapper support__inner">
       <div class="support__main flow">
@@ -79,12 +87,6 @@ const distinctions = [
           <a class="button" href={home.data.primaryCtaHref}>{home.data.primaryCtaLabel} →</a>
           <a class="support__gift" href="/donate">Or make a one-time gift</a>
         </p>
-      </div>
-
-      <div class="support__aside flow">
-        <h2>{home.data.secondaryCtaLabel}</h2>
-        <p>Visiting this historic, active lighthouse is a memorable experience for visitors of all ages.</p>
-        <p><a class="button" data-button-variant="secondary" href={home.data.secondaryCtaHref}>{home.data.secondaryCtaLabel} →</a></p>
       </div>
     </div>
   </div>
