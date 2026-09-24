@@ -1,0 +1,164 @@
+/*
+VISIT
+The Plan Your Visit page (src/pages/visit.astro). A short title over the
+tide band, then the trip in the order it happens: across, ashore, up,
+what to carry, where to sleep. Facts sit in ruled rows like the home
+page's ledger, so the page reads as one log of the island.
+*/
+.visit-intro {
+  --region-space: var(--space-md-lg);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-2xl);
+  align-items: end;
+  justify-content: space-between;
+}
+
+.visit-intro h1 {
+  font-size: var(--size-step-8);
+  letter-spacing: -0.02em;
+}
+
+.visit-intro__lead {
+  flex: 0 1 38rem;
+  font-size: var(--size-step-2);
+  line-height: var(--leading-snug);
+  text-wrap: pretty;
+}
+
+/* On this page ------------------------------------------------------------- */
+.visit-jump {
+  padding-block: var(--space-sm);
+  border-block-end: var(--stroke-solid);
+}
+
+.visit-jump ul {
+  --cluster-gap: var(--space-2xs) var(--space-md);
+}
+
+.visit-jump a {
+  display: inline-block;
+  padding-block: 0.4em;
+  font-family: var(--font-heading);
+  font-size: var(--size-step-0);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-normal);
+}
+
+/* Parts of the trip ------------------------------------------------------------ */
+.visit-part {
+  --region-space: var(--space-xl-2xl);
+  scroll-margin-block-start: var(--space-md);
+}
+
+.visit-part > h2 {
+  font-size: var(--size-step-7);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-none);
+  letter-spacing: -0.015em;
+}
+
+.visit-part__lead {
+  max-width: 52ch;
+  margin-block-start: var(--space-sm-md);
+  font-size: var(--size-step-3);
+  line-height: var(--leading-snug);
+  text-wrap: pretty;
+}
+
+.visit-part > :is(.visit-rows, .route, .visit-pack) {
+  margin-block-start: var(--space-lg-xl);
+}
+
+.visit-rows {
+  border-block-end: var(--stroke-solid);
+}
+
+.visit-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+  gap: var(--space-2xs) var(--space-xl);
+  align-items: baseline;
+  padding-block: var(--space-md);
+  border-block-start: var(--stroke-solid);
+}
+
+.visit-row > dt {
+  font-family: var(--font-heading);
+  font-size: var(--size-step-4);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  letter-spacing: -0.005em;
+  color: var(--color-brand-primary);
+}
+
+.visit-row > dd {
+  --flow-space: var(--space-xs);
+  margin: 0;
+  max-width: 60ch;
+  line-height: var(--leading-prose);
+}
+
+.visit-row > dd a[href^="tel:"] {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Mooring donations: a small tabular ledger, dashed like the system's tables */
+.visit-table {
+  inline-size: auto;
+  min-inline-size: min(100%, 24rem);
+  font-size: var(--size-step-0);
+}
+
+.visit-table caption {
+  caption-side: top;
+  margin: 0 0 var(--space-2xs);
+  text-align: start;
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
+.visit-table td:last-child {
+  font-family: var(--font-heading);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-semibold);
+  text-align: end;
+}
+
+/* Bring / leave -------------------------------------------------------------------- */
+.visit-pack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+  gap: var(--space-lg) var(--space-xl);
+}
+
+.visit-pack h3 {
+  font-size: var(--size-step-4);
+  padding-block-end: var(--space-xs);
+  border-block-end: var(--stroke-solid);
+}
+
+.visit-pack ul {
+  margin-block-start: var(--space-sm);
+}
+
+.visit-pack li {
+  line-height: var(--leading-prose);
+}
+
+.visit-pack li strong {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
+.visit-note {
+  max-width: 60ch;
+  margin-block-start: var(--space-lg);
+  padding-block-start: var(--space-sm);
+  border-block-start: var(--stroke-solid);
+  color: var(--color-text-quiet);
+  line-height: var(--leading-prose);
+}

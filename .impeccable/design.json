@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-23T21:51:37.689377+00:00",
+  "generatedAt": "2026-09-24T17:46:43.863539+00:00",
   "title": "Design System: Friends of Seguin Island",
   "extensions": {
     "colorMeta": {
@@ -257,13 +257,33 @@
         "name": "press",
         "value": "scale(99%)",
         "purpose": "Active-state transform for buttons and cards."
+      },
+      {
+        "name": "tide-draw",
+        "value": "1400ms cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Tide curve draws in once, left to right (clip-path), when the prediction lands."
+      },
+      {
+        "name": "tide-settle",
+        "value": "600ms ease-out, 700ms delay",
+        "purpose": "Tide high/low marks and now-marker fade in after the curve."
+      },
+      {
+        "name": "route-tour-dwell",
+        "value": "2600ms",
+        "purpose": "Pause at each stop as the Visit Route camera walks landing to lantern once."
       }
     ],
     "breakpoints": [
       {
         "name": "intrinsic",
         "value": "none",
-        "purpose": "No media queries; fluid clamp type/spacing plus switcher and sidebar compositions."
+        "purpose": "Fluid clamp type/spacing plus switcher and sidebar compositions; the only media query is tide-stack."
+      },
+      {
+        "name": "tide-stack",
+        "value": "52rem",
+        "purpose": "max-width: the Tide band's readout, chart and status stack into one column."
       }
     ]
   },
@@ -304,8 +324,8 @@
       "name": "Site Navigation",
       "kind": "nav",
       "refersTo": "button-primary",
-      "description": "Header cluster: Public Sans links ending in the Brick Donate button.",
-      "html": "<nav class=\"ds-nav\"><a href=\"#\">About</a><a href=\"#\" aria-current=\"page\">Island Map</a><a href=\"#\">Keeper&#39;s Blog</a><a href=\"#\">Membership</a><a class=\"ds-nav-cta\" href=\"#\">Donate</a></nav>",
+      "description": "Header cluster: six Public Sans links ending in the Brick Donate button; wraps to three rows on phones.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\">About</a><a href=\"#\" aria-current=\"page\">Plan Your Visit</a><a href=\"#\">Island Map</a><a href=\"#\">Keeper&#39;s Blog</a><a href=\"#\">Contact</a><a href=\"#\">Membership</a><a class=\"ds-nav-cta\" href=\"#\">Donate</a></nav>",
       "css": ".ds-nav { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; font-family: 'Public Sans Variable', -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 1rem; font-weight: 600; } .ds-nav a { color: #171717; text-decoration-thickness: 1px; text-underline-offset: 0.3em; text-decoration-color: transparent; } .ds-nav a:hover, .ds-nav a[aria-current=page] { text-decoration-color: currentColor; } .ds-nav a[aria-current=page] { color: #79716b; } .ds-nav .ds-nav-cta { background: #8a4a3c; color: #fff; padding: 0.85em 1.15em; font-family: 'Source Serif 4 Variable', Georgia, serif; font-size: 0.875rem; font-weight: 700; letter-spacing: 0.05rem; text-transform: uppercase; text-decoration: none; } .ds-nav .ds-nav-cta:hover { background: #733b2f; } .ds-nav a:focus-visible { outline: 2px solid currentColor; outline-offset: 0.2lh; }"
     },
     {
@@ -331,6 +351,27 @@
       "description": "The one Keeper's Brick action per screen: Donate.",
       "html": "<a class=\"ds-btn-support\" href=\"#\">Donate</a>",
       "css": ".ds-btn-support { display: inline-flex; gap: 0.5ch; align-items: center; color: #fff; padding: 0.85em 1.15em; font-weight: 700; font-size: 0.875rem; border: none; border-radius: 0; text-transform: uppercase; letter-spacing: 0.05rem; text-decoration: none; font-family: 'Source Serif 4 Variable', Georgia, serif; cursor: pointer; background: #8a4a3c; } .ds-btn-support:hover { background: #733b2f; } .ds-btn-support:active { transform: scale(99%); } .ds-btn-support:focus-visible { outline: 2px solid #8a4a3c; outline-offset: 0.2lh; }"
+    },
+    {
+      "name": "Ledger",
+      "kind": "custom",
+      "description": "One fact per ruled row: Granite sans claim, serif evidence, hairline rules; Plan Your Visit scale with a dashed tabular price table.",
+      "html": "<dl class=\"ds-ledger\"><div class=\"ds-ledger-row\"><dt>Moorings</dt><dd><p>Five moorings in Seguin Cove, first come, first served.</p><table class=\"ds-ledger-table\"><caption>Suggested donation for non-members</caption><tbody><tr><td>Up to 4 hours</td><td>$20</td></tr><tr><td>4 to 8 hours</td><td>$30</td></tr></tbody></table></dd></div><div class=\"ds-ledger-row\"><dt>Reservations</dt><dd><p>Call <a href=\"#\">207-443-4808</a>.</p></dd></div></dl>",
+      "css": ".ds-ledger { margin: 0; border-block-end: 1px solid #e5e5e5; font-family: 'Source Serif 4 Variable', Georgia, serif; color: #171717; } .ds-ledger-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr)); gap: 0.5rem 3rem; align-items: baseline; padding-block: 1.5rem; border-block-start: 1px solid #e5e5e5; } .ds-ledger-row dt { font-family: 'Public Sans Variable', -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 1.75rem; font-weight: 600; line-height: 1.25; letter-spacing: -0.005em; color: #79716b; } .ds-ledger-row dd { margin: 0; max-width: 60ch; line-height: 1.65; } .ds-ledger-row dd p { margin: 0 0 0.75rem; } .ds-ledger-row a[href] { color: inherit; font-family: 'Public Sans Variable', sans-serif; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; } .ds-ledger-row a:focus-visible { outline: 2px solid #79716b; outline-offset: 2px; } .ds-ledger-table { border: 1px dashed #e5e5e5; border-collapse: collapse; min-inline-size: min(100%, 24rem); } .ds-ledger-table caption { caption-side: top; margin-block-end: 0.5rem; text-align: start; font-family: 'Public Sans Variable', sans-serif; font-weight: 600; } .ds-ledger-table td { padding: 0.75rem 1rem; } .ds-ledger-table tr + tr td { border-block-start: 1px dashed #e5e5e5; } .ds-ledger-table td + td { border-inline-start: 1px dashed #e5e5e5; text-align: end; font-family: 'Public Sans Variable', sans-serif; font-weight: 600; font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "Tide Band",
+      "kind": "custom",
+      "description": "Full-bleed Fog band with today's tide: display-scale height, Navy-deepened water fill, Granite now-marker, tabular marks (curve approximated with a static path).",
+      "html": "<section class=\"ds-tide\"><div class=\"ds-tide-read\"><h2>The tide today</h2><p class=\"ds-tide-when\">Now, 1:42 pm</p><p class=\"ds-tide-height\">3.8<span> ft</span></p><p>Falling. Low water 1.0 ft at 4:15 pm.</p></div><dl class=\"ds-tide-status\"><div><dt>Season</dt><dd><strong>In season</strong>. Memorial Day to Labor Day.</dd></div><div><dt>Caretakers</dt><dd>On the island.</dd></div></dl><div class=\"ds-tide-plot\"><svg viewBox=\"0 0 1000 300\" preserveAspectRatio=\"none\"><path class=\"ds-tide-water\" d=\"M0,300L0,80C120,80 180,230 300,230C420,230 480,60 620,60C760,60 820,240 1000,200L1000,300Z\"/><path class=\"ds-tide-line\" d=\"M0,80C120,80 180,230 300,230C420,230 480,60 620,60C760,60 820,240 1000,200\"/></svg><div class=\"ds-tide-now\" style=\"--x:12%;--y:40%\"><span>Now</span></div><input class=\"ds-tide-scrub\" type=\"range\" aria-label=\"Read the tide at another time\"></div></section>",
+      "css": ".ds-tide { --tide-ink: #292524; --tide-water: color-mix(in oklab, #d6e2e8, #153453 22%); --tide-rule: color-mix(in oklab, #d6e2e8, #153453 30%); display: grid; grid-template-columns: minmax(0, 1fr) minmax(12rem, 20rem); gap: 1.5rem 3rem; align-items: end; padding: 1.5rem 2rem; background: #d6e2e8; color: var(--tide-ink); font-family: 'Source Serif 4 Variable', Georgia, serif; } .ds-tide h2 { margin: 0; font-family: 'Public Sans Variable', -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 1.5rem; font-weight: 600; } .ds-tide p { margin: 0.25rem 0 0; } .ds-tide-when { font-family: 'Public Sans Variable', sans-serif; font-variant-numeric: tabular-nums; } .ds-tide-height { font-family: 'Public Sans Variable', sans-serif; font-size: 4.5rem; font-weight: 700; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: #171406; } .ds-tide-height span { font-size: 0.4em; font-weight: 600; letter-spacing: 0; } .ds-tide-status { margin: 0; font-size: 1rem; } .ds-tide-status > div { padding-block: 0.75rem; border-block-start: 1px solid var(--tide-rule); } .ds-tide-status dt { font-family: 'Public Sans Variable', sans-serif; font-size: 0.875rem; font-weight: 600; } .ds-tide-status dd { margin: 0.25rem 0 0; } .ds-tide-status strong { font-family: 'Public Sans Variable', sans-serif; color: #171406; } .ds-tide-plot { grid-column: 1 / -1; position: relative; height: 10rem; border-block-end: 1px solid var(--tide-ink); } .ds-tide-plot:has(.ds-tide-scrub:focus-visible) { outline: 2px solid #171406; outline-offset: 0.5rem; } .ds-tide-plot svg { position: absolute; inset: 0; width: 100%; height: 100%; } .ds-tide-water { fill: var(--tide-water); } .ds-tide-line { fill: none; stroke: #171406; stroke-width: 2; vector-effect: non-scaling-stroke; } .ds-tide-now { position: absolute; inset-block: 0; left: var(--x); border-left: 2px solid #79716b; } .ds-tide-now::after { content: ''; position: absolute; top: var(--y); left: -1px; width: 0.875rem; aspect-ratio: 1; translate: -50% -50%; border: 2px solid #d6e2e8; border-radius: 50%; background: #79716b; } .ds-tide-now span { position: absolute; top: 0; left: 0.4rem; font-family: 'Public Sans Variable', sans-serif; font-size: 0.875rem; font-weight: 700; } .ds-tide-scrub { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; } @media (prefers-reduced-motion: no-preference) { .ds-tide-plot svg { animation: ds-tide-draw 1400ms cubic-bezier(0.16, 1, 0.3, 1) both; } } @keyframes ds-tide-draw { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }"
+    },
+    {
+      "name": "Visit Route Stops",
+      "kind": "custom",
+      "description": "Ordered walk beside the map stage: borderless 7px stop buttons with Granite rings on a Hairline thread; selected fills Keeper Black.",
+      "html": "<ol class=\"ds-stops\"><li><button class=\"ds-stop\" aria-pressed=\"true\"><span class=\"ds-stop-name\">The landing</span><span class=\"ds-stop-detail\">Boats drop passengers at the dock in the cove.</span></button></li><li><button class=\"ds-stop\" aria-pressed=\"false\"><span class=\"ds-stop-name\">Boat house</span><span class=\"ds-stop-detail\">At the foot of the tramway.</span></button></li><li><button class=\"ds-stop\" aria-pressed=\"false\"><span class=\"ds-stop-name\">Seguin Light</span><span class=\"ds-stop-detail\">Go up only with a caretaker.</span></button></li></ol>",
+      "css": ".ds-stops { max-width: 30rem; margin: 0; padding: 0; list-style: none; isolation: isolate; } .ds-stops li { position: relative; } .ds-stops li:not(:last-child)::after { content: ''; position: absolute; inset-block: calc(1.05rem + 12px) -1.05rem; left: calc(0.75rem + 5px); border-left: 2px solid #e5e5e5; z-index: -1; } .ds-stop { position: relative; display: grid; gap: 0.25rem; width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem; border: 0; border-radius: 7px; background: none; color: #171717; font-family: 'Source Serif 4 Variable', Georgia, serif; font-size: 1rem; text-align: start; cursor: pointer; transition: background-color 250ms ease; } .ds-stop::before { content: ''; position: absolute; top: 1.05rem; left: 0.75rem; width: 12px; aspect-ratio: 1; border: 2px solid #79716b; border-radius: 50%; background: #fff; } .ds-stop:hover { background: #f5f5f5; } .ds-stop:focus-visible { outline: 2px solid #171406; outline-offset: 2px; } .ds-stop[aria-pressed=true] { background: #171406; color: #fff; } .ds-stop[aria-pressed=true]::before { border-color: #fff; background: #fff; } .ds-stop-name { font-family: 'Public Sans Variable', -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 1.25rem; font-weight: 600; line-height: 1.25; } .ds-stop-detail { line-height: 1.5; color: #525252; } .ds-stop[aria-pressed=true] .ds-stop-detail { color: inherit; }"
     }
   ],
   "narrative": {
@@ -342,7 +383,8 @@
       "Source Serif 4 body text with generous (1.85) line-height in long-form prose.",
       "Square, uppercase buttons. Softly rounded (7px) cards and panels.",
       "Full-bleed island photography under a dark gradient for heroes.",
-      "Fog-blue stage for the 3D map, with white pill labels."
+      "Fog-blue stage for the 3D map, with white pill labels.",
+      "A full-bleed Fog tide band on Plan Your Visit, the one sea context outside the map."
     ],
     "rules": [
       {
@@ -357,7 +399,7 @@
       },
       {
         "name": "The Fog Belongs to the Sea Rule",
-        "body": "Fog is reserved for map and sea contexts. It is not a general-purpose \"light blue\" for panels.",
+        "body": "Fog is reserved for map and sea contexts. It is not a general-purpose \"light blue\" for panels. The Tide band on Plan Your Visit is the one sea context outside the map, and where it needs a deeper blue for water or rules, it mixes Fog toward Seguin Navy rather than adding a new blue.",
         "section": "colors"
       },
       {
@@ -377,7 +419,9 @@
       "**Do** use real Seguin photography under the hero gradient for any full-bleed moment.",
       "**Do** reference brand colors through their tokens (`--color-brand-brick`, `--color-brand-fog`, `--color-brand-navy`), never as raw hex.",
       "**Do** use only token names that exist: `--font-weight-*`, `--leading-{heading,body,prose,none,snug,tight,normal,relaxed,loose}`, `--size-step-{-2..10}`, and `--space-{3xs..3xl}` plus their pairs. Check the compiled CSS before adding a new `var()`.",
-      "**Do** keep the logo on white or very pale surfaces so Seguin Navy reads."
+      "**Do** keep the logo on white or very pale surfaces so Seguin Navy reads.",
+      "**Do** set tide figures, times, prices and phone numbers in tabular Public Sans.",
+      "**Do** deepen Fog toward Seguin Navy (`color-mix` in oklab) for water and rules inside a sea band, rather than adding a new blue."
     ],
     "donts": [
       "**Don't** use the starter kit's pink `accent` tokens. They are not part of Seguin's palette.",

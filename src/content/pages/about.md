@@ -22,9 +22,9 @@ This plan was generated in the winter of 2024 to focus the Board on common theme
 
 ## Facilities
 
-**Light tower parapet** - FOSILS closed the light tower parapet to the public through the summer of 2024 because of railing strength concerns. A certified professional engineer surveyed the parapet and determined it safe for public use, while also recommending preservation work for the future. FOSILS has appropriated $35,000 in donations for railing repairs in 2025.
+**Light tower parapet** - FOSILS closed the light tower parapet to the public through the summer of 2024 because of railing strength concerns. A certified professional engineer surveyed the parapet and determined it safe for public use, while also recommending preservation work for the future. FOSILS appropriated $35,000 in donations for railing repairs in 2026, and the repairs were completed in August 2026.
 
-**Seguin dock** - A key obstacle to visiting Seguin Island is the small beach and 9-foot tide, making the island accessible for only three quarters of the tide cycle. To attract more visitors, installation of a pier is now underway. Work is planned to begin in autumn 2025 and be completed in time for the 2026 season.
+**Seguin dock** - A key obstacle to visiting Seguin Island is the small beach and 9-foot tide, making the island accessible for only three quarters of the tide cycle. To attract more visitors, installation of a pier is now underway. The work has run behind schedule and is due to finish in early September, so the pier will be in place for the 2027 season.
 
 **Cove erosion** - While not initially part of the strategic plan, planning for the dock made it clear that recent winters have significantly eroded the cove beach and surrounding area. Seguin has contracted with Pine Tree Engineering to help develop a grant application and detailed remediation plan.
 
@@ -36,26 +36,26 @@ This plan was generated in the winter of 2024 to focus the Board on common theme
 
 ## Education
 
-As a National Historic Place, Seguin Light Station's core function is to educate visitors about Seguin's significant role in Maine's maritime heritage. FOSILS is expanding that educational role by engaging youth and generating interest in maritime and marine conservation careers. As part of this effort, Seguin teamed with the Marine Learning Project and supported the installation of an 8,000-pound bravo mooring capable of hosting the training schooner Harvey Gamage. The Gamage's first visit to Seguin with a crew of teenage sailors took place on June 21. With this new capability to host larger training vessels, FOSILS has extended invitations to Tabor Academy's Tabor Boy for its 2026 Maine summer cruise, as well as Maine Maritime Academy's Bowdoin.
+As a National Historic Place, Seguin Light Station's core function is to educate visitors about Seguin's significant role in Maine's maritime heritage. FOSILS is expanding that educational role by engaging youth and generating interest in maritime and marine conservation careers. As part of this effort, Seguin teamed with the Marine Learning Project and supported the installation of an 8,000-pound bravo mooring capable of hosting the training schooner Harvey Gamage. The Gamage's first visit to Seguin with a crew of teenage sailors took place on June 21. With this new capability to host larger training vessels, FOSILS has extended invitations to other educational institutions to use its large-ship bravo mooring.
 
 ## Ongoing 3-Year Plan for Seguin Station
 
-The FOSILS organization is extremely proud of its progress in the past 18 months. We continue to maintain a rolling 3-year plan and take advantage of opportunities that expand our contributions to the community.
+The FOSILS organization is extremely proud of its progress in just the past 30 months. We continue to maintain a rolling 3-year plan and take advantage of opportunities that expand our contributions to the community.
 
-The keepers house has 24 windows installed during Coast Guard use in the 1980s and 1990s. These windows were not made to survive the harsh marine environment and are badly in need of replacement. As a National Historic Site, FOSILS must install windows that comply with national historic standards. Current estimates for fabrication, transportation, and installation are $10,000 per window, or $240,000 total. Safely transporting these windows from a boat, to a dock, and up the tramway drives the sequencing of major capital events in the strategic plan.
+The keepers house has 24 windows installed during Coast Guard use in the 1980s and 1990s. These windows were not made to survive the harsh marine environment and are badly in need of replacement. As a National Historic Site, FOSILS must install windows that comply with national historic standards. Current estimates for fabrication, transportation, and installation are $10,000 per window, or $240,000 total. Safely transporting these windows from a boat, to a dock, and up to the house drives the sequencing of major capital events in the strategic plan.
 
 Additional goals underway as opportunities arise include:
 
-* Restoring the early 19th century ox-cart trail to move materials from the cove to the lighthouse.
+* Restoring the early 19th century ox-cart trail to move materials from the cove to the lighthouse. **Completed in 2026.**
 * Developing a maintenance plan for the tramway.
-* Upgrading the keepers' house water systems, including evaluation of reverse osmosis systems.
-* Removing the old coal furnace and repairing the basement, including asbestos abatement, once a safe material handling solution is developed.
-* Repairing the boat house and related infrastructure, with volunteer work targeted to start in 2025.
+* Upgrading the keepers' house water systems. **New lines, storage units, and a leach field were installed in 2026.**
+* Removing the old coal furnace and repairing the basement, including asbestos abatement. **On hold** until we develop a safe way to move scrap down to the cove.
+* Repairing the boat house for use as an education and welcome center. **Targeted to start in 2027**, with education grants.
 * Deploying electric power to the landing cove.
-* Improving on-island internet access, including webcams. Starlink is installed, with webcams planned in 2026.
+* Improving on-island internet access, including webcams. **Starlink is installed**, with webcams planned in 2026.
 * Adding more historical interpretive signage.
 * Expanding educational opportunities in Maine's maritime heritage.
 
-Since the summer of 1990, FOSILS has opened the island to visitors and used volunteer caretakers each summer from Memorial Day through Labor Day. These caretakers greet visitors, give tours of the tower, museum, and gift shop, maintain the island and its five hiking trails, and host overnight visitors in guest quarters maintained for members of Friends of Seguin Island Light Station. This is possible because of volunteers, sponsors, visitors, and members whose donations keep Seguin Island preserved and maintained for future generations.
+Since the summer of 1990, FOSILS has opened the island to visitors and used volunteer caretakers each summer from Memorial Day through Labor Day. These caretakers greet visitors, give tours of the tower, museum, and gift shop, maintain the island and its five hiking trails, and host overnight visitors in the guest quarters and camp site maintained for members of Friends of Seguin Island Light Station. This is possible because of volunteers, sponsors, visitors, and members whose donations keep Seguin Island preserved and maintained for future generations.
 
 Please join us in preserving this magical place in history.

@@ -1,0 +1,153 @@
+---
+// The walk from the landing to the lantern, on the same 3D terrain as /map.
+// Each stop is a button that flies the camera there; the Lighthouse Trail is
+// drawn heavier than the other trails.
+export interface RouteStop {
+  key: string;
+  name: string;
+  detail: string;
+}
+
+interface Props {
+  stops: RouteStop[];
+}
+
+const { stops } = Astro.props;
+---
+
+<div class="route" data-route>
+  <div class="route__stage island-map__stage" data-stage data-state="idle">
+    <div class="island-map__status" data-status role="status" hidden></div>
+    <noscript>
+      <div class="island-map__status">
+        <p>The 3D route needs JavaScript. <a href="/terrain/aerial.jpg">View the aerial photo of the island</a>.</p>
+      </div>
+    </noscript>
+    <div class="island-map__labels" aria-hidden="true">
+      {stops.map((stop) => (
+        <button class="island-map__label" type="button" tabindex="-1" data-place={stop.key}>{stop.name}</button>
+      ))}
+    </div>
+    <p class="island-map__credit">
+      Elevation and imagery: USGS · Map data ©
+      <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
+    </p>
+  </div>
+
+  <ol class="route__stops" role="list">
+    {stops.map((stop) => (
+      <li class="route__stop">
+        <button class="route__button" type="button" aria-pressed="false" data-place={stop.key}>
+          <span class="route__name">{stop.name}</span>
+          <span class="route__detail">{stop.detail}</span>
+        </button>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<script>
+  import type { IslandMap } from "../island-map/viewer";
+
+  const root = document.querySelector<HTMLElement>("[data-route]")!;
+  const stage = root.querySelector<HTMLElement>("[data-stage]")!;
+  const status = root.querySelector<HTMLElement>("[data-status]")!;
+  const buttons = [...root.querySelectorAll<HTMLButtonElement>(".route__button")];
+  const labels = [...root.querySelectorAll<HTMLElement>(".island-map__label")];
+  const TOUR_DWELL_MS = 2600;
+
+  let map: IslandMap | null = null;
+  let tour: number | null = null;
+
+  function stopTour() {
+    if (tour !== null) window.clearTimeout(tour);
+    tour = null;
+  }
+
+  // Walk the stops in order, landing to lantern, once. Any click or drag hands control back.
+  function playTour(index = 0) {
+    const key = buttons[index]?.dataset.place;
+    if (!key) return stopTour();
+    mark(key);
+    map?.select(key);
+    tour = index < buttons.length - 1 ? window.setTimeout(() => playTour(index + 1), TOUR_DWELL_MS) : null;
+  }
+
+  function mark(key: string | null) {
+    buttons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.place === key)));
+  }
+
+  function setStatus(html: string) {
+    status.innerHTML = html;
+    status.hidden = html === "";
+  }
+
+  // The stops read as a list even without the map, so marking them always works.
+  buttons.forEach((button) =>
+    button.addEventListener("click", () => {
+      stopTour();
+      const key = button.getAttribute("aria-pressed") === "true" ? null : button.dataset.place!;
+      mark(key);
+      if (key) map?.select(key);
+      else map?.resetView();
+    }),
+  );
+
+  function hasWebGL() {
+    try {
+      const canvas = document.createElement("canvas");
+      return Boolean(canvas.getContext("webgl2") ?? canvas.getContext("webgl"));
+    } catch {
+      return false;
+    }
+  }
+
+  async function load() {
+    if (!hasWebGL()) {
+      stage.dataset.state = "error";
+      setStatus('<p>This device can’t show the 3D route. The stops beside it follow the same walk.</p><p><a href="/terrain/aerial.jpg">View the aerial photo of the island</a></p>');
+      return;
+    }
+    stage.dataset.state = "loading";
+    setStatus("<p>Loading the island…</p>");
+    try {
+      const { createIslandMap } = await import("../island-map/viewer");
+      map = await createIslandMap(stage, { labels, onSelect: mark, route: ["Lighthouse Trail"] });
+      stage.dataset.state = "ready";
+      setStatus("");
+      stage.addEventListener("pointerdown", stopTour);
+      stage.addEventListener("wheel", stopTour, { passive: true });
+      // Once the stage is mostly in view, walk the route. With reduced motion, just start at the landing.
+      const arrive = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          arrive.disconnect();
+          if (buttons.some((b) => b.getAttribute("aria-pressed") === "true")) return;
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            const first = buttons[0]?.dataset.place;
+            if (first) { mark(first); map?.select(first); }
+          } else {
+            playTour();
+          }
+        },
+        { threshold: 0.6 },
+      );
+      arrive.observe(stage);
+    } catch (error) {
+      console.error(error);
+      stage.dataset.state = "error";
+      setStatus('<p>The 3D route didn’t load. <button class="button" type="button" data-retry>Try again</button></p>');
+      status.querySelector("[data-retry]")?.addEventListener("click", load, { once: true });
+    }
+  }
+
+  const loader = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      loader.disconnect();
+      load();
+    },
+    { rootMargin: "200px" },
+  );
+  loader.observe(stage);
+</script>

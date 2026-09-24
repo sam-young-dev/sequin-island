@@ -1,0 +1,142 @@
+/*
+KEEPERS
+The honor rolls on /about/keepers and the short roll on /about. A station
+log of names: one keeper per ruled row, the year set in tabular Public Sans
+like the ledger's claims, the names in the reading serif.
+*/
+.keepers-intro {
+  --region-space: var(--space-md-lg);
+  --flow-space: var(--space-sm);
+}
+
+.keepers-intro h1 {
+  margin-block-start: var(--space-xs);
+  font-size: var(--size-step-8);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.keepers-intro__back a {
+  font-family: var(--font-heading);
+  font-size: var(--size-step-0);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-normal);
+}
+
+.keepers-intro__back a::before {
+  content: "← ";
+}
+
+.keepers-intro__lead {
+  max-width: 48ch;
+  margin-block-start: var(--space-sm-md);
+  font-size: var(--size-step-2);
+  line-height: var(--leading-snug);
+  text-wrap: pretty;
+}
+
+/* Sections ------------------------------------------------------------------ */
+.keepers-part {
+  --region-space: var(--space-xl-2xl);
+  scroll-margin-block-start: var(--space-md);
+}
+
+.keepers-part > h2 {
+  font-size: var(--size-step-7);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-none);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.keepers-part__lead {
+  max-width: 52ch;
+  margin-block-start: var(--space-sm-md);
+  font-size: var(--size-step-3);
+  line-height: var(--leading-snug);
+  text-wrap: pretty;
+}
+
+.keepers-part > :is(.keepers-roll, .keepers-part__body) {
+  margin-block-start: var(--space-lg-xl);
+}
+
+.keepers-part__more {
+  margin-block-start: var(--space-md-lg);
+  font-family: var(--font-heading);
+  font-size: var(--size-step-3);
+  font-weight: var(--font-weight-semibold);
+}
+
+.keepers-part__body > p:first-child {
+  font-size: var(--size-step-3);
+  line-height: var(--leading-snug);
+}
+
+/* The roll ------------------------------------------------------------------- */
+.keepers-roll {
+  border-block-end: var(--stroke-solid);
+}
+
+.keepers-roll__row {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--space-2xs) var(--space-md);
+  align-items: baseline;
+  padding-block: var(--space-xs);
+  border-block-start: var(--stroke-solid);
+}
+
+.keepers-roll__year {
+  font-family: var(--font-heading);
+  font-size: var(--size-step-2);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--color-brand-primary);
+}
+
+.keepers-roll__names {
+  font-size: var(--size-step-2);
+  line-height: var(--leading-snug);
+}
+
+/* The full rolls run in columns of rows on wide screens, reading down each
+   column in the roll's own order */
+.keepers-roll:is([data-roll="volunteers"], [data-roll="station"]) {
+  border-block-end: none;
+}
+
+.keepers-roll:is([data-roll="volunteers"], [data-roll="station"]) .keepers-roll__row {
+  break-inside: avoid;
+}
+
+.keepers-roll[data-roll="station"] .keepers-roll__row {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.15em;
+}
+
+.keepers-roll[data-roll="station"] .keepers-roll__names {
+  font-family: var(--font-heading);
+  font-size: var(--size-step-1);
+  font-weight: var(--font-weight-semibold);
+}
+
+.keepers-roll__service {
+  font-size: var(--size-step-0);
+  line-height: var(--leading-snug);
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--color-text-quiet);
+}
+
+@media (min-width: 48em) {
+  .keepers-roll:is([data-roll="volunteers"], [data-roll="station"]) {
+    columns: 2;
+    column-gap: var(--space-xl);
+  }
+}
+
+@media (min-width: 72em) {
+  .keepers-roll:is([data-roll="volunteers"], [data-roll="station"]) {
+    columns: 3;
+  }
+}

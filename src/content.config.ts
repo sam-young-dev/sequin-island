@@ -43,6 +43,24 @@ const pages = defineCollection({
   }),
 });
 
+// The honor rolls on /about/keepers, as published on seguinisland.org. The body is
+// the "Become a keeper" section shown on the About page.
+const keepers = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/keepers" }),
+  schema: z.object({
+    title: text("Title", { max: 70 }),
+    description: text("Description", { min: 50, max: 200 }),
+    intro: text("Intro", { min: 50, max: 400 }),
+    historicIntro: text("Historic keepers intro", { min: 50, max: 400 }),
+    volunteers: z
+      .array(z.object({ year: z.number().int().min(1990).max(2100), names: text("Keeper names", { max: 120 }) }))
+      .min(1, "List at least one volunteer keeper."),
+    historic: z
+      .array(z.object({ name: text("Keeper name", { max: 80 }), service: text("Role and years", { max: 120 }) }))
+      .min(1, "List at least one historic keeper."),
+  }),
+});
+
 const blog = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
   schema: z
@@ -69,4 +87,4 @@ const blog = defineCollection({
     }),
 });
 
-export const collections = { home, pages, blog };
+export const collections = { home, pages, keepers, blog };

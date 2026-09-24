@@ -51,6 +51,35 @@ collections:
       - { label: Description, name: description, widget: text, pattern: ['^[\s\S]{50,200}$', 'Write 50 to 200 characters.'], hint: 'Shown in search results and link previews. 50 to 200 characters.' }
       - { label: Body, name: body, widget: markdown }
 
+  - name: keepers
+    label: Keepers
+    files:
+      - name: keepers
+        label: Keepers Honor Rolls
+        file: src/content/keepers/index.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, pattern: ['^[\s\S]{50,200}$', 'Write 50 to 200 characters.'], hint: 'Shown in search results and link previews. 50 to 200 characters.' }
+          - { label: Intro, name: intro, widget: text, hint: 'Opens the keepers page and the Keepers section of the About page.' }
+          - { label: Station Keepers Intro, name: historicIntro, widget: text }
+          - label: Volunteer Keepers
+            name: volunteers
+            widget: list
+            summary: '{{fields.year}} – {{fields.names}}'
+            hint: 'One entry per season. The About page shows the five most recent.'
+            fields:
+              - { label: Year, name: year, widget: number, value_type: int }
+              - { label: Names, name: names, widget: string }
+          - label: Station Keepers
+            name: historic
+            widget: list
+            summary: '{{fields.name}} ({{fields.service}})'
+            hint: 'In the order published, oldest first.'
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Role and Years, name: service, widget: string, hint: 'For example: 1st assistant, 1857–1861' }
+          - { label: Become a Keeper (shown on the About page), name: body, widget: markdown }
+
   - name: blog
     label: Blog Posts
     folder: src/content/blog

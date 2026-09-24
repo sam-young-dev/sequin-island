@@ -1,0 +1,290 @@
+---
+// Today's predicted tide for the approach to Seguin, drawn from NOAA's
+// Hunniwell Point station at the mouth of the Kennebec. The band renders its
+// season and island facts at build time; the curve loads in the browser.
+import { seasonCopy, seasonState } from "../../lib/season";
+
+interface Props {
+  /** The newest Keeper's Blog post, shown as the caretakers' latest word. */
+  latest?: { title: string; href: string; date: string; datetime: string };
+}
+
+const { latest } = Astro.props;
+const season = seasonCopy(seasonState());
+const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id=8417177";
+---
+
+<section class="tide" aria-labelledby="tide-heading" data-tide data-state="loading">
+  <div class="wrapper tide__inner">
+    <div class="tide__readout">
+      <h2 id="tide-heading" class="tide__heading">The tide today</h2>
+      <p class="tide__when" data-when>Loading the prediction…</p>
+      <p class="tide__height"><span data-height>–</span><span class="tide__unit"> ft</span></p>
+      <p class="tide__trend" data-trend>
+        <noscript>Tide predictions load from NOAA with JavaScript. <a href={NOAA_PAGE}>See Hunniwell Point tides on NOAA</a>.</noscript>
+      </p>
+    </div>
+
+    <dl class="tide__status">
+      <div>
+        <dt>Season</dt>
+        <dd><strong data-season>{season.season}</strong>. The season runs Memorial Day to Labor Day.</dd>
+      </div>
+      <div>
+        <dt>Caretakers</dt>
+        <dd data-caretakers>{season.caretakers}</dd>
+      </div>
+      <div>
+        <dt>Tower</dt>
+        <dd>
+          <span data-tower>{season.tower}</span>
+          {latest && (
+            <span class="tide__latest">Latest: <a href={latest.href}>{latest.title}</a>, <time datetime={latest.datetime}>{latest.date}</time></span>
+          )}
+        </dd>
+      </div>
+    </dl>
+
+    <figure class="tide__chart">
+      <div class="tide__plot" data-plot>
+        <svg class="tide__svg" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path class="tide__water" data-water d="" />
+          <path class="tide__line" data-line d="" />
+        </svg>
+        <div class="tide__marks" data-marks aria-hidden="true"></div>
+        <div class="tide__now" data-now aria-hidden="true" hidden><span>Now</span></div>
+        <div class="tide__cursor" data-cursor aria-hidden="true" hidden></div>
+        <label class="visually-hidden" for="tide-scrub">Read the tide at another time</label>
+        <input class="tide__scrub" id="tide-scrub" type="range" min="0" max="360" step="1" value="60" data-scrub disabled />
+      </div>
+      <figcaption class="tide__source">
+        <span>Predicted heights above mean lower low water at Hunniwell Point, Fort Popham (<a href={NOAA_PAGE}>NOAA station 8417177</a>), 3.6 miles north of the island. Times are Maine time.</span>
+        <button class="tide__reset" type="button" data-back hidden>Back to now</button>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<script>
+  import { seasonCopy, seasonState } from "../../lib/season";
+
+  const STATION = "8417177";
+  const API = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter";
+  const HOUR = 3_600_000;
+  const STEP = 6 * 60_000; // NOAA's 6-minute prediction interval
+  let BEFORE = 6 * HOUR;
+  let SPAN = 36 * HOUR;
+  const W = 1000;
+  const H = 300;
+
+  const root = document.querySelector<HTMLElement>("[data-tide]")!;
+  const $ = <T extends Element = HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
+  const when = $("[data-when]");
+  const height = $("[data-height]");
+  const trend = $("[data-trend]");
+  const water = $<SVGPathElement>("[data-water]");
+  const line = $<SVGPathElement>("[data-line]");
+  const marks = $("[data-marks]");
+  const nowMark = $("[data-now]");
+  const cursor = $("[data-cursor]");
+  const scrub = $<HTMLInputElement>("[data-scrub]");
+  const back = $<HTMLButtonElement>("[data-back]");
+
+  // Station times are Maine wall-clock times. Everything here works in "naive"
+  // milliseconds: that wall-clock time read as if it were UTC.
+  const maineParts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York",
+    hourCycle: "h23",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  const maineNow = () => {
+    const p = Object.fromEntries(maineParts.formatToParts(new Date()).map((x) => [x.type, x.value]));
+    return Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute);
+  };
+  const parse = (t: string) => {
+    const [d, hm] = t.split(" ");
+    const [y, mo, da] = d.split("-").map(Number);
+    const [h, mi] = hm.split(":").map(Number);
+    return Date.UTC(y, mo - 1, da, h, mi);
+  };
+  const stamp = (ms: number) => {
+    const d = new Date(ms);
+    const pad = (n: number) => String(n).padStart(2, "0");
+    return `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}`;
+  };
+  const clock = (ms: number) =>
+    new Date(ms).toLocaleTimeString("en-US", { timeZone: "UTC", hour: "numeric", minute: "2-digit" }).toLowerCase();
+  const weekday = (ms: number) => new Date(ms).toLocaleDateString("en-US", { timeZone: "UTC", weekday: "long" });
+  const sameDay = (a: number, b: number) => Math.floor(a / (24 * HOUR)) === Math.floor(b / (24 * HOUR));
+  const feet = (v: number) => v.toFixed(1);
+
+  interface Point { t: number; v: number }
+  interface Extreme extends Point { type: "H" | "L" }
+
+  let series: Point[] = [];
+  let extremes: Extreme[] = [];
+  let start = 0;
+  let lo = 0;
+  let hi = 10;
+  let scrubbed = false;
+
+  const x = (t: number) => ((t - start) / SPAN) * 100;
+  const y = (v: number) => ((hi - v) / (hi - lo)) * 100;
+
+  function heightAt(t: number) {
+    const i = Math.min(Math.max(Math.floor((t - start) / STEP), 0), series.length - 2);
+    const a = series[i];
+    const b = series[i + 1];
+    return a.v + ((b.v - a.v) * (t - a.t)) / (b.t - a.t);
+  }
+
+  function describe(t: number, isNow: boolean) {
+    const v = heightAt(t);
+    const rising = heightAt(t + STEP) > v;
+    const next = extremes.find((e) => e.t > t);
+    const today = sameDay(t, maineNow());
+    when.textContent = isNow ? `Now, ${clock(t)}` : `${today ? "Today" : weekday(t)}, ${clock(t)}`;
+    height.textContent = feet(v);
+    trend.textContent = next
+      ? `${rising ? "Rising" : "Falling"}. ${next.type === "H" ? "High" : "Low"} water ${feet(next.v)} ft at ${clock(next.t)}${sameDay(next.t, t) ? "" : ` ${weekday(next.t)}`}.`
+      : rising ? "Rising." : "Falling.";
+    scrub.setAttribute("aria-valuetext", `${when.textContent}: ${feet(v)} feet, ${rising ? "rising" : "falling"}`);
+  }
+
+  function place(el: HTMLElement, t: number) {
+    el.style.setProperty("--x", `${x(t)}%`);
+    el.style.setProperty("--y", `${y(heightAt(t))}%`);
+  }
+
+  function showNow() {
+    const now = maineNow();
+    place(nowMark, now);
+    nowMark.hidden = false;
+    if (!scrubbed) {
+      scrub.value = String(Math.round((now - start) / STEP));
+      describe(now, true);
+    }
+  }
+
+  function draw() {
+    const pts = series.map((p) => `${((x(p.t) / 100) * W).toFixed(1)},${((y(p.v) / 100) * H).toFixed(1)}`);
+    line.setAttribute("d", `M${pts.join("L")}`);
+    water.setAttribute("d", `M0,${H}L${pts.join("L")}L${W},${H}Z`);
+
+    const labels: string[] = [];
+    const edge = (t: number) => (x(t) < 5 ? ' data-edge="start"' : x(t) > 95 ? ' data-edge="end"' : "");
+    // Clock ticks every six hours; midnight carries the day name.
+    for (let t = Math.ceil(start / (6 * HOUR)) * 6 * HOUR; t < start + SPAN; t += 6 * HOUR) {
+      const hour = new Date(t).getUTCHours();
+      const text = hour === 0 ? weekday(t) : hour === 12 ? "noon" : clock(t).replace(":00", "");
+      labels.push(`<span class="tide__tick" data-midnight="${hour === 0}"${edge(t)} style="--x:${x(t)}%">${text}</span>`);
+    }
+    for (const e of extremes) {
+      if (e.t < start || e.t > start + SPAN) continue;
+      labels.push(
+        `<span class="tide__extreme" data-type="${e.type}"${edge(e.t)} style="--x:${x(e.t)}%;--y:${y(e.v)}%"><b>${feet(e.v)} ft</b> ${clock(e.t)}</span>`,
+      );
+    }
+    marks.innerHTML = labels.join("");
+  }
+
+  async function fetchPredictions(interval: string) {
+    const params = new URLSearchParams({
+      product: "predictions",
+      application: "FriendsOfSeguinIsland",
+      begin_date: stamp(start),
+      range: String(SPAN / HOUR),
+      datum: "MLLW",
+      station: STATION,
+      time_zone: "lst_ldt",
+      units: "english",
+      interval,
+      format: "json",
+    });
+    const response = await fetch(`${API}?${params}`, { signal: AbortSignal.timeout(12_000) });
+    if (!response.ok) throw new Error(`NOAA responded ${response.status}`);
+    const json = await response.json();
+    if (!Array.isArray(json.predictions)) throw new Error(json.error?.message ?? "No predictions");
+    return json.predictions as { t: string; v: string; type?: "H" | "L" }[];
+  }
+
+  async function load() {
+    root.dataset.state = "loading";
+    when.textContent = "Loading the prediction…";
+    trend.textContent = "";
+    // Phones get a day of tide; wider screens a day and a half.
+    const narrow = root.clientWidth < 640;
+    SPAN = (narrow ? 24 : 36) * HOUR;
+    BEFORE = (narrow ? 4 : 6) * HOUR;
+    root.toggleAttribute("data-narrow", narrow);
+    // Start on the hour, a few hours back, so the curve shows where the water has been.
+    start = Math.floor((maineNow() - BEFORE) / HOUR) * HOUR;
+    try {
+      const [six, hilo] = await Promise.all([fetchPredictions("6"), fetchPredictions("hilo")]);
+      series = six.map((p) => ({ t: parse(p.t), v: Number(p.v) }));
+      extremes = hilo.map((p) => ({ t: parse(p.t), v: Number(p.v), type: p.type! }));
+      if (series.length < 2) throw new Error("Too few predictions");
+      const values = series.map((p) => p.v);
+      // Narrow plots keep room under the troughs, so low-water labels sit clear of the line.
+      lo = Math.min(...values) - (narrow ? 5 : 1.5);
+      hi = Math.max(...values) + 2.5;
+      scrub.max = String(series.length - 1);
+      scrub.disabled = false;
+      draw();
+      showNow();
+      root.dataset.state = "ready";
+    } catch (error) {
+      console.error(error);
+      root.dataset.state = "error";
+      when.textContent = "The tide prediction didn’t load";
+      height.textContent = "–";
+      trend.innerHTML = navigator.onLine
+        ? `NOAA’s service didn’t answer. <button class="tide__retry" type="button">Try again</button> or <a href="https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id=${STATION}">see Hunniwell Point tides on NOAA</a>.`
+        : `You appear to be offline. <button class="tide__retry" type="button">Try again</button> once you’re connected.`;
+      trend.querySelector(".tide__retry")?.addEventListener("click", load, { once: true });
+    }
+  }
+
+  scrub.addEventListener("input", () => {
+    if (!series.length) return;
+    scrubbed = true;
+    const t = start + Number(scrub.value) * STEP;
+    place(cursor, t);
+    cursor.hidden = false;
+    back.hidden = false;
+    describe(t, false);
+  });
+
+  function backToNow() {
+    scrubbed = false;
+    cursor.hidden = true;
+    back.hidden = true;
+    showNow();
+  }
+  back.addEventListener("click", () => {
+    backToNow();
+    scrub.focus();
+  });
+  scrub.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && scrubbed) backToNow();
+  });
+
+  // Keep the season line current for a page built long ago.
+  const copy = seasonCopy(seasonState());
+  $("[data-season]").textContent = copy.season;
+  $("[data-caretakers]").textContent = copy.caretakers;
+  $("[data-tower]").textContent = copy.tower;
+
+  // Move the now-marker along, and reload when the window has run on too far.
+  window.setInterval(() => {
+    if (root.dataset.state !== "ready") return;
+    if (maineNow() - start > 12 * HOUR) load();
+    else showNow();
+  }, 60_000);
+
+  load();
+</script>

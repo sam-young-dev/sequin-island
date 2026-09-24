@@ -14,7 +14,7 @@
 .site-head__brand {
   container-type: inline-size;
   container-name: site-head-brand;
-  flex-basis: clamp(25ch, 60%, 50rem);
+  flex-basis: clamp(25ch, 50%, 50rem);
   flex-grow: 1;
   font-weight: var(--font-weight-bold);
 }

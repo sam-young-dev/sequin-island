@@ -1,0 +1,46 @@
+---
+import { getEntry, render } from "astro:content";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const about = await getEntry("pages", "about");
+const keepers = await getEntry("keepers", "index");
+
+if (!about || !keepers) {
+  throw new Error("Missing src/content/pages/about.md or src/content/keepers/index.md");
+}
+
+const { Content } = await render(about);
+const { Content: BecomeAKeeper } = await render(keepers);
+
+// The most recent seasons, newest first; the full roll lives on /about/keepers
+const recent = [...keepers.data.volunteers].sort((left, right) => right.year - left.year).slice(0, 5);
+---
+
+<BaseLayout title={about.data.title} description={about.data.description}>
+  <div class="region wrapper prose flow">
+    <h1>{about.data.title}</h1>
+    <Content />
+  </div>
+
+  <section class="region wrapper keepers-part" aria-labelledby="keepers-heading">
+    <h2 id="keepers-heading">The keepers</h2>
+    <p class="keepers-part__lead">Every season has its keepers. These are the most recent, from an honor roll that goes back to the station’s first keeper.</p>
+    <ol class="keepers-roll" role="list" aria-label="Recent volunteer keepers">
+      {recent.map((entry) => (
+        <li class="keepers-roll__row">
+          <span class="keepers-roll__year">{entry.year}</span>
+          <span class="keepers-roll__names">{entry.names}</span>
+        </li>
+      ))}
+    </ol>
+    <p class="keepers-part__more"><a href="/about/keepers">All the keepers, back to 1796 →</a></p>
+  </section>
+
+  <section id="become-a-keeper" class="region wrapper keepers-part" aria-labelledby="become-heading">
+    <h2 id="become-heading">Become a keeper</h2>
+    <div class="keepers-part__body prose flow">
+      <BecomeAKeeper />
+    </div>
+  </section>
+</BaseLayout>

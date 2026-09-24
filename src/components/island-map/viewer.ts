@@ -39,6 +39,8 @@ export interface IslandMapOptions {
   /** Label elements to pin to the map, each with a data-place key from features.json. */
   labels: HTMLElement[];
   onSelect: (key: string | null) => void;
+  /** Names of trails (from features.json) to draw heavier, as a walking route. */
+  route?: string[];
 }
 
 export interface IslandMap {
@@ -163,13 +165,16 @@ export async function createIslandMap(container: HTMLElement, options: IslandMap
   // Tramway and trails, draped over the ground --------------------------------
   const trailMaterial = new THREE.MeshStandardMaterial({ color: 0xeadcb8, roughness: 1 });
   const tramwayMaterial = new THREE.MeshStandardMaterial({ color: 0x4a2418, roughness: 0.7 });
+  const routeMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 0.35, roughness: 1 });
   for (const line of features.lines) {
     const points = densify(line.coords, 1.5).map(([e, n]) => toScene(e, n, groundAt(e, n) + 0.8));
     if (points.length < 2) continue;
     const curve = new THREE.CatmullRomCurve3(points);
     const isTramway = line.kind === "tramway";
-    const geometry = new THREE.TubeGeometry(curve, points.length * 2, isTramway ? 0.8 : 0.45, 5, false);
-    scene.add(new THREE.Mesh(geometry, isTramway ? tramwayMaterial : trailMaterial));
+    const isRoute = !isTramway && line.name !== null && (options.route ?? []).includes(line.name);
+    const radius = isTramway ? 0.8 : isRoute ? 1.1 : 0.45;
+    const geometry = new THREE.TubeGeometry(curve, points.length * 2, radius, 5, false);
+    scene.add(new THREE.Mesh(geometry, isTramway ? tramwayMaterial : isRoute ? routeMaterial : trailMaterial));
   }
 
   // Labels -------------------------------------------------------------------

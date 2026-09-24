@@ -5,6 +5,7 @@ export const siteData = {
   mailingAddress: ["Friends of Seguin Island Light Station", "72 Front St, Suite 3", "Bath, ME 04530"],
   navItems: [
     { label: "About", href: "/about" },
+    { label: "Plan Your Visit", href: "/visit" },
     { label: "Island Map", href: "/map" },
     { label: "Keeper's Blog", href: "/blog" },
     { label: "Contact", href: "/contact" },
