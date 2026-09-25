@@ -5,7 +5,6 @@ import TideClock from "../components/tide-clock/TideClock.astro";
 import VisitRoute, { type RouteStop } from "../components/visit-route/VisitRoute.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { formatDate, isoDate } from "../lib/format";
-import { seasonState } from "../lib/season";
 
 // Visitor facts are taken from seguinisland.org's travel, mooring, guidelines
 // and stay pages, and from the About page. Keep them as published.
@@ -13,11 +12,9 @@ const [latest] = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (left, right) => right.data.publishDate.getTime() - left.data.publishDate.getTime(),
 );
 
-const season = seasonState();
-// The Keeper's Guest Room was paused for the 2026 season. Once that season has
-// passed, stop stating it as current and point people to the office instead.
-const GUEST_ROOM_PAUSED = 2026;
-const guestRoomCurrent = season.opens.getUTCFullYear() <= GUEST_ROOM_PAUSED;
+const [visitSettings] = await getCollection("settings", ({ id }) => id === "visit");
+const guestRoomClosed = visitSettings?.data.guestRoomClosed ?? false;
+const guestRoomClosedNote = visitSettings?.data.guestRoomClosedNote;
 
 const stops: RouteStop[] = [
   {
@@ -109,10 +106,15 @@ const sections = [
             <dt>By your own boat</dt>
             <dd class="flow">
               <p>
-                Use a chart plotter — an electronic GPS chart, not paper raster charts — for your approach. The safest way in follows the lobster pot buoys and mooring buoys: the cove’s eastern edge has shallow rocks, which show as breaking waves at low tide.
+                Use a chart plotter — an electronic GPS chart, not paper raster charts — for your approach.
               </p>
+              <ul>
+                <li>Follow the lobster pot buoys and mooring buoys in; the cove’s eastern edge has shallow rocks, which show as breaking waves at low tide.</li>
+                <li>Watch for sea swell, opposing wind and tide, and a very strong river current.</li>
+                <li>Seguin is one of the foggiest places off the coast of Maine.</li>
+              </ul>
               <p>
-                Sea swell, opposing wind and tide, and a very strong river current can make for challenging conditions, and Seguin is one of the foggiest places off the coast of Maine. Roger Duncan’s cruising guide, <a href="https://nauticalcharts.noaa.gov/publications/coast-pilot/">NOAA’s Coast Pilot</a> and the <a href="https://mita.org/">Maine Island Trail Association’s</a> guide all cover the approach.
+                Roger Duncan’s cruising guide, <a href="https://nauticalcharts.noaa.gov/publications/coast-pilot/">NOAA’s Coast Pilot</a> and the <a href="https://mita.org/">Maine Island Trail Association’s</a> guide all cover the approach.
               </p>
             </dd>
           </div>
@@ -175,7 +177,7 @@ const sections = [
         <aside class="visit-callout" aria-labelledby="access-callout-heading">
           <p id="access-callout-heading" class="visit-callout__label">Access</p>
           <p>
-            The trail is steep, and the island is not accessible to wheelchairs. The way up to the light is on foot, so plan for the climb before you book your crossing.
+            The trail is steep and the island is not accessible to wheelchairs; the way up to the light is on foot, so plan for the climb before you book your crossing. If you have a mobility limitation and are weighing a visit, call the office at <a href="tel:+12074434808">207-443-4808</a> — the caretakers can talk through what a trip to the landing and cove might look like for you.
           </p>
         </aside>
         <VisitRoute stops={stops} />
@@ -215,8 +217,8 @@ const sections = [
         <h2 id="staying-over-heading"><span class="visit-part__num" aria-hidden="true">5</span> Staying over</h2>
         <p class="visit-part__lead">
           Members can camp on the island.{" "}
-          {guestRoomCurrent ? (
-            `The Keeper’s Guest Room is closed for the ${GUEST_ROOM_PAUSED} season while renovations are under way.`
+          {guestRoomClosed ? (
+            guestRoomClosedNote
           ) : (
             <>
               Ask the office whether the Keeper’s Guest Room has reopened after its renovation: call <a href="tel:+12074434808">207-443-4808</a>.

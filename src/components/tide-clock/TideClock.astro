@@ -38,7 +38,7 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
 
     <div class="tide__access" id="tide-access">
       <p>
-        <strong>Landing:</strong> until the new pier is finished, the beach can be reached for about three quarters of the tide cycle. Which part of the tide closes it isn’t published, so ask the office before you set out.
+        <strong>Landing:</strong> until the new pier is finished, the beach can be reached for about three quarters of the tide cycle — landing is easiest near low tide and hardest in the last stretch before high water, when the cove’s rocks are covered. Call the office to check today’s window before you set out.
       </p>
       <p class="tide__actions">
         <a class="tide__call" href="tel:+12074434808">Call the office <span>207-443-4808</span></a>
@@ -46,25 +46,25 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
       </p>
     </div>
 
-    <dl class="tide__status">
-      <div>
-        <dt>Season</dt>
-        <dd><strong data-season>{season.season}</strong>. The season runs Memorial Day to Labor Day.</dd>
-      </div>
-      <div>
-        <dt>Caretakers</dt>
-        <dd data-caretakers>{season.caretakers}</dd>
-      </div>
-      <div>
-        <dt>Tower</dt>
-        <dd>
-          <span data-tower>{season.tower}</span>
-          {latest && (
-            <span class="tide__latest">Latest: <a href={latest.href}>{latest.title}</a>, <time datetime={latest.datetime}>{latest.date}</time></span>
-          )}
-        </dd>
-      </div>
-    </dl>
+    <div class="tide__status-col">
+      <dl class="tide__status">
+        <div>
+          <dt>Season</dt>
+          <dd><strong data-season>{season.season}</strong>. The season runs Memorial Day to Labor Day.</dd>
+        </div>
+        <div>
+          <dt>Caretakers</dt>
+          <dd data-caretakers>{season.caretakers}</dd>
+        </div>
+        <div>
+          <dt>Tower</dt>
+          <dd><span data-tower>{season.tower}</span></dd>
+        </div>
+      </dl>
+      {latest && (
+        <p class="tide__latest">Latest from the island: <a href={latest.href}>{latest.title}</a>, <time datetime={latest.datetime}>{latest.date}</time></p>
+      )}
+    </div>
 
     <figure class="tide__chart">
       <div class="tide__plot" data-plot>

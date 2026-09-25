@@ -136,6 +136,7 @@ the one band on the site that takes it outside the map.
 .tide__caution a,
 .tide__access a,
 .tide__status a,
+.tide__latest a,
 .tide__source a {
   color: inherit;
 }
@@ -232,8 +233,11 @@ the one band on the site that takes it outside the map.
 /* One quiet block, not three separately-ruled ones: label and value share a
    line, and a single hairline opens the whole list instead of each item
    carrying its own, so the column reads as one glance, not three. */
-.tide__status {
+.tide__status-col {
   grid-area: status;
+}
+
+.tide__status {
   margin-block-start: var(--space-sm);
   padding-block-start: var(--space-2xs);
   border-block-start: 1px solid color-mix(in oklab, var(--tide-rule), transparent 35%);
@@ -271,8 +275,9 @@ the one band on the site that takes it outside the map.
 
 .tide__latest {
   display: block;
-  margin-block-start: var(--space-3xs);
+  margin-block-start: var(--space-xs);
   font-size: var(--size-step--2);
+  color: var(--tide-ink-quiet);
 }
 
 .tide__latest time {

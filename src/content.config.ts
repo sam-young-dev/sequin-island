@@ -87,4 +87,16 @@ const blog = defineCollection({
     }),
 });
 
-export const collections = { home, pages, keepers, blog };
+// Operational facts that change on their own schedule (renovations, closures) and
+// shouldn't require a code change to update. One file per setting group.
+const settings = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./src/content/settings" }),
+  schema: z.object({
+    guestRoomClosed: z.boolean().default(false),
+    guestRoomClosedNote: text("Guest room closed note", { min: 10, max: 200 }).default(
+      "The Keeper’s Guest Room is closed while renovations are under way.",
+    ),
+  }),
+});
+
+export const collections = { home, pages, keepers, blog, settings };

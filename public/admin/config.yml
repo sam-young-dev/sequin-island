@@ -80,6 +80,26 @@ collections:
               - { label: Role and Years, name: service, widget: string, hint: 'For example: 1st assistant, 1857–1861' }
           - { label: Become a Keeper (shown on the About page), name: body, widget: markdown }
 
+  - name: settings
+    label: Site Settings
+    files:
+      - name: visit
+        label: Plan Your Visit Settings
+        file: src/content/settings/visit.md
+        fields:
+          - {
+              label: Keeper's Guest Room Is Closed,
+              name: guestRoomClosed,
+              widget: boolean,
+              hint: 'Turn on while the Guest Room is closed for renovations. Turn off once it reopens, and the page will point visitors to call the office to ask instead.',
+            }
+          - {
+              label: Closed Note,
+              name: guestRoomClosedNote,
+              widget: string,
+              hint: 'Shown on Plan Your Visit only while "Closed" is on above. For example: “The Keeper’s Guest Room is closed for the 2026 season while renovations are under way.”',
+            }
+
   - name: blog
     label: Blog Posts
     folder: src/content/blog
