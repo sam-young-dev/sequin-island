@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { Picture } from "astro:assets";
 import { getCollection, getEntry, render } from "astro:content";
 
 import lighthouseImage from "../assets/seguin-island-hero.jpg";
@@ -75,10 +75,12 @@ const distinctions = [
       <p>The Lighthouse Trail climbs about 130 feet from the cove, past the working tramway, to the tower and Maine's only kept first-order Fresnel lens. <a class="history__plan" href="/visit">Plan your visit →</a></p>
       <p class="history__more"><a href={home.data.secondaryCtaHref}>Read the full story →</a></p>
     </div>
-    <Image
+    <Picture
       class="history__photo"
       src="https://seguinisland.org/wp-content/uploads/2026/07/IMG_0962-1-1024x768.jpeg"
       alt="The lighthouse lantern and brick keeper's house seen across tall grass, beside a wooden signpost of mileage signs"
+      formats={["avif", "webp"]}
+      fallbackFormat="webp"
       inferSize
       loading="lazy"
       decoding="async"
@@ -87,10 +89,12 @@ const distinctions = [
 
   <div class="region support" data-bg="tinted">
     <div class="wrapper support__inner switcher">
-      <Image
+      <Picture
         class="support__photo"
         src="https://seguinisland.org/wp-content/uploads/2026/07/IMG_2420-768x1024.jpeg"
         alt="Four members of the tower crew sitting on the steps of a white clapboard porch beside a brick wall"
+        formats={["avif", "webp"]}
+        fallbackFormat="webp"
         inferSize
         loading="lazy"
         decoding="async"
@@ -116,10 +120,12 @@ const distinctions = [
       latest ? (
         <a class="dispatch__feature" href={`/blog/${latest.id}/`} data-has-photo={latest.data.heroImage ? "" : undefined}>
           {latest.data.heroImage && (
-            <Image
+            <Picture
               class="dispatch__photo"
               src={latest.data.heroImage}
               alt={latest.data.heroImageAlt ?? ""}
+              formats={["avif", "webp"]}
+              fallbackFormat="webp"
               inferSize
               loading="lazy"
               decoding="async"

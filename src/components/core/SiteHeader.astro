@@ -18,6 +18,7 @@ const current = (href: string) => (isCurrentSection(Astro.url.pathname, href) ? 
             src={logo}
             alt={`${siteData.title}, home`}
             height={40}
+            densities={[1, 2, 3]}
             loading="eager"
             fetchpriority="high"
             draggable="false"

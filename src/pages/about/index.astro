@@ -3,7 +3,7 @@ import { getEntry, render } from "astro:content";
 
 import lighthouseImage from "../../assets/seguin-island-hero.jpg";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { Image } from "astro:assets";
+import { Picture } from "astro:assets";
 
 const about = await getEntry("pages", "about");
 const keepers = await getEntry("keepers", "index");
@@ -51,7 +51,7 @@ const recent = [...keepers.data.volunteers].sort((left, right) => right.year - l
     <h2 id="facilities-heading">Facilities</h2>
 
     <figure class="facilities__photo">
-      <Image src={lighthouseImage} alt="Seguin Light's tower and brick keeper's house on the island summit" width={900} />
+      <Picture src={lighthouseImage} alt="Seguin Light's tower and brick keeper's house on the island summit" width={900} formats={["avif", "webp"]} fallbackFormat="webp" />
       <figcaption>The light tower and keeper's house, the subjects of the parapet and window repairs below.</figcaption>
     </figure>
 

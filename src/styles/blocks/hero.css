@@ -11,10 +11,13 @@
   min-block-size: min(62svh, 36rem);
 }
 
-.hero img {
+.hero picture {
+  display: block;
   grid-column: 1;
   grid-row: 1/4;
+}
 
+.hero img {
   /* remove these if you don't want the image to cover the whole hero area */
   width: 100%;
   /* Fill the hero even when a long heading makes it taller than the photo */
