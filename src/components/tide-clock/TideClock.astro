@@ -25,6 +25,7 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
       <p class="tide__trend" data-trend>
         <noscript>The tide chart loads from NOAA with JavaScript. <a href={NOAA_PAGE}>See the week’s Hunniwell Point tides on NOAA</a>.</noscript>
       </p>
+      <p class="tide__saved" data-saved hidden></p>
       <p class="tide__access">
         <strong>Landing:</strong> the small beach takes about three quarters of the tide cycle to reach, until the new pier is finished. The exact window that closes it isn’t published — if today’s tide looks tight, <a href="tel:+12074434808">call the office</a> before you set out. <a href="#landing-callout" class="tide__cta">Full landing details</a>
       </p>
@@ -58,15 +59,28 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
           <path class="tide__line" data-line d="" />
         </svg>
         <div class="tide__marks" data-marks aria-hidden="true"></div>
-        <div class="tide__now" data-now aria-hidden="true" hidden><span>Now</span></div>
-        <div class="tide__cursor" data-cursor aria-hidden="true" hidden></div>
+        <div class="tide__now" data-now aria-hidden="true" hidden>
+          <span class="tide__now-label">Now</span>
+          <svg class="tide__grip" viewBox="0 0 44 16" focusable="false">
+            <g class="tide__grip-left"><path class="tide__grip-halo" d="M9 3L4 8L9 13" /><path class="tide__grip-arrow" d="M9 3L4 8L9 13" /></g>
+            <g class="tide__grip-right"><path class="tide__grip-halo" d="M35 3L40 8L35 13" /><path class="tide__grip-arrow" d="M35 3L40 8L35 13" /></g>
+            <circle class="tide__grip-dot" cx="22" cy="8" r="6" />
+          </svg>
+        </div>
+        <div class="tide__cursor" data-cursor aria-hidden="true" hidden>
+          <svg class="tide__grip" viewBox="0 0 44 16" focusable="false">
+            <g class="tide__grip-left"><path class="tide__grip-halo" d="M9 3L4 8L9 13" /><path class="tide__grip-arrow" d="M9 3L4 8L9 13" /></g>
+            <g class="tide__grip-right"><path class="tide__grip-halo" d="M35 3L40 8L35 13" /><path class="tide__grip-arrow" d="M35 3L40 8L35 13" /></g>
+            <circle class="tide__grip-dot" cx="22" cy="8" r="6" />
+          </svg>
+        </div>
         <label class="visually-hidden" for="tide-scrub">Read the tide at another time</label>
         <input class="tide__scrub" id="tide-scrub" type="range" min="0" max="360" step="1" value="60" data-scrub disabled />
       </div>
       <figcaption class="tide__source">
         <span>Predicted heights above low water (mean lower low water) at Hunniwell Point, Fort Popham (<a href={NOAA_PAGE}>NOAA station 8417177</a>), 3.6 miles north of the island. Times are Maine time.</span>
         <span class="tide__controls" data-controls>
-          <span class="tide__hint">Drag across the curve, or use the arrow keys, to read any time. Press Escape to jump back to now.</span>
+          <span class="tide__hint">Drag the marker along the curve, or use the arrow keys, to read any time. Escape jumps back to now.</span>
           <span class="tide__days" role="group" aria-label="Day">
             <button class="tide__button" type="button" data-day-step="-1" disabled>Previous day</button>
             <button class="tide__button" type="button" data-day-step="1">Next day</button>
@@ -107,6 +121,9 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
   const back = $<HTMLButtonElement>("[data-back]");
   const heading = $("[data-heading]");
   const announce = $("[data-announce]");
+  const savedNote = $("[data-saved]");
+  const SAVED_KEY = `tide:${STATION}`;
+  const SLOW_MS = 4000;
   const dayButtons = [...root.querySelectorAll<HTMLButtonElement>("[data-day-step]")];
 
   // Station times are Maine wall-clock times. Everything here works in "naive"
@@ -152,6 +169,8 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
   let scrubbed = false;
   /** Days ahead of today on show: 0 is today, with the now-marker. */
   let day = 0;
+  /** Only the newest load may write to the band; stepping days quickly races. */
+  let loadId = 0;
 
   const x = (t: number) => ((t - start) / SPAN) * 100;
   const y = (v: number) => ((hi - v) / (hi - lo)) * 100;
@@ -239,12 +258,90 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
     return json.predictions as { t: string; v: string; type?: "H" | "L" }[];
   }
 
+  // Predictions are worked out from the tide's harmonics well in advance, so a
+  // copy saved on this device still holds when NOAA can't be reached from the
+  // marina. It keeps a day back and everything fetched ahead.
+  interface Saved { savedAt: number; series: Point[]; extremes: Extreme[] }
+
+  function readSaved(): Saved | null {
+    try {
+      const raw = localStorage.getItem(SAVED_KEY);
+      return raw ? (JSON.parse(raw) as Saved) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function save(fresh: Point[], freshExtremes: Extreme[]) {
+    const old = readSaved();
+    const floor = maineNow() - DAY;
+    const merge = <T extends Point>(a: T[], b: T[]) => {
+      const byTime = new Map<number, T>();
+      for (const p of [...a, ...b]) if (p.t >= floor) byTime.set(p.t, p);
+      return [...byTime.values()].sort((p, q) => p.t - q.t);
+    };
+    try {
+      localStorage.setItem(
+        SAVED_KEY,
+        JSON.stringify({ savedAt: Date.now(), series: merge(old?.series ?? [], fresh), extremes: merge(old?.extremes ?? [], freshExtremes) }),
+      );
+    } catch {
+      // Storage full or blocked: the band still works, just without a saved copy.
+    }
+  }
+
+  /** The saved prediction for the window on show, only if it covers all of it without gaps. */
+  function savedWindow() {
+    const saved = readSaved();
+    if (!saved) return null;
+    const end = start + SPAN;
+    const covered = saved.series.filter((p) => p.t >= start && p.t <= end);
+    if (covered.length < 2 || covered[0].t !== start || covered[covered.length - 1].t < end - STEP) return null;
+    if (covered.some((p, i) => i > 0 && p.t - covered[i - 1].t !== STEP)) return null;
+    return {
+      savedAt: saved.savedAt,
+      series: covered,
+      extremes: saved.extremes.filter((e) => e.t >= start && e.t <= end + 12 * HOUR),
+    };
+  }
+
+  function savedWhen(savedAt: number) {
+    const d = new Date(savedAt);
+    const time = d.toLocaleTimeString("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" }).toLowerCase();
+    const today = d.toLocaleDateString("en-US", { timeZone: "America/New_York" }) === new Date().toLocaleDateString("en-US", { timeZone: "America/New_York" });
+    return today ? `earlier today at ${time}` : `${d.toLocaleDateString("en-US", { timeZone: "America/New_York", weekday: "long" })} at ${time}`;
+  }
+
+  function render(fresh: Point[], freshExtremes: Extreme[]) {
+    series = fresh;
+    extremes = freshExtremes;
+    const values = series.map((p) => p.v);
+    // Narrow plots keep room under the troughs, so low-water labels sit clear of the line.
+    const narrow = root.hasAttribute("data-narrow");
+    lo = Math.min(...values) - (narrow ? 5 : 1.5);
+    hi = Math.max(...values) + 2.5;
+    scrub.max = String(series.length - 1);
+    scrub.disabled = false;
+    draw();
+  }
+
+  /** Where a freshly opened day is read from: now for today, the morning for a later day. */
+  function openAt(midnight: number) {
+    if (day === 0) {
+      backToNow();
+    } else {
+      nowMark.hidden = true;
+      readAt(midnight + PLAN_HOUR * HOUR);
+    }
+  }
+
+  const reading = () => `${when.textContent}: ${feet(heightAt(start + Number(scrub.value) * STEP))} feet. ${trend.textContent}`;
+
   async function load() {
+    const id = ++loadId;
     // The curve draws in on the first load only; stepping days just swaps it.
     if (series.length) root.dataset.drawn = "";
-    root.dataset.state = "loading";
-    when.textContent = "Loading the prediction…";
-    trend.textContent = "";
+    savedNote.hidden = true;
     heading.textContent = `The tide ${dayName(day)}`;
     dayButtons.forEach((button) => {
       const next = day + Number(button.dataset.dayStep);
@@ -259,28 +356,54 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
     // water has been. A later day starts at its midnight.
     const midnight = Math.floor(maineNow() / DAY) * DAY + day * DAY;
     start = day === 0 ? Math.floor((maineNow() - BEFORE) / HOUR) * HOUR : midnight;
+
+    // A saved copy shows at once, so a slow connection never blanks the figure;
+    // NOAA's answer then confirms it.
+    const saved = savedWindow();
+    if (saved) {
+      render(saved.series, saved.extremes);
+      openAt(midnight);
+      root.dataset.state = "ready";
+      announce.textContent = reading();
+    } else {
+      root.dataset.state = "loading";
+      when.textContent = "Loading the prediction…";
+      trend.textContent = "";
+    }
+    const slow = window.setTimeout(() => {
+      if (id === loadId && root.dataset.state === "loading") when.textContent = "Still waiting on NOAA…";
+    }, SLOW_MS);
+
     try {
       const [six, hilo] = await Promise.all([fetchPredictions("6"), fetchPredictions("hilo")]);
-      series = six.map((p) => ({ t: parse(p.t), v: Number(p.v) }));
-      extremes = hilo.map((p) => ({ t: parse(p.t), v: Number(p.v), type: p.type! }));
-      if (series.length < 2) throw new Error("Too few predictions");
-      const values = series.map((p) => p.v);
-      // Narrow plots keep room under the troughs, so low-water labels sit clear of the line.
-      lo = Math.min(...values) - (narrow ? 5 : 1.5);
-      hi = Math.max(...values) + 2.5;
-      scrub.max = String(series.length - 1);
-      scrub.disabled = false;
-      draw();
-      if (day === 0) {
-        backToNow();
+      if (id !== loadId) return;
+      const fresh = six.map((p) => ({ t: parse(p.t), v: Number(p.v) }));
+      const freshExtremes = hilo.map((p) => ({ t: parse(p.t), v: Number(p.v), type: p.type! }));
+      if (fresh.length < 2) throw new Error("Too few predictions");
+      save(fresh, freshExtremes);
+      const unchanged = saved && fresh.length === series.length && fresh.every((p, i) => p.t === series[i].t && p.v === series[i].v);
+      if (unchanged) return;
+      if (saved) {
+        // Swap in NOAA's copy where the saved one stood, without replaying the draw or moving the reader.
+        root.dataset.drawn = "";
+        render(fresh, freshExtremes);
+        if (scrubbed) readAt(start + Number(scrub.value) * STEP);
+        else showNow();
       } else {
-        nowMark.hidden = true;
-        readAt(midnight + PLAN_HOUR * HOUR);
+        render(fresh, freshExtremes);
+        openAt(midnight);
       }
       root.dataset.state = "ready";
-      announce.textContent = `${when.textContent}: ${feet(heightAt(start + Number(scrub.value) * STEP))} feet. ${trend.textContent}`;
+      announce.textContent = reading();
     } catch (error) {
+      if (id !== loadId) return;
       console.error(error);
+      if (saved) {
+        savedNote.innerHTML = `${navigator.onLine ? "NOAA didn’t answer" : "You appear to be offline"}, so this is the prediction saved on this device ${savedWhen(saved.savedAt)}. Tide predictions are worked out well ahead, so it still holds. <button class="tide__retry" type="button">Check NOAA again</button>`;
+        savedNote.hidden = false;
+        savedNote.querySelector(".tide__retry")?.addEventListener("click", load, { once: true });
+        return;
+      }
       root.dataset.state = "error";
       when.textContent = "The tide prediction didn’t load";
       height.textContent = "–";
@@ -288,11 +411,19 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
         ? `NOAA’s service didn’t answer. <button class="tide__retry" type="button">Try again</button> or <a href="https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id=${STATION}">see Hunniwell Point tides on NOAA</a>.`
         : `You appear to be offline. <button class="tide__retry" type="button">Try again</button> once you’re connected.`;
       trend.querySelector(".tide__retry")?.addEventListener("click", load, { once: true });
+    } finally {
+      window.clearTimeout(slow);
     }
   }
 
+  // Back in signal range: try NOAA again without waiting to be asked.
+  window.addEventListener("online", () => {
+    if (root.dataset.state === "error" || !savedNote.hidden) load();
+  });
+
   function readAt(t: number) {
     scrubbed = true;
+    root.toggleAttribute("data-scrubbed", true);
     scrub.value = String(Math.round((t - start) / STEP));
     place(cursor, t);
     cursor.hidden = false;
@@ -312,6 +443,7 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
       return;
     }
     scrubbed = false;
+    root.toggleAttribute("data-scrubbed", false);
     cursor.hidden = true;
     back.hidden = true;
     showNow();

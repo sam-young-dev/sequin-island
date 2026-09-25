@@ -221,7 +221,7 @@ The token set includes a full shadow scale (`shadow.2xs`–`2xl`), but no styles
 
 ## Shapes
 
-Two corner languages that don't compete. Actions are square (0 radius), like signage. Containers are gently softened (7px) on cards, the map stage, the info panel, and place buttons. Inputs take a barely-there 0.2rem. Pills (999px) are reserved for map labels, which also carry a 2px pointer stalk down to the spot they mark. Borders are 1px solid hairlines. Tables and fieldsets use a 1px dashed stroke. Small circles mark positions and nothing else: the Tide band's now-dot (0.875rem, Granite, ringed in Fog) and the route stops' 12px Granite rings.
+Two corner languages that don't compete. Actions are square (0 radius), like signage. Containers are gently softened (7px) on cards, the map stage, the info panel, and place buttons. Inputs take a barely-there 0.2rem. Pills (999px) are reserved for map labels, which also carry a 2px pointer stalk down to the spot they mark. Borders are 1px solid hairlines. Tables and fieldsets use a 1px dashed stroke. Small circles mark positions and nothing else: the Tide band's now-dot (0.875rem, Granite, ringed in Fog) and the route stops' 12px Granite rings. The now-dot's grip chevrons are 2px round-capped strokes, the one drawn control glyph on the page.
 
 ## Components
 
@@ -231,7 +231,7 @@ Warm and welcoming: plain, flat shapes, set up so that the next click is obvious
 - **Shape:** Square corners (0).
 - **Primary:** A Granite Gray fill with white bold uppercase serif label text, padded 0.85em by 1.15em (about 38px tall), with a 0.5ch gap for an optional trailing arrow ("Become a Member →").
 - **Hover / Focus:** On hover, the fill darkens 14% toward black (`--button-bg-hover`, a `color-mix` in oklab) with a 250ms transition. On press, the button scales to 99%. The focus-visible ring is a 2px solid outline in the button's own fill color.
-- **Secondary:** A Charcoal fill with a white label. The focus ring is Keeper Black. It is used for the second CTA and the map's reset control.
+- **Secondary:** A Charcoal fill with a white label. The focus ring is Keeper Black. It is used for the second CTA, the map's reset control, and the route's "Walk the route" control.
 - **Full width:** `.full-width.button` stretches the button and centers its label.
 - **Support:** `data-button-variant="support"` gives a Keeper's Brick fill that hovers to Keeper's Brick Deep. It is used once: the header Donate link, which is a single `<a class="button">`.
 
@@ -278,10 +278,11 @@ The sea on the page: today's predicted tide, on Plan Your Visit.
 - **Readout (top left):** An h2 at step 4 that names the day on show ("The tide today", "The tide on Saturday"), the time in tabular Public Sans, the height now at `--size-step-9` in bold tabular Keeper Black (-0.03em, with the unit at 0.4em), and one serif sentence giving the trend and the next high or low.
 - **Status (right):** Season, Landing, Caretakers and Tower as a definition list, at `--leading-normal`. Landing restates the published access rule and links to Coming ashore. Each entry is opened by a `--tide-rule` hairline, with the term in small semibold Public Sans and key values in bold Keeper Black.
 - **Chart (full width):** The curve is a 2px Keeper Black line over a `--tide-water` fill, on a Station Stone baseline. Clock ticks every six hours are set in tabular sans. Midnight ticks are bold Keeper Black and carry a dashed `--tide-rule` divider. The high and low marks give the height in bold over the time.
-- **Now and scrub:** The now-marker is a 2px Granite rule with a Granite dot ringed in Fog. A transparent range input over the plot lets pointer, touch and arrow keys read any time. It shows a Keeper Black cursor and a square, outlined "Back to now" control, and Escape also returns to now. When the plot has focus, it shows a 2px Keeper Black outline.
-- **Motion:** The curve draws in once, left to right (1400ms, the bounce easing), then the marks and now-marker fade in (600ms, after 700ms). Stepping to another day swaps the curve without replaying the draw. Nothing else animates, and reduced motion skips both.
+- **Now and scrub:** The now-marker is a 2px Granite rule with a Granite dot ringed in Fog, flanked by a grip: a small inline-SVG chevron on either side of the dot (2px Granite strokes on a 6px Fog knockout), so the curve reads as something to drag. A transparent range input over the plot lets pointer, touch and arrow keys read any time. Once the visitor scrubs, the grip moves to a Keeper Black cursor and the now-marker keeps only its dot; a square, outlined "Back to now" control and Escape both return to now. When the plot has focus, it shows a 2px Keeper Black outline.
+- **Motion:** The curve draws in once, left to right (1400ms, the bounce easing), then the marks and now-marker fade in (600ms, after 700ms), and the grip's chevrons lean out 3px and back twice (700ms each, from 1400ms) as the one hint that the curve can be read by hand. Stepping to another day swaps the curve without replaying any of it. Nothing else animates, and reduced motion skips all three.
+- **Saved prediction:** Each prediction NOAA returns is kept on the device (`localStorage`, a day back and everything fetched ahead). When it covers the window on show, the band draws from it at once and NOAA's answer then confirms it silently. If NOAA can't be reached, the saved figures stay up with one dashed-ruled note saying when it was saved and that predictions still hold, plus "Check NOAA again". After 4s with nothing saved, the loading line reads "Still waiting on NOAA…". Coming back online retries by itself.
 - **Span:** Phones get 24 hours of tide and wider screens 36. Today starts a few hours back; a later day starts at its midnight.
-- **Days:** Square outlined Previous day / Next day controls in the caption step up to six days ahead. A later day opens read at 9 am with the cursor showing, and Back to now returns to today. A visible hint says the curve can be dragged or read with the arrow keys, and a polite status line announces each reading as it loads.
+- **Days:** Square outlined Previous day / Next day controls in the caption step up to six days ahead. A later day opens read at 9 am with the cursor showing, and Back to now returns to today. A visible hint says the marker can be dragged along the curve or moved with the arrow keys, and a polite status line announces each reading as it loads.
 - **Without JS:** The band renders in a `static` state with its facts, the source caption and a NOAA link; the height, plot and controls stay hidden. While loading or after an error, a dashed `--tide-rule` waterline holds the plot's place.
 
 ### Visit Route
@@ -289,7 +290,12 @@ The Island Map stage reused for one walk, landing to lantern.
 - **Stage:** The same Fog stage and white pill labels, `min(70svh, 44rem)` tall (at least 22rem). The named route trail is drawn heavier than the other trails (a 1.1 tube radius against 0.45) in white with a slight glow.
 - **Stops:** An ordered list beside the stage. Each stop is a full-width, borderless, 7px-cornered button with a semibold Public Sans name at step 2 over a quiet serif detail. A 12px Granite ring marks each stop, and a 2px Hairline thread strings the rings together.
 - **States:** Hover takes the Tinted Surface fill. The selected stop (`aria-pressed="true"`) fills Keeper Black and its ring fills white, matching the map's places list.
-- **Tour:** When the stage comes into view, the camera walks the stops once, 2.6s each. Any click, drag, focus or key press hands control back. With reduced motion it simply starts at the landing.
+- **Tour:** Never starts on its own. A secondary "Walk the route" button at the stage's top right (where the map keeps its reset) walks the camera through the stops, 2.6s each; while it plays the button reads "Stop the walk", and it can be replayed. Any other click, drag, focus or key press hands control back.
+
+### Callout
+A fact that decides whether a visit happens at all, pulled out of the ledger on Plan Your Visit. There are two, and only two: Landing (in Coming ashore) and Access (in The climb).
+- **Shape:** A Tinted Surface panel, 68ch wide at most, opened by a 2px Granite top rule, with square top-left and 7px corners elsewhere: a note pinned to the ledger, not a card.
+- **Label:** Bold, tracked, uppercase Public Sans in Granite at step 0, over prose-leading serif text.
 
 ## Do's and Don'ts
 

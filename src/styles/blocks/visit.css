@@ -251,7 +251,6 @@ reading fills in, the ones behind you stay dark. */
 .visit-part > :is(.visit-rows, .route, .visit-pack) {
   margin-block-start: var(--space-md-lg);
 }
-
 .visit-rows {
   border-block-end: var(--stroke-solid);
 }
@@ -300,11 +299,12 @@ reading fills in, the ones behind you stay dark. */
   color: var(--color-brand-primary);
 }
 
-/* Landing callout ------------------------------------------------------------
-   The page's one highest-stakes fact, pulled out of the ledger rhythm so it
-   doesn't read as just another row. The 2px Granite top rule rhymes with the
-   tide band's own "now" marker; both mark the same kind of thing: the live
-   fact a visitor needs before setting out. */
+/* Callouts ------------------------------------------------------------------
+   The facts that decide whether a visit happens at all (the landing window,
+   the climb's access), pulled out of the ledger rhythm so they don't read as
+   just another row. The 2px Granite top rule rhymes with the tide band's own
+   "now" marker; both mark what a visitor needs before setting out. Keep it
+   to these two, or it stops meaning "read this first". */
 .visit-callout {
   max-width: 68ch;
   margin-block-start: var(--space-md);

@@ -100,6 +100,21 @@ the one band on the site that takes it outside the map.
   font-weight: var(--font-weight-semibold);
 }
 
+/* NOAA couldn't be reached, but a saved prediction covers the window: say so
+   once, plainly, under the figures it explains. */
+.tide__saved {
+  margin-block-start: var(--space-2xs);
+  padding-block-start: var(--space-2xs);
+  max-width: 42ch;
+  border-block-start: 1px dashed var(--tide-rule);
+  font-size: var(--size-step-0);
+  line-height: var(--leading-normal);
+}
+
+.tide__saved[hidden] {
+  display: none;
+}
+
 .tide__retry {
   padding: 0;
   border: 0;
@@ -307,21 +322,77 @@ the one band on the site that takes it outside the map.
   display: none;
 }
 
-.tide__now::after,
-.tide__cursor::after {
-  content: "";
+/* The marker's grip: the position dot, flanked by a chevron either way so the
+   curve reads as something to drag. The chevrons sit on a Fog knockout like
+   the high/low labels, so the line never runs through them. Only the marker
+   being read carries them: now, until the visitor takes hold of the cursor. */
+.tide__grip {
   position: absolute;
   inset-block-start: var(--y);
   inset-inline-start: -1px;
-  inline-size: 0.875rem;
-  aspect-ratio: 1;
+  inline-size: 2.75rem;
+  block-size: 1rem;
   translate: -50% -50%;
-  border: 2px solid var(--color-brand-fog);
-  border-radius: 50%;
-  background: var(--color-brand-primary);
+  overflow: visible;
 }
 
-.tide__now span {
+.tide__grip-halo,
+.tide__grip-arrow {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tide__grip-halo {
+  stroke: var(--color-brand-fog);
+  stroke-width: 6;
+}
+
+.tide__grip-arrow {
+  stroke: var(--color-brand-primary);
+  stroke-width: 2;
+}
+
+.tide__grip-dot {
+  fill: var(--color-brand-primary);
+  stroke: var(--color-brand-fog);
+  stroke-width: 2;
+}
+
+.tide__cursor .tide__grip-arrow {
+  stroke: var(--color-brand-dark);
+}
+
+.tide__cursor .tide__grip-dot {
+  fill: var(--color-brand-dark);
+}
+
+.tide[data-scrubbed] .tide__now :is(.tide__grip-left, .tide__grip-right),
+.tide:not([data-state="ready"]) :is(.tide__grip-left, .tide__grip-right) {
+  display: none;
+}
+
+/* Once the marks have settled, the grip leans out and back twice: the one
+   hint, in motion, that the curve can be read by hand. */
+@media (prefers-reduced-motion: no-preference) {
+  .tide[data-state="ready"]:not([data-drawn]) .tide__now .tide__grip-left {
+    animation: tide-nudge-left 700ms 1400ms cubic-bezier(0.16, 1, 0.3, 1) 2;
+  }
+
+  .tide[data-state="ready"]:not([data-drawn]) .tide__now .tide__grip-right {
+    animation: tide-nudge-right 700ms 1400ms cubic-bezier(0.16, 1, 0.3, 1) 2;
+  }
+}
+
+@keyframes tide-nudge-left {
+  50% { translate: -3px 0; }
+}
+
+@keyframes tide-nudge-right {
+  50% { translate: 3px 0; }
+}
+
+.tide__now-label {
   position: absolute;
   inset-block-start: 0;
   inset-inline-start: 0.4rem;
@@ -333,10 +404,6 @@ the one band on the site that takes it outside the map.
 
 .tide__cursor {
   border-inline-start-color: var(--color-brand-dark);
-}
-
-.tide__cursor::after {
-  background: var(--color-brand-dark);
 }
 
 /* The scrub control is a real range input stretched over the plot:
@@ -384,8 +451,8 @@ the one band on the site that takes it outside the map.
   align-items: center;
 }
 
-/* Quieter than the buttons beside it: instructional, not an affordance in
-   its own right, so it shouldn't compete with Previous/Next/Back to now. */
+/* Quieter than the buttons beside it: the grip on the marker is the
+   affordance, and this sentence only names it and the keys. */
 .tide__hint {
   color: var(--tide-ink-quiet);
 }
@@ -445,4 +512,7 @@ the one band on the site that takes it outside the map.
   .tide__water { fill: Canvas; }
   .tide__line { stroke: CanvasText; }
   .tide__now, .tide__cursor { border-color: Highlight; }
+  .tide__grip-arrow { stroke: Highlight; }
+  .tide__grip-dot { fill: Highlight; stroke: Canvas; }
+  .tide__grip-halo { stroke: Canvas; }
 }

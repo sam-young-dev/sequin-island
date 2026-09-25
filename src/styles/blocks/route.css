@@ -26,16 +26,15 @@ walk in order, strung on one hairline like a trail.
     url("/terrain/aerial.jpg") center / cover var(--color-brand-fog);
 }
 
-/* The walk plays once, unprompted, as the stage scrolls into view. This is
-   the one visible way to say "I'll take it from here" without having to
-   grab the map or start typing. */
-.route__skip {
+/* Starts the walk, landing to lantern, and stops it again; it replays as
+   often as asked. It sits where the island map keeps its reset control. */
+.route__walk {
   position: absolute;
   inset-block-start: var(--space-sm);
   inset-inline-end: var(--space-sm);
 }
 
-.route__skip[hidden] {
+.route__walk[hidden] {
   display: none;
 }
 
