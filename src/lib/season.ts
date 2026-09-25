@@ -62,13 +62,10 @@ export function seasonCopy(state: SeasonState) {
         season: "In season",
         caretakers: `On the island through Labor Day, ${formatSeasonDate(state.closes)}.`,
         tower: "Tours with a caretaker. Check the Keeper’s Blog for closures.",
-        note: "",
       }
     : {
         season: "Off season",
         caretakers: `Back on the island Memorial Day, ${formatSeasonDate(state.opens, true)}.`,
         tower: "No tower or museum tours until the caretakers return. Camping reservations open March 1.",
-        /** Said once, above the trip, so the steps below aren't read as today's plan. */
-        note: `It’s the off season, so this is where you plan for May: the caretakers return Memorial Day, ${formatSeasonDate(state.opens, true)}, and the steps below will get you ready to go.`,
       };
 }

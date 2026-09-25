@@ -12,24 +12,38 @@ interface Props {
 }
 
 const { latest } = Astro.props;
-const season = seasonCopy(seasonState());
+const state = seasonState();
+const season = seasonCopy(state);
 const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id=8417177";
 ---
 
 <section class="tide" aria-labelledby="tide-heading" data-tide data-state="static">
   <div class="wrapper tide__inner">
     <div class="tide__readout">
-      <h2 id="tide-heading" class="tide__heading" data-heading>The tide today</h2>
+      <h2 id="tide-heading" class="tide__heading" data-heading>{state.open ? "The tide today" : "The tide today, off season"}</h2>
       <p class="tide__when" data-when>Predicted by NOAA for the mouth of the Kennebec.</p>
       <p class="tide__height"><span data-height>–</span><span class="tide__unit"> ft</span></p>
       <p class="tide__trend" data-trend>
         <noscript>The tide chart loads from NOAA with JavaScript. <a href={NOAA_PAGE}>See the week’s Hunniwell Point tides on NOAA</a>.</noscript>
       </p>
+      <p class="tide__caution">
+        A reading alone doesn’t say the beach is clear — <a href="#tide-access">check the landing</a> before you go.
+      </p>
       <p class="tide__saved" data-saved hidden></p>
-      <p class="tide__access">
-        <strong>Landing:</strong> the small beach takes about three quarters of the tide cycle to reach, until the new pier is finished. The exact window that closes it isn’t published — if today’s tide looks tight, <a href="tel:+12074434808">call the office</a> before you set out. <a href="#landing-callout" class="tide__cta">Full landing details</a>
+      <p class="tide__plan" data-plan hidden={state.open}>
+        Planning a summer trip? NOAA publishes these predictions a year ahead: <a href={NOAA_PAGE}>pick your date on NOAA</a>.
       </p>
       <p class="visually-hidden" role="status" data-announce></p>
+    </div>
+
+    <div class="tide__access" id="tide-access">
+      <p>
+        <strong>Landing:</strong> until the new pier is finished, the beach can be reached for about three quarters of the tide cycle. Which part of the tide closes it isn’t published, so ask the office before you set out.
+      </p>
+      <p class="tide__actions">
+        <a class="tide__call" href="tel:+12074434808">Call the office <span>207-443-4808</span></a>
+        <a href="#coming-ashore" class="tide__cta">Moorings and coming ashore</a>
+      </p>
     </div>
 
     <dl class="tide__status">
@@ -200,10 +214,26 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
     el.style.setProperty("--y", `${y(heightAt(t))}%`);
   }
 
+  // "Now" sits right of its rule unless a high/low label is there; then it
+  // tries the left, and if both sides are taken the rule and grip speak alone.
+  const nowLabel = $(".tide__now-label");
+  const overlaps = (a: DOMRect, b: DOMRect) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+  function settleNowLabel() {
+    if (nowMark.hidden) return;
+    const taken = [...marks.querySelectorAll(".tide__extreme")].map((el) => el.getBoundingClientRect());
+    const clash = () => taken.some((rect) => overlaps(nowLabel.getBoundingClientRect(), rect));
+    delete nowMark.dataset.label;
+    if (!clash()) return;
+    nowMark.dataset.label = "start";
+    if (clash()) nowMark.dataset.label = "none";
+  }
+  window.addEventListener("resize", settleNowLabel, { passive: true });
+
   function showNow() {
     const now = maineNow();
     place(nowMark, now);
     nowMark.hidden = false;
+    settleNowLabel();
     if (!scrubbed) {
       scrub.value = String(Math.round((now - start) / STEP));
       describe(now, true);
@@ -342,7 +372,7 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
     // The curve draws in on the first load only; stepping days just swaps it.
     if (series.length) root.dataset.drawn = "";
     savedNote.hidden = true;
-    heading.textContent = `The tide ${dayName(day)}`;
+    heading.textContent = day === 0 && !seasonState().open ? "The tide today, off season" : `The tide ${dayName(day)}`;
     dayButtons.forEach((button) => {
       const next = day + Number(button.dataset.dayStep);
       button.disabled = next < 0 || next > DAYS_AHEAD;
@@ -464,6 +494,7 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
 
   // Keep the season line current for a page built long ago.
   const copy = seasonCopy(seasonState());
+  $("[data-plan]").hidden = seasonState().open;
   $("[data-season]").textContent = copy.season;
   $("[data-caretakers]").textContent = copy.caretakers;
   $("[data-tower]").textContent = copy.tower;

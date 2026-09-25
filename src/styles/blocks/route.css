@@ -17,6 +17,15 @@ walk in order, strung on one hairline like a trail.
   min-block-size: 22rem;
 }
 
+/* On phones the stage stacks above the stops; a shorter, wider stage keeps
+   the island large in frame and the stops within a thumb's reach. */
+@media (max-width: 40rem) {
+  .route__stage {
+    block-size: min(55svh, 30rem);
+    min-block-size: 20rem;
+  }
+}
+
 /* While the terrain loads, or where it can't, the island's own aerial photo sits
    under a veil of Fog, so the stage shows Seguin rather than an empty panel.
    It's the texture the viewer is about to fetch anyway. */
@@ -71,7 +80,6 @@ walk in order, strung on one hairline like a trail.
   color: inherit;
   font: inherit;
   text-align: start;
-  cursor: pointer;
   transition: background-color var(--transition-base), color var(--transition-base);
 }
 
@@ -88,7 +96,12 @@ walk in order, strung on one hairline like a trail.
   background: var(--color-white);
 }
 
-.route__button:hover {
+/* Without JS the stops are a plain list; the script upgrades them to buttons. */
+button.route__button {
+  cursor: pointer;
+}
+
+button.route__button:hover {
   background: var(--color-neutral-100);
 }
 

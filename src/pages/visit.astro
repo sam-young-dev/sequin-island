@@ -5,7 +5,7 @@ import TideClock from "../components/tide-clock/TideClock.astro";
 import VisitRoute, { type RouteStop } from "../components/visit-route/VisitRoute.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { formatDate, isoDate } from "../lib/format";
-import { seasonCopy, seasonState } from "../lib/season";
+import { seasonState } from "../lib/season";
 
 // Visitor facts are taken from seguinisland.org's travel, mooring, guidelines
 // and stay pages, and from the About page. Keep them as published.
@@ -13,9 +13,7 @@ const [latest] = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (left, right) => right.data.publishDate.getTime() - left.data.publishDate.getTime(),
 );
 
-// Rendered at build time and refreshed in the browser, like the tide band's season column.
 const season = seasonState();
-const seasonNote = seasonCopy(season).note;
 // The Keeper's Guest Room was paused for the 2026 season. Once that season has
 // passed, stop stating it as current and point people to the office instead.
 const GUEST_ROOM_PAUSED = 2026;
@@ -25,7 +23,7 @@ const stops: RouteStop[] = [
   {
     key: "landing",
     name: "The landing",
-    detail: "Boats land passengers on the small beach in the cove until the new pier is finished.",
+    detail: "The small beach in Seguin Cove, where boats put passengers ashore.",
   },
   {
     key: "boat-house",
@@ -53,8 +51,8 @@ const sections = [
   { id: "getting-there", label: "Getting there" },
   { id: "coming-ashore", label: "Coming ashore" },
   { id: "the-climb", label: "The climb" },
-  { id: "staying-over", label: "Staying over" },
   { id: "what-to-bring", label: "What to bring" },
+  { id: "staying-over", label: "Staying over" },
 ];
 ---
 
@@ -64,12 +62,9 @@ const sections = [
 >
   <div class="region wrapper visit-intro">
     <h1>Plan your visit</h1>
-    <div class="visit-intro__text">
-      <p class="visit-intro__lead">
-        Seguin is a real island with a 9-foot tide and a small beach, so a good visit starts with the water. Here is today’s tide, then everything you need to cross, come ashore and climb to the light.
-      </p>
-      <p class="visit-intro__season" data-season-note hidden={!seasonNote}>{seasonNote}</p>
-    </div>
+    <p class="visit-intro__lead">
+      Seguin has a 9-foot tide and a small landing beach, so every visit starts with the water.
+    </p>
   </div>
 
   <TideClock
@@ -125,10 +120,7 @@ const sections = [
             <dt>By kayak</dt>
             <dd class="flow">
               <p>
-                It’s the same two-and-a-half-mile open-water crossing from the mouth of the Kennebec, but under paddle it takes far longer than under power, so you’re exposed to the current, swell and fog for longer. FOSILS doesn’t publish a separate route for paddlers; watch for the same shallow rocks on the cove’s eastern edge, which show as breaking waves at low tide, and time your crossing for slack or a rising tide rather than fighting the current on the way in.
-              </p>
-              <p>
-                Treat it as an open-water crossing: wear a PFD, carry a VHF radio, and leave a float plan with someone ashore. Roger Duncan’s cruising guide, <a href="https://nauticalcharts.noaa.gov/publications/coast-pilot/">NOAA’s Coast Pilot</a> and the <a href="https://mita.org/">Maine Island Trail Association’s</a> guide all cover the approach. Call the FOSILS office at <a href="tel:+12074434808">207-443-4808</a> before you set out, especially if you’re paddling alone.
+                The same open-water crossing from the mouth of the Kennebec, with the same swell, current and fog, and the same shallow rocks on the cove’s eastern edge. FOSILS doesn’t publish a separate route for paddlers.
               </p>
             </dd>
           </div>
@@ -143,7 +135,7 @@ const sections = [
         <aside id="landing-callout" class="visit-callout" aria-labelledby="landing-callout-heading">
           <p id="landing-callout-heading" class="visit-callout__label">Landing</p>
           <p>
-            A new pier is under way. Until it’s finished, the small beach and 9-foot tide mean the island can be reached for about three quarters of the tide cycle. FOSILS hasn’t published the exact window that closes it, so <a href="#tide-heading" class="visit-row__cta">check today’s tide</a> before you set out, and call the office at <a href="tel:+12074434808">207-443-4808</a> if it looks tight. Fog is common here too, so go slow and watch for it on your approach.
+            A new pier is under way; until it’s finished, passengers land on the small beach. <a href="#tide-access" class="visit-row__cta">Read today’s tide</a> for the landing rule and the office number. Fog is common here too, so go slow on your approach.
           </p>
         </aside>
         <dl class="visit-rows">
@@ -192,8 +184,35 @@ const sections = [
         </p>
       </section>
 
+      <section id="what-to-bring" class="visit-part" aria-labelledby="what-to-bring-heading">
+        <h2 id="what-to-bring-heading"><span class="visit-part__num" aria-hidden="true">4</span> What to bring</h2>
+        <p class="visit-part__lead">
+          There’s no drinking water and no trash can on the island. Carry in what you need, and carry it all out again.
+        </p>
+        <div class="visit-pack">
+          <div>
+            <h3>Bring</h3>
+            <ul>
+              <li><strong>Drinking water and food</strong> for everyone, for your whole stay.</li>
+              <li><strong>Layers and sturdy hiking shoes</strong> for the wind and changing temperatures.</li>
+              <li><strong>A bag for your trash</strong>, to take home with you.</li>
+              <li><strong>A leash, water and bags for your dog.</strong> Dogs are welcome on a leash, because seabirds nest on the island.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Please don’t</h3>
+            <ul>
+              <li>Light a fire or fly a drone anywhere on the island.</li>
+              <li>Walk on the tramway.</li>
+              <li>Feed the wildlife, or leave the trails near nesting seabirds.</li>
+              <li>Go into the tower without a caretaker. The Fresnel lens is off-limits; the U.S. Coast Guard maintains it.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <section id="staying-over" class="visit-part" aria-labelledby="staying-over-heading">
-        <h2 id="staying-over-heading"><span class="visit-part__num" aria-hidden="true">4</span> Staying over</h2>
+        <h2 id="staying-over-heading"><span class="visit-part__num" aria-hidden="true">5</span> Staying over</h2>
         <p class="visit-part__lead">
           Members can camp on the island.{" "}
           {guestRoomCurrent ? (
@@ -224,33 +243,6 @@ const sections = [
         </dl>
       </section>
 
-      <section id="what-to-bring" class="visit-part" aria-labelledby="what-to-bring-heading">
-        <h2 id="what-to-bring-heading"><span class="visit-part__num" aria-hidden="true">5</span> What to bring</h2>
-        <p class="visit-part__lead">
-          There’s no drinking water and no trash can on the island. Carry in what you need, and carry it all out again.
-        </p>
-        <div class="visit-pack">
-          <div>
-            <h3>Bring</h3>
-            <ul>
-              <li><strong>Drinking water and food</strong> for everyone, for your whole stay.</li>
-              <li><strong>Layers and sturdy hiking shoes</strong> for the wind and changing temperatures.</li>
-              <li><strong>A bag for your trash</strong>, to take home with you.</li>
-              <li><strong>A leash, water and bags for your dog.</strong> Dogs are welcome on a leash, because seabirds nest on the island.</li>
-            </ul>
-          </div>
-          <div>
-            <h3>Please don’t</h3>
-            <ul>
-              <li>Light a fire or fly a drone anywhere on the island.</li>
-              <li>Walk on the tramway.</li>
-              <li>Feed the wildlife, or leave the trails near nesting seabirds.</li>
-              <li>Go into the tower without a caretaker. The Fresnel lens is off-limits; the U.S. Coast Guard maintains it.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
     </div>
   </div>
 
@@ -270,16 +262,6 @@ const sections = [
 </BaseLayout>
 
 <script>
-  import { seasonCopy, seasonState } from "../lib/season";
-
-  // Keep the off-season note current for a page built long ago.
-  const seasonNote = document.querySelector<HTMLElement>("[data-season-note]");
-  if (seasonNote) {
-    const note = seasonCopy(seasonState()).note;
-    seasonNote.textContent = note;
-    seasonNote.hidden = !note;
-  }
-
   // Mark the step you're reading. Without JS the rail is still a list of links.
   const nav = document.querySelector<HTMLElement>("[data-visit-steps]");
   const links = [...(nav?.querySelectorAll<HTMLAnchorElement>("a[data-step]") ?? [])];

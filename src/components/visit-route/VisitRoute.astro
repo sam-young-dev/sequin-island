@@ -39,10 +39,10 @@ const { stops } = Astro.props;
   <ol class="route__stops" role="list">
     {stops.map((stop) => (
       <li class="route__stop">
-        <button class="route__button" type="button" aria-pressed="false" data-place={stop.key}>
+        <div class="route__button" data-place={stop.key}>
           <span class="route__name">{stop.name}</span>
           <span class="route__detail">{stop.detail}</span>
-        </button>
+        </div>
       </li>
     ))}
   </ol>
@@ -55,6 +55,18 @@ const { stops } = Astro.props;
   const stage = root.querySelector<HTMLElement>("[data-stage]")!;
   const status = root.querySelector<HTMLElement>("[data-status]")!;
   const announce = root.querySelector<HTMLElement>("[data-announce]")!;
+
+  // Without JS the stops are a plain list, so they never pose as controls that
+  // do nothing. Here each becomes a toggle that marks the stop and flies there.
+  root.querySelectorAll<HTMLElement>("div.route__button").forEach((stop) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = stop.className;
+    button.dataset.place = stop.dataset.place;
+    button.setAttribute("aria-pressed", "false");
+    button.append(...stop.childNodes);
+    stop.replaceWith(button);
+  });
   const buttons = [...root.querySelectorAll<HTMLButtonElement>(".route__button")];
   const labels = [...root.querySelectorAll<HTMLElement>(".island-map__label")];
   const walk = root.querySelector<HTMLButtonElement>("[data-walk]")!;
@@ -80,7 +92,8 @@ const { stops } = Astro.props;
     mark(key);
     map?.select(key);
     tour = index < buttons.length - 1 ? window.setTimeout(() => playTour(index + 1), TOUR_DWELL_MS) : null;
-    if (tour === null) walk.textContent = "Walk the route";
+    // At the lantern the walk is over; say it can be taken again.
+    if (tour === null) walk.textContent = "Walk it again";
   }
 
   walk.addEventListener("click", () => {

@@ -19,28 +19,11 @@ page's ledger, so the page reads as one log of the island.
   letter-spacing: -0.02em;
 }
 
-.visit-intro__text {
-  --flow-space: var(--space-sm);
-  flex: 0 1 38rem;
-}
-
 .visit-intro__lead {
+  flex: 0 1 30rem;
   font-size: var(--size-step-2);
   line-height: var(--leading-normal);
   text-wrap: pretty;
-}
-
-/* Off season only: said once, before the trip, so nobody plans today from it */
-.visit-intro__season {
-  margin-block-start: var(--space-sm);
-  padding-block-start: var(--space-xs);
-  border-block-start: var(--stroke-solid);
-  line-height: var(--leading-prose);
-  text-wrap: pretty;
-}
-
-.visit-intro__season[hidden] {
-  display: none;
 }
 
 /* Steps ------------------------------------------------------------------------
@@ -137,8 +120,11 @@ reading fills in, the ones behind you stay dark. */
   color: var(--color-text-normal);
 }
 
+/* Behind you: a dark ring on a light wash, so passed steps read apart from
+   the Granite rings still ahead, even on the narrow strip. */
 .visit-steps__item[data-state="passed"] .visit-steps__num {
   border-color: var(--color-brand-dark);
+  background: color-mix(in oklab, var(--color-brand-dark) 12%, var(--color-white));
   color: var(--color-brand-dark);
 }
 
@@ -205,7 +191,9 @@ reading fills in, the ones behind you stay dark. */
 
 .visit-part {
   padding-block: var(--space-xl) var(--space-lg);
-  scroll-margin-block-start: calc(2.75rem + var(--space-md));
+  /* The mobile strip's own height (the 2.75rem link plus its ol's block
+     padding), then a bit of breathing room below it. */
+  scroll-margin-block-start: calc(2.75rem + var(--space-2xs) * 2 + var(--space-md));
 }
 
 @media (min-width: 64rem) {
@@ -306,6 +294,9 @@ reading fills in, the ones behind you stay dark. */
    "now" marker; both mark what a visitor needs before setting out. Keep it
    to these two, or it stops meaning "read this first". */
 .visit-callout {
+  /* Granite drops just under AA on the tinted panel, so text on it takes a
+     deeper mix of Granite toward Keeper Black; the top rule keeps pure Granite. */
+  --granite-on-tint: color-mix(in oklab, var(--color-brand-primary), var(--color-brand-dark) 30%);
   max-width: 68ch;
   margin-block-start: var(--space-md);
   padding: var(--space-sm) var(--space-md);
@@ -321,7 +312,11 @@ reading fills in, the ones behind you stay dark. */
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--color-brand-primary);
+  color: var(--granite-on-tint);
+}
+
+.visit-callout .visit-row__cta {
+  color: var(--granite-on-tint);
 }
 
 .visit-callout p:last-child {

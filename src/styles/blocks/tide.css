@@ -15,20 +15,40 @@ the one band on the site that takes it outside the map.
   color: var(--tide-ink);
 }
 
+/* Wide screens set the readout, the landing line and the status side by side,
+   so the curve rises into the first view; mid widths stack the landing line
+   under the readout. On narrow screens the curve comes straight after the
+   figure, with landing and status below it. */
 .tide__inner {
   display: grid;
-  grid-template-columns: fit-content(46ch) minmax(13rem, 20rem) minmax(0, 1fr);
+  grid-template-columns: fit-content(46ch) minmax(0, 1fr) minmax(13rem, 20rem);
   grid-template-areas:
-    "readout status ."
+    "readout access status"
     "chart chart chart";
-  gap: var(--space-md-lg) var(--space-xl-2xl);
+  gap: var(--space-sm) var(--space-xl-2xl);
   align-items: start;
+}
+
+@media (min-width: 72rem) {
+  .tide__access {
+    align-self: end;
+  }
+}
+
+@media (max-width: 72rem) {
+  .tide__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(13rem, 20rem);
+    grid-template-areas:
+      "readout status"
+      "access status"
+      "chart chart";
+  }
 }
 
 @media (max-width: 52rem) {
   .tide__inner {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "readout" "chart" "status";
+    grid-template-areas: "readout" "chart" "access" "status";
   }
 }
 
@@ -74,9 +94,34 @@ the one band on the site that takes it outside the map.
   min-block-size: 1lh;
 }
 
+/* Ties the figure above to the one answer the page can give for certain,
+   right where the figure is read, instead of leaving the two facts to be
+   reconciled by the visitor further down the band. */
+.tide__caution {
+  margin-block-start: var(--space-2xs);
+  max-width: 38ch;
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--size-step-0);
+  line-height: var(--leading-normal);
+}
+
+/* Off season only: today's water is for reading, not for going, so point
+   the planner at the dates they will actually sail. */
+.tide__plan {
+  margin-block-start: var(--space-2xs);
+  max-width: 40ch;
+  font-size: var(--size-step-0);
+  line-height: var(--leading-normal);
+}
+
+.tide__plan[hidden] {
+  display: none;
+}
+
 .tide__access {
-  margin-block-start: var(--space-sm);
-  max-width: 42ch;
+  grid-area: access;
+  max-width: 44ch;
   font-size: var(--size-step-0);
   line-height: var(--leading-normal);
 }
@@ -87,15 +132,54 @@ the one band on the site that takes it outside the map.
 }
 
 .tide__trend a,
+.tide__plan a,
+.tide__caution a,
 .tide__access a,
 .tide__status a,
 .tide__source a {
   color: inherit;
 }
 
+/* The landing question has one answer the page can give for certain: ask the
+   office. So the call is the band's one filled control. */
+.tide__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-sm);
+  align-items: center;
+  margin-block-start: var(--space-xs);
+}
+
+.tide__access .tide__call {
+  display: inline-flex;
+  gap: 0.5em;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding: 0.35em 0.9em;
+  background: var(--color-brand-dark);
+  color: var(--color-brand-light);
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+  transition: background-color var(--transition-base);
+}
+
+.tide__call span {
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tide__access .tide__call:hover {
+  background: var(--tide-ink);
+}
+
 /* Rhymes with the "Coming ashore" section's own landing link, so both halves
    of the cross-referenced safety fact carry the same visual weight. */
 .tide__cta {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
   font-family: var(--font-heading);
   font-weight: var(--font-weight-semibold);
 }
@@ -145,17 +229,24 @@ the one band on the site that takes it outside the map.
    A quiet column: it reports what's running today, but the tide figure is
    the thing the visitor came to read, so this stays smaller and lower-
    contrast than the readout at every step. */
+/* One quiet block, not three separately-ruled ones: label and value share a
+   line, and a single hairline opens the whole list instead of each item
+   carrying its own, so the column reads as one glance, not three. */
 .tide__status {
   grid-area: status;
   margin-block-start: var(--space-sm);
+  padding-block-start: var(--space-2xs);
+  border-block-start: 1px solid color-mix(in oklab, var(--tide-rule), transparent 35%);
   font-size: var(--size-step--1);
   line-height: var(--leading-normal);
   color: var(--tide-ink-quiet);
 }
 
 .tide__status > div {
-  padding-block: var(--space-3xs) var(--space-2xs);
-  border-block-start: 1px solid color-mix(in oklab, var(--tide-rule), transparent 35%);
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.4em;
+  padding-block: var(--space-3xs);
 }
 
 .tide__status dt {
@@ -164,8 +255,12 @@ the one band on the site that takes it outside the map.
   font-weight: var(--font-weight-semibold);
 }
 
+.tide__status dt::after {
+  content: ":";
+}
+
 .tide__status dd {
-  margin: var(--space-3xs) 0 0;
+  margin: 0;
 }
 
 .tide__status strong {
@@ -188,7 +283,7 @@ the one band on the site that takes it outside the map.
 /* Chart --------------------------------------------------------------------- */
 .tide__chart {
   grid-area: chart;
-  margin: 0;
+  margin: var(--space-xs) 0 0;
 }
 
 .tide__plot {
@@ -400,6 +495,15 @@ the one band on the site that takes it outside the map.
   font-size: var(--size-step--1);
   font-weight: var(--font-weight-bold);
   color: var(--tide-ink);
+  white-space: nowrap;
+}
+
+.tide__now[data-label="start"] .tide__now-label {
+  inset-inline: auto 0.4rem;
+}
+
+.tide__now[data-label="none"] .tide__now-label {
+  display: none;
 }
 
 .tide__cursor {
