@@ -52,7 +52,7 @@ Seguin has facts no other lighthouse can claim: Maine's highest lighthouse above
 ## Evidence on Hand
 
 - Real history, facilities, conservation, and education content: `src/content/pages/about.md`.
-- Real membership tiers, donation channels, contacts, and mailing address: `src/content/pages/membership.md`, `donate.md`, `contact.md`.
+- Real membership tiers, donation channels, contacts, and mailing address: `src/content/pages/membership.md`, `donate.md`. Contact info (email, office phone, mailing address) lives in `src/data/site-data.ts` and is surfaced sitewide by the Closer band rather than a standalone Contact page.
 - A real blog post with caretaker photos hosted on seguinisland.org: `src/content/blog/pardon-our-dust.md`.
 - Island imagery: `src/assets/seguin-island-hero.jpg`, `seguin-island-lighthouse.png`, and `public/terrain/aerial.jpg`.
 - Real terrain and feature data for the map: `public/terrain/`.

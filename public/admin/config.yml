@@ -49,12 +49,30 @@ collections:
     fields:
       - { label: Title, name: title, widget: string }
       - { label: Description, name: description, widget: text, pattern: ['^[\s\S]{50,200}$', 'Write 50 to 200 characters.'], hint: 'Shown in search results and link previews. 50 to 200 characters.' }
-      - { label: 'Donate page — Intro', name: intro, widget: text, required: false, hint: 'donate.md only: the paragraph above the Donate button.' }
+      - { label: 'Intro', name: intro, widget: text, required: false, hint: 'donate.md: the paragraph above the Donate button. about.md: the opening paragraph(s), separated by a blank line.' }
       - { label: 'Donate page — Lede', name: lede, widget: string, required: false, hint: 'donate.md only: the short line right above the Donate button.' }
       - { label: 'Donate page — Button label', name: ctaLabel, widget: string, required: false, hint: 'donate.md only.' }
       - { label: 'Donate page — Button link', name: ctaHref, widget: string, required: false, hint: 'donate.md only: where the Donate button goes.' }
       - { label: 'Donate page — Reassurance', name: reassurance, widget: text, required: false, hint: 'donate.md only: the tax-deductible statement shown beside the button.' }
       - { label: 'Donate page — Donor Bill of Rights link', name: donorRightsHref, widget: string, required: false, hint: 'donate.md only.' }
+      - label: 'About page — Timeline'
+        name: timeline
+        widget: list
+        required: false
+        summary: '{{fields.year}} – {{fields.event}}'
+        hint: 'about.md only: the founding timeline, oldest first.'
+        fields:
+          - { label: Year, name: year, widget: number, value_type: int }
+          - { label: Event, name: event, widget: text }
+      - label: 'About page — Facilities'
+        name: facilities
+        widget: list
+        required: false
+        summary: '{{fields.title}}'
+        hint: 'about.md only: the facilities and capital projects list.'
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Detail, name: detail, widget: text }
       - { label: Body, name: body, widget: markdown }
 
   - name: membership
@@ -73,6 +91,7 @@ collections:
             widget: list
             hint: 'The benefits every tier gets, listed once above the tiers.'
             field: { label: Benefit, name: benefit, widget: string }
+          - { label: Sustaining Note, name: sustainingNote, widget: text, hint: 'Shown under the tier list, pointing out the $10/month recurring option.' }
           - label: Tiers
             name: tiers
             widget: list
@@ -86,6 +105,7 @@ collections:
                 widget: list
                 hint: 'Only what this tier adds beyond "Every Membership Includes" above.'
                 field: { label: Extra, name: extra, widget: string }
+              - { label: Suggested, name: suggested, widget: boolean, default: false, hint: 'Marks this tier "Suggested" on the page. Use on at most one tier.' }
 
   - name: keepers
     label: Keepers

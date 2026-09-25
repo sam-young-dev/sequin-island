@@ -1,18 +1,48 @@
 .closer {
   background: var(--color-interactive-fill-default);
   color: var(--color-foreground-inverse);
-  --flow-space: var(--space-lg);
-  padding-block: var(--space-xl) var(--space-lg);
-  font-weight: var(--font-weight-bold);
+  padding-block: var(--space-xl);
 }
 
-.closer svg[role="img"][width][height] {
-  --color-svg-fill: var(--color-foreground-inverse);
-  --color-svg-stroke: var(--color-foreground-inverse);
-  width: 100%;
-  height: auto;
-  background: unset;
-  padding: unset;
+.closer__inner {
+  --repel-gap: var(--space-xl) var(--space-2xl);
+  --repel-vertical-alignment: flex-start;
+}
+
+.closer__cta {
+  --flow-space: var(--space-sm);
+  flex: 1 1 32rem;
+  max-width: 38ch;
+}
+
+.closer__cta h2 {
+  color: inherit;
+}
+
+.closer__cta > p {
+  font-weight: var(--font-weight-normal);
+  line-height: var(--leading-normal);
+  max-width: 42ch;
+}
+
+.closer__actions {
+  --flow-space: var(--space-md);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.closer__phone {
+  color: inherit;
+  font-weight: var(--font-weight-bold);
+  text-underline-offset: 0.25em;
+}
+
+.closer__brand {
+  --flow-space: var(--space-sm);
+  flex: 0 1 22.5rem;
+  text-align: center;
 }
 
 .logo-container {
@@ -28,26 +58,7 @@
   background: var(--color-white);
 }
 
-.closer .nav .cluster {
-  --cluster-gap: 0 var(--space-md);
-  --cluster-horizontal-alignment: center;
-}
-
-/* 44px tap targets without changing the visual rhythm */
-.closer .nav a {
-  display: inline-block;
-  padding-block: 0.75em;
-  color: inherit;
-  text-underline-offset: 0.25em;
-}
-
-.closer__contact {
-  --flow-space: var(--space-sm);
-  text-align: center;
+.closer__address {
   font-weight: var(--font-weight-normal);
   line-height: var(--leading-normal);
-}
-
-.closer__contact a {
-  color: inherit;
 }

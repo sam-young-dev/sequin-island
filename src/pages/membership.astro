@@ -11,7 +11,7 @@ if (!membership) {
   throw new Error("Missing src/content/membership/index.md");
 }
 
-const { title, description, intro, purchaseHref, included, tiers } = membership.data;
+const { title, description, intro, purchaseHref, included, sustainingNote, tiers } = membership.data;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -28,10 +28,11 @@ const { title, description, intro, purchaseHref, included, tiers } = membership.
   </section>
 
   <section class="region wrapper membership-tiers" aria-labelledby="tiers-heading">
-    <h2 id="tiers-heading">Choose your level</h2>
+    <h2 id="tiers-heading">Membership levels</h2>
     <ul class="membership-tiers__grid" role="list">
       {tiers.map((tier) => (
         <li class="membership-tier">
+          {tier.suggested && <p class="membership-tier__suggested">Suggested</p>}
           <table class="membership-tier__table">
             <caption>{tier.name}</caption>
             <tr>
@@ -44,11 +45,22 @@ const { title, description, intro, purchaseHref, included, tiers } = membership.
               {tier.extras.map((extra) => <li>{extra}</li>)}
             </ul>
           ) : (
-            <p class="membership-tier__extras-none">Every benefit above, and nothing more.</p>
+            <p class="membership-tier__extras-none">Includes every benefit above.</p>
           )}
+          <p class="membership-tier__join">
+            <a
+              href={purchaseHref}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Join at the ${tier.name} level (opens eJoinMe in a new tab)`}
+            >
+              Join at this level →
+            </a>
+          </p>
         </li>
       ))}
     </ul>
+    <p class="membership-tiers__sustaining">{sustainingNote}</p>
   </section>
 
   <div class="region support" data-bg="tinted">

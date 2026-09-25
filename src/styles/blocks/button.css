@@ -50,6 +50,14 @@
   --corner-secondary-color: var(--color-brand-primary);
 }
 
+/* On-dark: for the one button that sits on the Granite-filled Closer band */
+.button[data-button-variant="on-dark"] {
+  --button-bg: var(--color-white);
+  --button-bg-hover: var(--color-brand-fog);
+  --button-text: var(--color-brand-primary);
+  --focus-color: var(--color-white);
+}
+
 /* Windows high contrast drops background fills, so give buttons an edge */
 @media (forced-colors: active) {
   .button {

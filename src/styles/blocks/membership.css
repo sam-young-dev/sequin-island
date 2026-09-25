@@ -67,10 +67,24 @@ same one the mooring table on Plan Your Visit uses.
 
 .membership-tier {
   --flow-space: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   padding: 1.5rem;
   border: 1px solid var(--color-neutral-200);
   border-radius: 7px;
   background-color: var(--color-neutral-surface-default);
+}
+
+/* Same annotation-label voice as the Callout's label on Plan Your Visit */
+.membership-tier__suggested {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-heading);
+  font-size: var(--size-step-0);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--color-brand-primary);
 }
 
 /* The price, in the system's small dashed table: caption above, the figure
@@ -114,5 +128,22 @@ same one the mooring table on Plan Your Visit uses.
 
 .membership-tier__extras-none {
   margin-block-start: var(--space-sm);
+  color: var(--color-text-quiet);
+}
+
+.membership-tier__join {
+  margin-block-start: auto;
+  padding-block-start: var(--space-md);
+}
+
+/* Same quiet exit-link voice as the ledger's "Walk the island in 3D" */
+.membership-tier__join a {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-normal);
+}
+
+.membership-tiers__sustaining {
+  margin-block-start: var(--space-lg);
   color: var(--color-text-quiet);
 }

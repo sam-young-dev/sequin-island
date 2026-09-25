@@ -1,7 +1,9 @@
 ---
 import { getEntry, render } from "astro:content";
 
+import lighthouseImage from "../../assets/seguin-island-hero.jpg";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
 
 const about = await getEntry("pages", "about");
 const keepers = await getEntry("keepers", "index");
@@ -9,6 +11,14 @@ const keepers = await getEntry("keepers", "index");
 if (!about || !keepers) {
   throw new Error("Missing src/content/pages/about.md or src/content/keepers/index.md");
 }
+
+const { intro, timeline, facilities } = about.data;
+
+if (!intro || !timeline?.length || !facilities?.length) {
+  throw new Error("src/content/pages/about.md is missing intro, timeline, or facilities");
+}
+
+const introParagraphs = intro.split(/\n{2,}/);
 
 const { Content } = await render(about);
 const { Content: BecomeAKeeper } = await render(keepers);
@@ -18,8 +28,52 @@ const recent = [...keepers.data.volunteers].sort((left, right) => right.year - l
 ---
 
 <BaseLayout title={about.data.title} description={about.data.description}>
-  <div class="region wrapper prose flow">
+  <div class="region wrapper about-intro prose flow">
     <h1>{about.data.title}</h1>
+    {introParagraphs.map((paragraph) => (
+      <p>{paragraph}</p>
+    ))}
+  </div>
+
+  <section class="region wrapper about-section" aria-labelledby="timeline-heading">
+    <h2 id="timeline-heading">Timeline</h2>
+    <dl class="timeline">
+      {timeline.map((entry) => (
+        <div class="timeline__row">
+          <dt class="timeline__year">{entry.year}</dt>
+          <dd class="timeline__event">{entry.event}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <section class="region wrapper about-section" aria-labelledby="facilities-heading">
+    <h2 id="facilities-heading">Facilities</h2>
+
+    <figure class="facilities__photo">
+      <Image src={lighthouseImage} alt="Seguin Light's tower and brick keeper's house on the island summit" width={900} />
+      <figcaption>The light tower and keeper's house, the subjects of the parapet and window repairs below.</figcaption>
+    </figure>
+
+    <div class="facilities__list">
+      {facilities.map((item) => (
+        <div class="facilities__item flow">
+          <h3>{item.title}</h3>
+          <p>{item.detail}</p>
+          {item.cost && (
+            <p class="facilities__cost"><span class="facilities__cost-label">Cost </span>{item.cost}</p>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <div class="about-callout">
+      <p class="about-callout__label">Help fund this work</p>
+      <p>The parapet, the pier, and the keeper's house windows above are funded by memberships and gifts, not grants alone. <a class="about-callout__cta" href="/donate">Make a gift →</a></p>
+    </div>
+  </section>
+
+  <div class="region wrapper about-section prose flow">
     <Content />
   </div>
 

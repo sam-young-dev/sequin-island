@@ -10,6 +10,7 @@ target_fingerprint: "sha256:2f62714d407803f34dfc770581b72506cf66b615423501746f2c
 target_path: "C:\\Users\\scyoung\\Documents\\projects\\personal\\sequin-island\\src\\pages\\membership.astro"
 timestamp: 2026-09-25T18-05-56Z
 slug: src-pages-membership-astro
+closed: true
 ---
 Method: dual-agent (A: a28641b3f7e25a9ab · B: a620ec5032f5fc903)
 

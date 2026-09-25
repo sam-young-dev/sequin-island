@@ -2,25 +2,33 @@
 import { Image } from 'astro:assets';
 import logo from '../../assets/seguin-island-logo.jpg';
 import { siteData } from '../../data/site-data'
-import { isCurrentSection } from '../../lib/format'
 ---
 
 <div class="closer">
-  <div class="wrapper flow">
-    <div class="logo-container">
-      <Image
-        src={logo}
-        alt={siteData.title}
-        width={360}
-        widths={[360, logo.width]}
-        sizes="22.5rem"
-        loading="lazy"
-      />
+  <div class="wrapper closer__inner repel">
+    <div class="closer__cta flow">
+      <h2>Get in touch</h2>
+      <p>Questions about visiting, volunteering, or joining? We're a quick email or call away.</p>
+      <p class="closer__actions">
+        <a class="button" data-button-variant="on-dark" href={`mailto:${siteData.contactEmail}`}>
+          Email us →
+        </a>
+        <a class="closer__phone" href={siteData.officePhoneHref}>Call {siteData.officePhone}</a>
+      </p>
     </div>
 
-    <div class="closer__contact">
-      <p><a href={`mailto:${siteData.contactEmail}`}>{siteData.contactEmail}</a></p>
-      <p>
+    <div class="closer__brand flow">
+      <div class="logo-container">
+        <Image
+          src={logo}
+          alt={siteData.title}
+          width={360}
+          widths={[360, logo.width]}
+          sizes="22.5rem"
+          loading="lazy"
+        />
+      </div>
+      <p class="closer__address">
         {siteData.mailingAddress.map((line, index) => (
           <>
             {line}
@@ -29,18 +37,5 @@ import { isCurrentSection } from '../../lib/format'
         ))}
       </p>
     </div>
-
-    {siteData.navItems.length > 0 && (
-      <nav aria-label="Footer" class="nav">
-        <ul class="cluster" role="list">
-          {siteData.navItems.map((item) => (
-            <li>
-              <a href={item.href} {...(isCurrentSection(Astro.url.pathname, item.href) ? {'aria-current': 'page'} : {})}>{item.label}</a>
-            </li>
-          ))}
-          <li><a href="/donate" {...(isCurrentSection(Astro.url.pathname, '/donate') ? {'aria-current': 'page'} : {})}>Donate</a></li>
-        </ul>
-      </nav>
-    )}
   </div>
 </div>

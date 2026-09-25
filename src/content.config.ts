@@ -43,12 +43,34 @@ const pages = defineCollection({
     // Donate-only: the page has its own template (src/pages/donate.astro) so the
     // single online gift can carry the support-button color and sit beside its
     // own reassurance line, ahead of the markdown body's other ways to give.
-    intro: text("Intro", { min: 50, max: 400 }).optional(),
+    intro: text("Intro", { min: 50, max: 600 }).optional(),
     lede: text("Lede", { min: 10, max: 200 }).optional(),
     ctaLabel: text("CTA label", { max: 40 }).optional(),
     ctaHref: href.optional(),
     reassurance: text("Reassurance", { min: 20, max: 300 }).optional(),
     donorRightsHref: href.optional(),
+    // About-only: the founding timeline and facilities list get the site's own
+    // Ledger/fact-row treatment (src/pages/about/index.astro) instead of a plain
+    // markdown list, so About reads like the rest of the site's fact-heavy pages.
+    timeline: z
+      .array(
+        z.object({
+          year: z.number().int().min(1800).max(2100),
+          event: text("Timeline event", { max: 500 }),
+        }),
+      )
+      .optional(),
+    facilities: z
+      .array(
+        z.object({
+          title: text("Facility title", { max: 80 }),
+          detail: text("Facility detail", { max: 700 }),
+          // Shown in tabular Public Sans beside the title, like the site's other
+          // prices (see DESIGN.md). Omit for facilities with no cost to report yet.
+          cost: text("Facility cost", { max: 120 }).optional(),
+        }),
+      )
+      .optional(),
   }),
 });
 
@@ -81,12 +103,14 @@ const membership = defineCollection({
     intro: text("Intro", { min: 50, max: 400 }),
     purchaseHref: href,
     included: z.array(text("Included benefit", { max: 120 })).min(1, "List at least one benefit every member gets."),
+    sustainingNote: text("Sustaining note", { max: 200 }),
     tiers: z
       .array(
         z.object({
           name: text("Tier name", { max: 60 }),
           price: text("Price", { max: 20 }),
           extras: z.array(text("Extra", { max: 200 })).default([]),
+          suggested: z.boolean().default(false),
         }),
       )
       .min(1, "List at least one membership tier."),

@@ -1,0 +1,122 @@
+/*
+ABOUT
+The founding story reads as an intro, then two station-log sections (Timeline,
+Facilities) that borrow the site's own fact-row recipe (see ledger.css,
+visit.css's .visit-row) instead of falling back to plain markdown lists, plus
+the one Callout About gets: the fundraising ask that sits beside the page's
+dollar figures. The remaining sections (Conservation, Education, the 3-Year
+Plan) stay plain .prose, since they're narrative rather than fact rows.
+*/
+.about-intro {
+  --region-space: var(--space-lg-xl);
+}
+
+/* Timeline, Facilities, and the narrative sections (Conservation, Education,
+   the 3-Year Plan) share the page's other regions' generous rhythm; without
+   this they'd fall back to .region's 1rem default and read cramped next to
+   the keepers sections below them. */
+.about-section {
+  --region-space: var(--space-xl-2xl);
+}
+
+/* Timeline ------------------------------------------------------------------ */
+.timeline {
+  border-block-end: var(--stroke-solid);
+}
+
+.timeline__row {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: var(--space-3xs) var(--space-lg);
+  align-items: baseline;
+  padding-block: var(--space-sm);
+  border-block-start: var(--stroke-solid);
+}
+
+.timeline__year {
+  font-family: var(--font-heading);
+  font-size: var(--size-step-1);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--color-brand-primary);
+}
+
+.timeline__event {
+  margin: 0;
+  max-width: 68ch;
+  line-height: var(--leading-prose);
+}
+
+/* Facilities ------------------------------------------------------------------ */
+.facilities__photo {
+  margin-block: var(--space-md-lg);
+}
+
+.facilities__photo img {
+  border-radius: var(--radius-card);
+}
+
+.facilities__photo figcaption {
+  max-width: 68ch;
+}
+
+.facilities__list {
+  margin-block-start: var(--space-md-lg);
+}
+
+.facilities__item + .facilities__item {
+  margin-block-start: var(--space-lg);
+}
+
+.facilities__item p {
+  max-width: 68ch;
+  line-height: var(--leading-prose);
+}
+
+/* The one figure per facility a visitor scans for: what it cost. Tabular
+   Public Sans, like the site's other prices and phone numbers. */
+.facilities__cost {
+  font-family: var(--font-heading);
+  font-size: var(--size-step-0);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.facilities__cost-label {
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-quiet);
+}
+
+/* The one Callout About gets: the fundraising ask, pulled out of the fact
+   rows so it reads as "give here", not another row. Same recipe as Plan Your
+   Visit's Callout (2px Granite top rule, Tinted Surface, square top-left). */
+.about-callout {
+  --granite-on-tint: color-mix(in oklab, var(--color-brand-primary), var(--color-brand-dark) 30%);
+  max-width: 68ch;
+  margin-block-start: var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
+  border-block-start: 2px solid var(--color-brand-primary);
+  background: var(--color-neutral-100);
+  border-radius: 0 var(--radius-card) var(--radius-card) var(--radius-card);
+}
+
+.about-callout__label {
+  margin-block-end: var(--space-3xs);
+  font-family: var(--font-heading);
+  font-size: var(--size-step-0);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--granite-on-tint);
+}
+
+.about-callout p:last-child {
+  margin: 0;
+  line-height: var(--leading-prose);
+}
+
+.about-callout__cta {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  color: var(--granite-on-tint);
+}

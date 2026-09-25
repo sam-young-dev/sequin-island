@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteData } from "../data/site-data";
 ---
 
 <BaseLayout
@@ -18,6 +19,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <li><a href="/blog">Keeper's Blog</a></li>
       <li><a href="/membership">Become a member</a></li>
     </ul>
-    <p>If you followed a link from another site, <a href="/contact">let us know</a> and we'll fix it.</p>
+    <p>If you followed a link from another site, <a href={`mailto:${siteData.contactEmail}`}>let us know</a> and we'll fix it.</p>
   </div>
 </BaseLayout>

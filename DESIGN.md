@@ -91,6 +91,14 @@ components:
     padding: "0.85em 1.15em"
   button-support-hover:
     backgroundColor: "{colors.keeper-brick-deep}"
+  button-on-dark:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.granite-gray}"
+    typography: "{typography.label}"
+    rounded: "{rounded.none}"
+    padding: "0.85em 1.15em"
+  button-on-dark-hover:
+    backgroundColor: "{colors.fog}"
   card:
     backgroundColor: "{colors.white}"
     textColor: "{colors.ink}"
@@ -234,6 +242,7 @@ Warm and welcoming: plain, flat shapes, set up so that the next click is obvious
 - **Secondary:** A Charcoal fill with a white label. The focus ring is Keeper Black. It is used for the second CTA, the map's reset control, and the route's "Walk the route" control.
 - **Full width:** `.full-width.button` stretches the button and centers its label.
 - **Support:** `data-button-variant="support"` gives a Keeper's Brick fill that hovers to Keeper's Brick Deep. It is used once: the header Donate link, which is a single `<a class="button">`.
+- **On-dark:** `data-button-variant="on-dark"` gives a white fill with Granite Gray text, hovering to Fog. It exists only for the Closer's Email button, the one place a button sits on the Granite Gray band itself.
 
 ### Cards / Containers
 - **Corner Style:** 7px.
@@ -249,8 +258,8 @@ Warm and welcoming: plain, flat shapes, set up so that the next click is obvious
 - **Disabled:** A Neutral 100 fill and a not-allowed cursor.
 
 ### Navigation
-- **Header:** The logo on the left (40px tall, in a brand block with a `clamp(25ch, 50%, 50rem)` basis) and a cluster of six Public Sans links on the right (About, Plan Your Visit, Island Map, Keeper's Blog, Contact, Membership), ending with the Brick Donate button. The current page gets `aria-current="page"`. There is no dedicated mobile menu; on phones the cluster wraps to three rows, two of links and then Donate on its own.
-- **Closer:** A Granite Gray band with the logo centered on a white 7px plate (max 22.5rem, never upscaled), contact email and mailing address, and a centered repeat of the nav plus a plain Donate link, all in white.
+- **Header:** The logo on the left (40px tall, in a brand block with a `clamp(25ch, 50%, 50rem)` basis) and a cluster of five Public Sans links on the right (About, Plan Your Visit, Island Map, Keeper's Blog, Membership), ending with the Brick Donate button. The current page gets `aria-current="page"`. There is no dedicated mobile menu; on phones the cluster wraps to three rows, two of links and then Donate on its own.
+- **Closer:** A Granite Gray band on every page, the site's one contact CTA — there is no standalone Contact page. A `repel` pairs a short "Get in touch" ask (h2, one line, an on-dark Email button, and a plain office-phone link) against the logo on a white 7px plate (max 22.5rem, never upscaled) with the mailing address beneath it; the pair stacks on narrow screens. It does not repeat the header nav or the Donate link, since both are already one scroll away in the header.
 - **Footer:** A Charcoal strip with copyright and "All rights reserved."
 
 ### Hero
