@@ -150,7 +150,10 @@ const membership = defineCollection({
 });
 
 const blog = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
+  // .mdx lets a post embed <Picture inferSize> for its body photos (see
+  // pardon-our-dust.mdx), matching the properly-sized-image pattern used
+  // everywhere else on the site instead of plain unoptimized markdown images.
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/blog" }),
   schema: z
     .object({
       title: z.string().trim().min(1, "Title is required."),
