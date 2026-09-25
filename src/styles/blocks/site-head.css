@@ -48,3 +48,107 @@
 .site-head .nav a[aria-current="page"] {
   color: var(--color-brand-primary);
 }
+
+/* Hamburger toggle: hidden on wide screens and until the enhancement script runs */
+.site-head__toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-brand-primary);
+  cursor: pointer;
+}
+
+.site-head__toggle:active {
+  transform: scale(99%);
+}
+
+.site-head__toggle-bars,
+.site-head__toggle-bars::before,
+.site-head__toggle-bars::after {
+  display: block;
+  width: 1.25rem;
+  height: 2px;
+  background: currentColor;
+  transition:
+    transform var(--transition-base),
+    opacity var(--transition-base);
+}
+
+.site-head__toggle-bars {
+  position: relative;
+}
+
+.site-head__toggle-bars::before,
+.site-head__toggle-bars::after {
+  content: "";
+  position: absolute;
+  left: 0;
+}
+
+.site-head__toggle-bars::before {
+  top: -0.375rem;
+}
+
+.site-head__toggle-bars::after {
+  top: 0.375rem;
+}
+
+.site-head__toggle[aria-expanded="true"] .site-head__toggle-bars {
+  background: transparent;
+}
+
+.site-head__toggle[aria-expanded="true"] .site-head__toggle-bars::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.site-head__toggle[aria-expanded="true"] .site-head__toggle-bars::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+/* Below 56em the five links plus Donate no longer fit beside the logo, so the
+   nav becomes a panel that overlays the page beneath the brand row, opened by
+   the toggle, rather than pushing the page content down. */
+@media (max-width: 56em) {
+  .site-head__toggle:not([hidden]) {
+    display: inline-flex;
+  }
+
+  .site-head .nav[data-nav-open] {
+    /* Fixed (not absolute) so the panel spans the true viewport width without
+       the wrapper's inline padding or a 100vw scrollbar-overflow bug. */
+    position: fixed;
+    inset-inline: 0;
+    top: var(--site-head-height, 100%);
+    z-index: 20;
+    padding-block: var(--space-sm);
+    padding-inline: var(--space-md);
+    background: var(--color-white);
+    /* Square where it meets the header, rounded where it floats free. */
+    border-radius: 0 0 7px 7px;
+    /* Floating over page content, so it earns a Flat Page Rule shadow exception.
+       Offset outweighs blur so the shadow only reads below the panel. */
+    box-shadow: 0 8px 16px -4px rgb(0 0 0 / 0.2);
+  }
+
+  .site-head .nav[data-nav-open="false"] {
+    display: none;
+  }
+
+  .site-head .nav[data-nav-open] .cluster {
+    --cluster-gap: 0;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .site-head .nav[data-nav-open] a:not(.button) {
+    display: block;
+    padding-block: var(--space-sm);
+  }
+}

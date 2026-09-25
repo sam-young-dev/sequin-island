@@ -143,6 +143,7 @@ The voice is warm and welcoming, not austere. Surfaces are flat and uncluttered.
 Density is low and roomy: fluid spacing that grows with the viewport, one wide wrapper, and sections separated by generous vertical padding or a pale tinted band.
 
 **Key Characteristics:**
+
 - White page, hairline borders, no decorative shadows.
 - Granite Gray headings and primary actions. Keeper's Brick marks the one support action (Donate).
 - Source Serif 4 body text with generous (1.65) line-height in long-form prose, lists included.
@@ -156,16 +157,20 @@ Density is low and roomy: fluid spacing that grows with the viewport, one wide w
 A restrained, mineral palette: warm stone gray and near-black on white, with fog blue and brick red standing in for sea air and station buildings.
 
 ### Primary
+
 - **Granite Gray** (`granite-gray`): The brand color, token `color.brand.primary`. Used for all h1–h4 headings, the primary button fill, the closer band above the footer, card hover borders, and form accent color. It gives 4.8:1 against white, so it passes AA for text but has no margin to spare. Never lighten it for text.
 
 ### Secondary
+
 - **Keeper's Brick** (`keeper-brick`, token `color.brand.brick`): Drawn from the brick of the keeper's house and station buildings. The photograph samples average #865344 in sunlight; the token is tuned slightly richer. It gives about 6.7:1 against white, so white text on a brick fill is safe. It fills the header's Donate button (`data-button-variant="support"`). Its hover state is **Keeper's Brick Deep** (`keeper-brick-deep`, `color.brand.brick-deep`).
 
 ### Tertiary
+
 - **Seguin Navy** (`seguin-navy`, token `color.brand.navy`): The ink of the existing logo (`src/assets/seguin-island-logo.jpg`) and its letterspaced serif wordmark. Its only styled use is as a mix ingredient in the Tide band, where it deepens Fog: the water under the tide curve (`--tide-water`, Fog with 22% Navy in oklab, about #a8b9c6) and the band's hairline rules (`--tide-rule`, 30% Navy, about #98aab9). It is never a flat fill or a text color. Keep any surface that holds the logo compatible with it (white or very pale backgrounds).
 - **Fog** (`fog`, token `color.brand.fog`): The blue-gray background of the 3D map stage (`.island-map__stage`), the Tide band on Plan Your Visit, and the text-selection highlight. It is the only cool tone in the UI.
 
 ### Neutral
+
 - **Keeper Black** (`keeper-black`): The brand dark, token `color.brand.dark`, a warm near-black. Used for selected map labels and places, selection text, and the default focus-ring token.
 - **Charcoal** (`charcoal`): Neutral 800, token `color.fill.loud`. Used for the secondary button fill and the footer band.
 - **Ink** (`ink`): Neutral 900. The body text color.
@@ -176,6 +181,7 @@ A restrained, mineral palette: warm stone gray and near-black on white, with fog
 - **White** (`white`): The page background (hard-coded on `body`), card surfaces, and text on dark fills.
 
 ### Named Rules
+
 **The Granite Rule.** Granite Gray carries headings and the single primary action in any group. If two things on a screen are Granite Gray buttons, one of them should be secondary.
 
 **The Brick Rule.** Keeper's Brick is an accent, not a fill for reading surfaces. Use it on small areas, never as a background behind paragraphs. Where Granite and Brick sit side by side, Brick is the one that draws the eye, so it is spent on the support action (Donate) and nothing else competes with it on the same screen.
@@ -191,6 +197,7 @@ A restrained, mineral palette: warm stone gray and near-black on white, with fog
 **Character:** A civic, open sans for headings and wayfinding over a bookish serif for reading. The serif carries the history and the keepers' voice, and in tracked bold caps it echoes the logo's wordmark. The sans keeps headings and nav sturdy and legible. Headings are set in Granite Gray, not black, which softens the page.
 
 ### Hierarchy
+
 - **Display** (700, `--size-step-7` `clamp(2.25rem, 1.70rem + 2.73vw, 3.75rem)`, line-height 1, tracking -0.015em, max 20ch, balanced wrapping): Page h1s, the hero heading, and the home page's section heads (ledger, dispatch). In the hero it switches to white; the landmark hero steps up to `--size-step-9`. Headline and title headings stay at 600 with -0.01em and -0.005em tracking.
 - **Metadata** (Public Sans, step 0, tabular numerals, Ink Quiet): Post dates (`small:has(> time)`, `.dispatch__meta`) and the hero coordinates. The same tabular Public Sans carries every figure a visitor reads: tide times and heights, mooring donations, and phone numbers.
 - **Headline** (600, `clamp(1.75rem, 1.57rem + 0.91vw, 2.25rem)`, max 35ch): Section h2s.
@@ -200,8 +207,8 @@ A restrained, mineral palette: warm stone gray and near-black on white, with fog
 - **Nav** (Public Sans 600, step 0 at 15–16px, no tracking): Header links. The underline appears on hover and on the current page, and the current page is set in Granite Gray.
 
 ### Named Rules
-**The Letter from the Island Rule.** Long-form content (history, the Keeper's Blog, facilities) is always set in `.prose flow`: Source Serif 4, `--leading-prose`, and 70ch maximum. Don't set long-form text in the sans.
 
+**The Letter from the Island Rule.** Long-form content (history, the Keeper's Blog, facilities) is always set in `.prose flow`: Source Serif 4, `--leading-prose`, and 70ch maximum. Don't set long-form text in the sans.
 
 ## Layout
 
@@ -217,6 +224,7 @@ A restrained, mineral palette: warm stone gray and near-black on white, with fog
 Flat by default. Pages, cards, buttons, and inputs sit at rest with no shadow. Hierarchy comes from hairline borders, the tinted band, and the dark closer and footer bands. Shadows appear only on elements that float above the 3D map canvas, where they separate UI from the terrain.
 
 ### Shadow Vocabulary
+
 - **Map label** (`box-shadow: 0 1px 4px rgb(0 0 0 / 0.25)`): White pill labels floating over the terrain.
 - **Map info panel** (`box-shadow: 0 2px 12px rgb(0 0 0 / 0.2)`): The place-detail panel over the map, on a 95% white background.
 
@@ -225,6 +233,7 @@ The Tide band's high and low labels carry a Fog-colored text halo (`text-shadow:
 The token set includes a full shadow scale (`shadow.2xs`–`2xl`), but no styles use it.
 
 ### Named Rules
+
 **The Flat Page Rule.** Nothing on the page itself casts a shadow. Only things floating over the map (or, in future, over imagery) may.
 
 ## Shapes
@@ -236,6 +245,7 @@ Two corner languages that don't compete. Actions are square (0 radius), like sig
 Warm and welcoming: plain, flat shapes, set up so that the next click is obvious and friendly.
 
 ### Buttons
+
 - **Shape:** Square corners (0).
 - **Primary:** A Granite Gray fill with white bold uppercase serif label text, padded 0.85em by 1.15em (about 38px tall), with a 0.5ch gap for an optional trailing arrow ("Become a Member →").
 - **Hover / Focus:** On hover, the fill darkens 14% toward black (`--button-bg-hover`, a `color-mix` in oklab) with a 250ms transition. On press, the button scales to 99%. The focus-visible ring is a 2px solid outline in the button's own fill color.
@@ -245,6 +255,7 @@ Warm and welcoming: plain, flat shapes, set up so that the next click is obvious
 - **On-dark:** `data-button-variant="on-dark"` gives a white fill with Granite Gray text, hovering to Fog. It exists only for the Closer's Email button, the one place a button sits on the Granite Gray band itself.
 
 ### Cards / Containers
+
 - **Corner Style:** 7px.
 - **Background:** White.
 - **Shadow Strategy:** None (see Flat Page Rule).
@@ -253,19 +264,23 @@ Warm and welcoming: plain, flat shapes, set up so that the next click is obvious
 - The whole card is the link (`<a class="card">`).
 
 ### Inputs / Fields
+
 - **Style:** A white field with a 1px solid Hairline stroke, 0.2rem radius, 0.5em by 0.8em padding, full width, and Ink Quiet text. Checkboxes and radios take a Granite Gray accent color.
 - **Focus:** The global 2px solid focus-visible outline.
 - **Disabled:** A Neutral 100 fill and a not-allowed cursor.
 
 ### Navigation
-- **Header:** The logo on the left (40px tall, in a brand block with a `clamp(25ch, 50%, 50rem)` basis) and a cluster of five Public Sans links on the right (About, Plan Your Visit, Island Map, Keeper's Blog, Membership), ending with the Brick Donate button. The current page gets `aria-current="page"`. There is no dedicated mobile menu; on phones the cluster wraps to three rows, two of links and then Donate on its own.
+
+- **Header:** The logo on the left (40px tall, in a brand block with a `clamp(25ch, 50%, 50rem)` basis) and a cluster of five Public Sans links on the right (About, Plan Your Visit, Island Map, Keeper's Blog, Membership), ending with the Brick Donate button. The current page gets `aria-current="page"`. Below 56em, where the links stop fitting beside the logo, the cluster is replaced by a hamburger toggle (a square hairline-bordered button whose three bars morph into an X) that drops a full-width panel of stacked, full-height links beneath the brand row, opened by a top hairline rule. Escape and clicking a link close it; without JS the links render inline as a plain, always-visible row instead.
 - **Closer:** A Granite Gray band on every page, the site's one contact CTA — there is no standalone Contact page. A `repel` pairs a short "Get in touch" ask (h2, one line, an on-dark Email button, and a plain office-phone link) against the logo on a white 7px plate (max 22.5rem, never upscaled) with the mailing address beneath it; the pair stacks on narrow screens. It does not repeat the header nav or the Donate link, since both are already one scroll away in the header.
 - **Footer:** A Charcoal strip with copyright and "All rights reserved."
 
 ### Hero
+
 A full-bleed photograph of the island with a gradient that runs from transparent to 45% black at 35% of the height to 60% black at the bottom. The content sits at the foot of the photo, where the gradient is darkest, aligned to the wrapper's left edge in white: the h1, then the coordinates in tracked tabular sans beneath it. On phones the hero is at least `min(62svh, 36rem)` tall. There is an optional round skip-link with an inline SVG arrow icon. The Hero takes an `alt` prop, which defaults to decorative.
 
 ### Island Map (signature)
+
 - A Fog-blue stage (`min(78svh, 52rem)` tall, 7px corners) holding the WebGL terrain.
 - White pill labels in bold sans with pointer stalks. On hover or selection they invert to Keeper Black with white text.
 - A floating white info panel at the bottom left.
@@ -274,7 +289,9 @@ A full-bleed photograph of the island with a gradient that runs from transparent
 - Alongside the stage is a places list of full-width, 7px-cornered hairline buttons. The selected button (`aria-pressed="true"`) fills Keeper Black.
 
 ### Ledger
+
 A station log: one fact per ruled row.
+
 - **Structure:** A definition list. Each row is a grid that auto-fits into claim and evidence columns, opened by a 1px solid Hairline rule, and the list is closed by one more.
 - **Claim:** Public Sans semibold in Granite Gray, snug leading.
 - **Evidence:** The reading serif.
@@ -282,7 +299,9 @@ A station log: one fact per ruled row.
 - **Figures:** Phone numbers in a row are semibold tabular Public Sans and don't wrap. Prices sit in a small table inside the row, with the system's 1px dashed stroke, the caption above in semibold Public Sans, and the amounts right-aligned in semibold tabular Public Sans.
 
 ### Tide Band (signature)
+
 The sea on the page: today's predicted tide, on Plan Your Visit.
+
 - **Band:** Full-bleed Fog, padded `space.md-lg`, with Station Stone text. Text selection inside it inverts to Keeper Black.
 - **Layout:** Wide screens (72rem and up) set readout, landing and status side by side so the curve rises into the first view; mid widths stack landing under the readout beside the status; below 52rem the order is readout, chart, landing, status.
 - **Readout (top left):** An h2 at step 4 that names the day on show ("The tide today", "The tide on Saturday"; off season, today reads "The tide today, off season"), the time in tabular Public Sans, the height now at `--size-step-9` in bold tabular Keeper Black (-0.03em, with the unit at 0.4em), and one serif sentence giving the trend and the next high or low. Off season only, one more line points planners to NOAA's year-ahead predictions.
@@ -297,20 +316,25 @@ The sea on the page: today's predicted tide, on Plan Your Visit.
 - **Without JS:** The band renders in a `static` state with its facts, the source caption and a NOAA link; the height, plot and controls stay hidden. While loading or after an error, a dashed `--tide-rule` waterline holds the plot's place.
 
 ### Visit Route
+
 The Island Map stage reused for one walk, landing to lantern.
+
 - **Stage:** The same Fog stage and white pill labels, `min(70svh, 44rem)` tall (at least 22rem); on phones (below 40rem) `min(55svh, 30rem)` (at least 20rem). The named route trail is drawn heavier than the other trails (a 1.1 tube radius against 0.45) in white with a slight glow.
 - **Stops:** An ordered list beside the stage. Without JS the stops are plain list items; the script upgrades each to a full-width, borderless, 7px-cornered button with a semibold Public Sans name at step 2 over a quiet serif detail. A 12px Granite ring marks each stop, and a 2px Hairline thread strings the rings together.
 - **States:** Hover takes the Tinted Surface fill. The selected stop (`aria-pressed="true"`) fills Keeper Black and its ring fills white, matching the map's places list.
 - **Tour:** Never starts on its own. A secondary "Walk the route" button at the stage's top right (where the map keeps its reset) walks the camera through the stops, 2.6s each; while it plays the button reads "Stop the walk", and once the walk reaches the light it reads "Walk it again". Any other click, drag, focus or key press hands control back.
 
 ### Callout
+
 A fact that decides whether a visit happens at all, pulled out of the ledger on Plan Your Visit. There are two, and only two: Landing (in Coming ashore) and Access (in The climb).
+
 - **Shape:** A Tinted Surface panel, 68ch wide at most, opened by a 2px Granite top rule, with square top-left and 7px corners elsewhere: a note pinned to the ledger, not a card.
 - **Label:** Bold, tracked, uppercase Public Sans at step 0, over prose-leading serif text. Granite falls just under AA on the tinted panel, so the label and any link inside take `--granite-on-tint` (Granite mixed 30% toward Keeper Black in oklab); the top rule stays pure Granite.
 
 ## Do's and Don'ts
 
 ### Do:
+
 - **Do** set every heading in Granite Gray Public Sans and long-form content in `.prose flow` Source Serif 4.
 - **Do** keep action buttons square and uppercase, and containers at 7px.
 - **Do** use real Seguin photography under the hero gradient for any full-bleed moment.
@@ -321,6 +345,7 @@ A fact that decides whether a visit happens at all, pulled out of the ledger on 
 - **Do** deepen Fog toward Seguin Navy (`color-mix` in oklab) for water and rules inside a sea band, rather than adding a new blue.
 
 ### Don't:
+
 - **Don't** use the starter kit's pink `accent` tokens. They are not part of Seguin's palette.
 - **Don't** use a second Brick-filled element on a screen that already shows the Donate button (see Brick Rule).
 - **Don't** add shadows to page-level cards or buttons (see Flat Page Rule).

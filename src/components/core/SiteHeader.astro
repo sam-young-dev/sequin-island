@@ -24,7 +24,18 @@ const current = (href: string) => (isCurrentSection(Astro.url.pathname, href) ? 
           />
         </a>
       </div>
-      <nav aria-label="primary" class="nav">
+      <button
+        type="button"
+        class="site-head__toggle"
+        aria-expanded="false"
+        aria-controls="primary-navigation"
+        aria-label="Open menu"
+        data-nav-toggle
+        hidden
+      >
+        <span class="site-head__toggle-bars" aria-hidden="true"></span>
+      </button>
+      <nav aria-label="primary" class="nav" id="primary-navigation" data-nav>
         <ul class="cluster" role="list">
           {siteData.navItems.map((item) => (
           <li>
@@ -39,3 +50,50 @@ const current = (href: string) => (isCurrentSection(Astro.url.pathname, href) ? 
     </div>
   </div>
 </header>
+
+<script>
+  // The five-link nav plus Donate stops fitting beside the logo below 56em;
+  // this enhances that row into a hamburger-triggered panel. Without JS the
+  // nav stays as the plain, always-visible row it renders by default.
+  const toggle = document.querySelector<HTMLButtonElement>("[data-nav-toggle]");
+  const nav = document.querySelector<HTMLElement>("[data-nav]");
+  const header = document.querySelector<HTMLElement>(".site-head");
+
+  // The open panel is fixed to the viewport, so its top offset can't come
+  // from a positioned ancestor; track the header's real, fluid height instead.
+  const setHeaderHeight = () => {
+    if (header) {
+      document.documentElement.style.setProperty("--site-head-height", `${header.offsetHeight}px`);
+    }
+  };
+
+  if (toggle && nav) {
+    nav.dataset.navOpen = "false";
+    toggle.hidden = false;
+    setHeaderHeight();
+    window.addEventListener("resize", setHeaderHeight);
+
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      nav.dataset.navOpen = String(open);
+    };
+
+    toggle.addEventListener("click", () => {
+      setOpen(toggle.getAttribute("aria-expanded") !== "true");
+    });
+
+    // A link click means the page is about to navigate; close so the panel
+    // doesn't flash open on the way back to this page.
+    nav.addEventListener("click", (event) => {
+      if ((event.target as HTMLElement).closest("a")) setOpen(false);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+  }
+</script>

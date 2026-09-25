@@ -72,13 +72,29 @@ const distinctions = [
   <section class="region wrapper history" aria-labelledby="history-heading">
     <h2 id="history-heading" class="history__heading">{home.data.secondaryCtaLabel}</h2>
     <div class="history__body flow">
-      <p>Visiting this historic, active lighthouse is a memorable experience for visitors of all ages. <a href="/visit">Plan your visit</a> around the tide, the ferry and the climb to the light.</p>
+      <p>The Lighthouse Trail climbs about 130 feet from the cove, past the working tramway, to the tower and Maine's only kept first-order Fresnel lens. <a class="history__plan" href="/visit">Plan your visit →</a></p>
       <p class="history__more"><a href={home.data.secondaryCtaHref}>Read the full story →</a></p>
     </div>
+    <Image
+      class="history__photo"
+      src="https://seguinisland.org/wp-content/uploads/2026/07/IMG_0962-1-1024x768.jpeg"
+      alt="The lighthouse lantern and brick keeper's house seen across tall grass, beside a wooden signpost of mileage signs"
+      inferSize
+      loading="lazy"
+      decoding="async"
+    />
   </section>
 
   <div class="region support" data-bg="tinted">
-    <div class="wrapper support__inner">
+    <div class="wrapper support__inner switcher">
+      <Image
+        class="support__photo"
+        src="https://seguinisland.org/wp-content/uploads/2026/07/IMG_2420-768x1024.jpeg"
+        alt="Four members of the tower crew sitting on the steps of a white clapboard porch beside a brick wall"
+        inferSize
+        loading="lazy"
+        decoding="async"
+      />
       <div class="support__main flow">
         <h2>{home.data.primaryCtaLabel}</h2>
         <p class="support__lead">Support the island through annual membership and help sustain preservation, education, and visitor access.</p>

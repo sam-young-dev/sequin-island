@@ -79,7 +79,7 @@ The whole block is the link.
   color: var(--color-text-normal);
 }
 
-/* Same exit-link voice as the ledger's "Walk the island in 3D" */
+/* The quiet exit-link voice shared with the history section's "Read the full story" */
 .dispatch__more {
   font-family: var(--font-heading);
   font-size: var(--size-step-3);

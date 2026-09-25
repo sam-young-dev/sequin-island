@@ -31,9 +31,24 @@ rather than as a second offer inside the membership band.
   line-height: var(--leading-normal);
 }
 
-/* Same quiet exit-link voice as the ledger's "Walk the island in 3D" */
+.history__plan {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-primary);
+}
+
+/* The quiet exit-link voice shared with the dispatch section's "Visit the full blog" */
 .history__more {
   font-family: var(--font-heading);
   font-size: var(--size-step-3);
   font-weight: var(--font-weight-semibold);
+}
+
+.history__photo {
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 12rem;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 7px;
 }
