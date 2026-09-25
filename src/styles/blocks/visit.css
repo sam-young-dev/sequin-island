@@ -300,6 +300,35 @@ reading fills in, the ones behind you stay dark. */
   color: var(--color-brand-primary);
 }
 
+/* Landing callout ------------------------------------------------------------
+   The page's one highest-stakes fact, pulled out of the ledger rhythm so it
+   doesn't read as just another row. The 2px Granite top rule rhymes with the
+   tide band's own "now" marker; both mark the same kind of thing: the live
+   fact a visitor needs before setting out. */
+.visit-callout {
+  max-width: 68ch;
+  margin-block-start: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-block-start: 2px solid var(--color-brand-primary);
+  background: var(--color-neutral-100);
+  border-radius: 0 var(--radius-card) var(--radius-card) var(--radius-card);
+}
+
+.visit-callout__label {
+  margin-block-end: var(--space-3xs);
+  font-family: var(--font-heading);
+  font-size: var(--size-step-0);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-brand-primary);
+}
+
+.visit-callout p:last-child {
+  margin: 0;
+  line-height: var(--leading-prose);
+}
+
 /* Mooring donations: a small tabular ledger, dashed like the system's tables */
 .visit-table {
   inline-size: auto;

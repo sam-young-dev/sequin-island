@@ -53,8 +53,8 @@ const sections = [
   { id: "getting-there", label: "Getting there" },
   { id: "coming-ashore", label: "Coming ashore" },
   { id: "the-climb", label: "The climb" },
-  { id: "what-to-bring", label: "What to bring" },
   { id: "staying-over", label: "Staying over" },
+  { id: "what-to-bring", label: "What to bring" },
 ];
 ---
 
@@ -125,10 +125,10 @@ const sections = [
             <dt>By kayak</dt>
             <dd class="flow">
               <p>
-                The same approach guidance applies: follow the lobster pot buoys and mooring buoys in from open water, and watch for the shallow rocks on the cove’s eastern edge, which show as breaking waves at low tide.
+                It’s the same two-and-a-half-mile open-water crossing from the mouth of the Kennebec, but under paddle it takes far longer than under power, so you’re exposed to the current, swell and fog for longer. FOSILS doesn’t publish a separate route for paddlers; watch for the same shallow rocks on the cove’s eastern edge, which show as breaking waves at low tide, and time your crossing for slack or a rising tide rather than fighting the current on the way in.
               </p>
               <p>
-                FOSILS doesn’t publish a separate route for paddlers. It’s the same two-and-a-half-mile crossing from the mouth of the Kennebec, in the same current, swell and fog that make Seguin one of the foggiest places off the coast of Maine — real considerations for a solo paddler. Roger Duncan’s cruising guide, <a href="https://nauticalcharts.noaa.gov/publications/coast-pilot/">NOAA’s Coast Pilot</a> and the <a href="https://mita.org/">Maine Island Trail Association’s</a> guide all cover the approach. Call the FOSILS office at <a href="tel:+12074434808">207-443-4808</a> before you set out, especially if you’re paddling alone.
+                Treat it as an open-water crossing: wear a PFD, carry a VHF radio, and leave a float plan with someone ashore. Roger Duncan’s cruising guide, <a href="https://nauticalcharts.noaa.gov/publications/coast-pilot/">NOAA’s Coast Pilot</a> and the <a href="https://mita.org/">Maine Island Trail Association’s</a> guide all cover the approach. Call the FOSILS office at <a href="tel:+12074434808">207-443-4808</a> before you set out, especially if you’re paddling alone.
               </p>
             </dd>
           </div>
@@ -140,6 +140,12 @@ const sections = [
         <p class="visit-part__lead">
           There’s no anchoring in the cove: a power cable runs under it and it is fished for lobster. Pick up a mooring instead.
         </p>
+        <aside id="landing-callout" class="visit-callout" aria-labelledby="landing-callout-heading">
+          <p id="landing-callout-heading" class="visit-callout__label">Landing</p>
+          <p>
+            A new pier is under way. Until it’s finished, the small beach and 9-foot tide mean the island can be reached for about three quarters of the tide cycle. FOSILS hasn’t published the exact window that closes it, so <a href="#tide-heading" class="visit-row__cta">check today’s tide</a> before you set out, and call the office at <a href="tel:+12074434808">207-443-4808</a> if it looks tight. Fog is common here too, so go slow and watch for it on your approach.
+          </p>
+        </aside>
         <dl class="visit-rows">
           <div class="visit-row">
             <dt>Moorings</dt>
@@ -166,14 +172,6 @@ const sections = [
               </p>
             </dd>
           </div>
-          <div class="visit-row">
-            <dt>The landing</dt>
-            <dd class="flow">
-              <p>
-                A new pier is under way. Until it’s finished, the small beach and 9-foot tide mean the island can be reached for about three quarters of the tide cycle. FOSILS hasn’t published the exact window that closes it, so <a href="#tide-heading" class="visit-row__cta">check today’s tide</a> before you set out, and call the office at <a href="tel:+12074434808">207-443-4808</a> if it looks tight. Fog is common here too, so go slow and watch for it on your approach.
-              </p>
-            </dd>
-          </div>
         </dl>
       </section>
 
@@ -188,37 +186,8 @@ const sections = [
         </p>
       </section>
 
-      <section id="what-to-bring" class="visit-part" aria-labelledby="what-to-bring-heading">
-        <h2 id="what-to-bring-heading"><span class="visit-part__num" aria-hidden="true">4</span> What to bring</h2>
-        <p class="visit-part__lead">
-          There’s no drinking water and no trash can on the island. Carry in what you need, and carry it all out again.
-        </p>
-        <div class="visit-pack">
-          <div>
-            <h3>Bring</h3>
-            <ul>
-              <li><strong>Drinking water</strong> for everyone, for your whole stay.</li>
-              <li><strong>Food</strong> for your whole stay.</li>
-              <li><strong>Layers and sturdy hiking shoes</strong> for the wind and changing temperatures.</li>
-              <li><strong>A bag for your trash</strong>, to take home with you.</li>
-              <li><strong>A leash, water and bags for your dog.</strong> Dogs are welcome on a leash, because seabirds nest on the island.</li>
-            </ul>
-          </div>
-          <div>
-            <h3>Please don’t</h3>
-            <ul>
-              <li>Light a fire anywhere on the island.</li>
-              <li>Fly a drone.</li>
-              <li>Walk on the tramway.</li>
-              <li>Feed the wildlife, or leave the trails near nesting seabirds.</li>
-              <li>Go into the tower without a caretaker. The Fresnel lens is off-limits; the U.S. Coast Guard maintains it.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
       <section id="staying-over" class="visit-part" aria-labelledby="staying-over-heading">
-        <h2 id="staying-over-heading"><span class="visit-part__num" aria-hidden="true">5</span> Staying over</h2>
+        <h2 id="staying-over-heading"><span class="visit-part__num" aria-hidden="true">4</span> Staying over</h2>
         <p class="visit-part__lead">
           Members can camp on the island.{" "}
           {guestRoomCurrent ? (
@@ -247,6 +216,35 @@ const sections = [
             </dd>
           </div>
         </dl>
+      </section>
+
+      <section id="what-to-bring" class="visit-part" aria-labelledby="what-to-bring-heading">
+        <h2 id="what-to-bring-heading"><span class="visit-part__num" aria-hidden="true">5</span> What to bring</h2>
+        <p class="visit-part__lead">
+          There’s no drinking water and no trash can on the island. Carry in what you need, and carry it all out again.
+        </p>
+        <div class="visit-pack">
+          <div>
+            <h3>Bring</h3>
+            <ul>
+              <li><strong>Drinking water</strong> for everyone, for your whole stay.</li>
+              <li><strong>Food</strong> for your whole stay.</li>
+              <li><strong>Layers and sturdy hiking shoes</strong> for the wind and changing temperatures.</li>
+              <li><strong>A bag for your trash</strong>, to take home with you.</li>
+              <li><strong>A leash, water and bags for your dog.</strong> Dogs are welcome on a leash, because seabirds nest on the island.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Please don’t</h3>
+            <ul>
+              <li>Light a fire anywhere on the island.</li>
+              <li>Fly a drone.</li>
+              <li>Walk on the tramway.</li>
+              <li>Feed the wildlife, or leave the trails near nesting seabirds.</li>
+              <li>Go into the tower without a caretaker. The Fresnel lens is off-limits; the U.S. Coast Guard maintains it.</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
     </div>
@@ -318,19 +316,23 @@ const sections = [
       }
     };
     let queued = false;
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (queued) return;
-        queued = true;
-        requestAnimationFrame(() => {
-          queued = false;
-          update();
-        });
-      },
-      { passive: true },
-    );
-    window.addEventListener("resize", update, { passive: true });
+    const scheduleUpdate = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        update();
+      });
+    };
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate, { passive: true });
+    // Sections can change height without the viewport resizing (the season
+    // note toggling, a font swap, an image loading in), which scroll and
+    // resize alone miss and leave the rail pointing at a passed step.
+    if (typeof ResizeObserver !== "undefined") {
+      const sizeObserver = new ResizeObserver(scheduleUpdate);
+      parts.forEach((part) => sizeObserver.observe(part));
+    }
     update();
   }
 </script>

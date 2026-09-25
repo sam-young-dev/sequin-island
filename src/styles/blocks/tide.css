@@ -384,8 +384,19 @@ the one band on the site that takes it outside the map.
   align-items: center;
 }
 
+/* Quieter than the buttons beside it: instructional, not an affordance in
+   its own right, so it shouldn't compete with Previous/Next/Back to now. */
 .tide__hint {
-  color: var(--tide-ink);
+  color: var(--tide-ink-quiet);
+}
+
+/* Below the width where the source line and the controls no longer share a
+   row, the hint sentence and the day/back buttons still fight for the same
+   line. Give the hint its own row so the buttons never crowd its wrapped text. */
+@media (max-width: 40rem) {
+  .tide__hint {
+    flex-basis: 100%;
+  }
 }
 
 .tide:not([data-state="ready"]) .tide__hint {
