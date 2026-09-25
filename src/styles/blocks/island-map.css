@@ -182,7 +182,7 @@ The places list sits alongside through the sidebar composition.
   position: absolute;
   inset-block-end: 0;
   inset-inline-end: 0;
-  padding: 0.4em 0.6em;
+  padding: 0.4em 0.7em;
   border-start-start-radius: 7px;
   background: rgb(255 255 255 / 0.75);
   font-family: var(--font-sans);

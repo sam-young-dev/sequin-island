@@ -125,7 +125,10 @@ const sections = [
             <dt>By kayak</dt>
             <dd class="flow">
               <p>
-                FOSILS doesn’t publish a separate route for paddlers. The crossing is two and a half miles of open water from the mouth of the Kennebec, in the same current, swell and fog, and the <a href="https://mita.org/">Maine Island Trail Association</a> guide covers it. Call the FOSILS office at <a href="tel:+12074434808">207-443-4808</a> before you set out.
+                The same approach guidance applies: follow the lobster pot buoys and mooring buoys in from open water, and watch for the shallow rocks on the cove’s eastern edge, which show as breaking waves at low tide.
+              </p>
+              <p>
+                FOSILS doesn’t publish a separate route for paddlers. It’s the same two-and-a-half-mile crossing from the mouth of the Kennebec, in the same current, swell and fog that make Seguin one of the foggiest places off the coast of Maine — real considerations for a solo paddler. Roger Duncan’s cruising guide, <a href="https://nauticalcharts.noaa.gov/publications/coast-pilot/">NOAA’s Coast Pilot</a> and the <a href="https://mita.org/">Maine Island Trail Association’s</a> guide all cover the approach. Call the FOSILS office at <a href="tel:+12074434808">207-443-4808</a> before you set out, especially if you’re paddling alone.
               </p>
             </dd>
           </div>
@@ -167,7 +170,7 @@ const sections = [
             <dt>The landing</dt>
             <dd class="flow">
               <p>
-                A new pier is under way. Until it’s finished, the small beach and 9-foot tide mean the island can be reached for about three quarters of the tide cycle. FOSILS hasn’t published the exact window that closes it, so <a href="#tide-heading">check today’s tide</a> before you set out, and call the office at <a href="tel:+12074434808">207-443-4808</a> if it looks tight. Fog is common here too, so go slow and watch for it on your approach.
+                A new pier is under way. Until it’s finished, the small beach and 9-foot tide mean the island can be reached for about three quarters of the tide cycle. FOSILS hasn’t published the exact window that closes it, so <a href="#tide-heading" class="visit-row__cta">check today’s tide</a> before you set out, and call the office at <a href="tel:+12074434808">207-443-4808</a> if it looks tight. Fog is common here too, so go slow and watch for it on your approach.
               </p>
             </dd>
           </div>
@@ -218,9 +221,13 @@ const sections = [
         <h2 id="staying-over-heading"><span class="visit-part__num" aria-hidden="true">5</span> Staying over</h2>
         <p class="visit-part__lead">
           Members can camp on the island.{" "}
-          {guestRoomCurrent
-            ? `The Keeper’s Guest Room is closed for the ${GUEST_ROOM_PAUSED} season while renovations are under way.`
-            : "Ask the office whether the Keeper’s Guest Room has reopened after its renovation."}
+          {guestRoomCurrent ? (
+            `The Keeper’s Guest Room is closed for the ${GUEST_ROOM_PAUSED} season while renovations are under way.`
+          ) : (
+            <>
+              Ask the office whether the Keeper’s Guest Room has reopened after its renovation: call <a href="tel:+12074434808">207-443-4808</a>.
+            </>
+          )}
         </p>
         <dl class="visit-rows">
           <div class="visit-row">

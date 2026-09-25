@@ -292,6 +292,14 @@ reading fills in, the ones behind you stay dark. */
   white-space: nowrap;
 }
 
+/* Rhymes with the tide band's own landing link, so the two halves of the
+   same safety fact read as one cross-referenced pair, not two coincidences. */
+.visit-row__cta {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-primary);
+}
+
 /* Mooring donations: a small tabular ledger, dashed like the system's tables */
 .visit-table {
   inline-size: auto;

@@ -93,6 +93,13 @@ the one band on the site that takes it outside the map.
   color: inherit;
 }
 
+/* Rhymes with the "Coming ashore" section's own landing link, so both halves
+   of the cross-referenced safety fact carry the same visual weight. */
+.tide__cta {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
 .tide__retry {
   padding: 0;
   border: 0;
