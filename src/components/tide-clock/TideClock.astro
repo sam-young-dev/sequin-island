@@ -26,7 +26,7 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
         <noscript>The tide chart loads from NOAA with JavaScript. <a href={NOAA_PAGE}>See the week’s Hunniwell Point tides on NOAA</a>.</noscript>
       </p>
       <p class="tide__access">
-        <strong>Landing:</strong> possible for about three quarters of the tide cycle, from the small beach, until the new pier is finished. FOSILS hasn’t published exactly which part of the cycle closes it — if you’re unsure, <a href="tel:+12074434808">call the office</a> before you set out. <a href="#coming-ashore">How to come ashore</a>
+        <strong>Landing:</strong> the small beach takes about three quarters of the tide cycle to reach, until the new pier is finished. The exact window that closes it isn’t published — if today’s tide looks tight, <a href="tel:+12074434808">call the office</a> before you set out. <a href="#coming-ashore">Full landing details</a>
       </p>
       <p class="visually-hidden" role="status" data-announce></p>
     </div>
@@ -66,7 +66,7 @@ const NOAA_PAGE = "https://tidesandcurrents.noaa.gov/noaatidepredictions.html?id
       <figcaption class="tide__source">
         <span>Predicted heights above low water (mean lower low water) at Hunniwell Point, Fort Popham (<a href={NOAA_PAGE}>NOAA station 8417177</a>), 3.6 miles north of the island. Times are Maine time.</span>
         <span class="tide__controls" data-controls>
-          <span class="tide__hint">Drag across the curve, or use the arrow keys, to read any time.</span>
+          <span class="tide__hint">Drag across the curve, or use the arrow keys, to read any time. Press Escape to jump back to now.</span>
           <span class="tide__days" role="group" aria-label="Day">
             <button class="tide__button" type="button" data-day-step="-1" disabled>Previous day</button>
             <button class="tide__button" type="button" data-day-step="1">Next day</button>

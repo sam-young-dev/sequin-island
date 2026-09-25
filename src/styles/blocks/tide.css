@@ -7,6 +7,7 @@ the one band on the site that takes it outside the map.
 */
 .tide {
   --tide-ink: var(--color-stone-800);
+  --tide-ink-quiet: var(--color-stone-600);
   --tide-water: color-mix(in oklab, var(--color-brand-fog), var(--color-brand-navy) 22%);
   --tide-rule: color-mix(in oklab, var(--color-brand-fog), var(--color-brand-navy) 30%);
   padding-block: var(--space-md-lg);
@@ -16,7 +17,7 @@ the one band on the site that takes it outside the map.
 
 .tide__inner {
   display: grid;
-  grid-template-columns: fit-content(46ch) minmax(15rem, 26rem) minmax(0, 1fr);
+  grid-template-columns: fit-content(46ch) minmax(13rem, 20rem) minmax(0, 1fr);
   grid-template-areas:
     "readout status ."
     "chart chart chart";
@@ -118,21 +119,26 @@ the one band on the site that takes it outside the map.
   background: linear-gradient(to right, var(--tide-rule) 60%, transparent 0) 0 50% / 14px 1px repeat-x;
 }
 
-/* Status column ----------------------------------------------------------- */
+/* Status column -----------------------------------------------------------
+   A quiet column: it reports what's running today, but the tide figure is
+   the thing the visitor came to read, so this stays smaller and lower-
+   contrast than the readout at every step. */
 .tide__status {
   grid-area: status;
-  font-size: var(--size-step-0);
+  margin-block-start: var(--space-sm);
+  font-size: var(--size-step--1);
   line-height: var(--leading-normal);
+  color: var(--tide-ink-quiet);
 }
 
 .tide__status > div {
-  padding-block: var(--space-xs);
-  border-block-start: 1px solid var(--tide-rule);
+  padding-block: var(--space-3xs) var(--space-2xs);
+  border-block-start: 1px solid color-mix(in oklab, var(--tide-rule), transparent 35%);
 }
 
 .tide__status dt {
   font-family: var(--font-heading);
-  font-size: var(--size-step--1);
+  font-size: var(--size-step--2);
   font-weight: var(--font-weight-semibold);
 }
 
@@ -142,14 +148,14 @@ the one band on the site that takes it outside the map.
 
 .tide__status strong {
   font-family: var(--font-heading);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-brand-dark);
+  font-weight: var(--font-weight-semibold);
+  color: var(--tide-ink);
 }
 
 .tide__latest {
   display: block;
   margin-block-start: var(--space-3xs);
-  font-size: var(--size-step--1);
+  font-size: var(--size-step--2);
 }
 
 .tide__latest time {

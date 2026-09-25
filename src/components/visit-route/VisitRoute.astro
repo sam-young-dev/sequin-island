@@ -29,6 +29,7 @@ const { stops } = Astro.props;
         <button class="island-map__label" type="button" tabindex="-1" data-place={stop.key}>{stop.name}</button>
       ))}
     </div>
+    <button class="button route__skip" type="button" data-button-variant="secondary" data-skip hidden>Skip tour</button>
     <p class="island-map__credit">
       Elevation and imagery: USGS · Map data ©
       <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
@@ -56,6 +57,7 @@ const { stops } = Astro.props;
   const announce = root.querySelector<HTMLElement>("[data-announce]")!;
   const buttons = [...root.querySelectorAll<HTMLButtonElement>(".route__button")];
   const labels = [...root.querySelectorAll<HTMLElement>(".island-map__label")];
+  const skip = root.querySelector<HTMLButtonElement>("[data-skip]")!;
   const TOUR_DWELL_MS = 2600;
   const SLOW_LOAD_MS = 10_000;
 
@@ -65,16 +67,27 @@ const { stops } = Astro.props;
   function stopTour() {
     if (tour !== null) window.clearTimeout(tour);
     tour = null;
+    skip.hidden = true;
   }
 
   // Walk the stops in order, landing to lantern, once. Any click, drag, focus or key hands control back.
   function playTour(index = 0) {
     const key = buttons[index]?.dataset.place;
     if (!key) return stopTour();
+    skip.hidden = false;
     mark(key);
     map?.select(key);
     tour = index < buttons.length - 1 ? window.setTimeout(() => playTour(index + 1), TOUR_DWELL_MS) : null;
+    if (tour === null) skip.hidden = true;
   }
+
+  // Skipping stops the walk where it stands; focus moves to that stop so
+  // keyboard users land somewhere sensible instead of losing their place.
+  skip.addEventListener("click", () => {
+    const current = buttons.find((button) => button.getAttribute("aria-pressed") === "true");
+    stopTour();
+    current?.focus();
+  });
 
   // Buttons carry the SR-visible copy already, so the announcer just reads the
   // matched one back — this is also how the unattended tour speaks each stop.
@@ -132,8 +145,15 @@ const { stops } = Astro.props;
       stage.addEventListener("pointerdown", stopTour);
       stage.addEventListener("wheel", stopTour, { passive: true });
       // Keyboard and screen-reader users take over the same way: by arriving.
-      root.addEventListener("focusin", stopTour);
-      root.addEventListener("keydown", stopTour);
+      // Focus landing on the skip control itself doesn't count — that's the
+      // deliberate way to stop the tour, and hiding it on arrival would strand
+      // keyboard users mid-tab with nothing to press.
+      root.addEventListener("focusin", (event) => {
+        if (event.target !== skip) stopTour();
+      });
+      root.addEventListener("keydown", (event) => {
+        if (document.activeElement !== skip) stopTour();
+      });
       // Once the stage is mostly in view, walk the route. With reduced motion, just start at the landing.
       const arrive = new IntersectionObserver(
         (entries) => {

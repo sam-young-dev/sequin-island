@@ -26,6 +26,19 @@ walk in order, strung on one hairline like a trail.
     url("/terrain/aerial.jpg") center / cover var(--color-brand-fog);
 }
 
+/* The walk plays once, unprompted, as the stage scrolls into view. This is
+   the one visible way to say "I'll take it from here" without having to
+   grab the map or start typing. */
+.route__skip {
+  position: absolute;
+  inset-block-start: var(--space-sm);
+  inset-inline-end: var(--space-sm);
+}
+
+.route__skip[hidden] {
+  display: none;
+}
+
 .route__stops {
   flex: 1 1 20rem;
   max-inline-size: 30rem;
