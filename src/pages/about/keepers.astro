@@ -1,0 +1,58 @@
+---
+import { getEntry } from "astro:content";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+// Both honor rolls are copied from seguinisland.org's Past Keepers page.
+// Names, roles and years stay exactly as published there.
+const keepers = await getEntry("keepers", "index");
+
+if (!keepers) {
+  throw new Error("Missing src/content/keepers/index.md");
+}
+
+const volunteers = [...keepers.data.volunteers].sort((left, right) => right.year - left.year);
+const newest = volunteers[0].year;
+const oldest = volunteers[volunteers.length - 1].year;
+---
+
+<BaseLayout title={keepers.data.title} description={keepers.data.description}>
+  <div class="region wrapper keepers-intro">
+    <nav class="keepers-intro__back" aria-label="Breadcrumb"><a href="/about">About us</a></nav>
+    <h1>{keepers.data.title}</h1>
+    <p class="keepers-intro__lead">{keepers.data.intro}</p>
+  </div>
+
+  <section class="region wrapper keepers-part" aria-labelledby="volunteers-heading">
+    <h2 id="volunteers-heading">Volunteer keepers, {oldest}–{newest}</h2>
+    <ol class="keepers-roll" data-roll="volunteers" role="list">
+      {volunteers.map((entry) => (
+        <li class="keepers-roll__row">
+          <span class="keepers-roll__year">{entry.year}</span>
+          <span class="keepers-roll__names">{entry.names}</span>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="region wrapper keepers-part" aria-labelledby="station-heading">
+    <h2 id="station-heading">Station keepers, 1796–1986</h2>
+    <p class="keepers-part__lead">{keepers.data.historicIntro}</p>
+    <ol class="keepers-roll" data-roll="station" role="list">
+      {keepers.data.historic.map((entry) => (
+        <li class="keepers-roll__row">
+          <span class="keepers-roll__names">{entry.name}</span>
+          <span class="keepers-roll__service">{entry.service}</span>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="region wrapper history" aria-labelledby="join-heading">
+    <h2 id="join-heading" class="history__heading">Put your name on the list</h2>
+    <div class="history__body flow">
+      <p>Start as a Wednesday Warrior, one day a week on the island, or apply to keep Seguin for a season.</p>
+      <p><a class="button" data-button-variant="secondary" href="/about#become-a-keeper">Become a keeper →</a></p>
+    </div>
+  </section>
+</BaseLayout>

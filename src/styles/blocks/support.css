@@ -1,0 +1,63 @@
+/*
+SUPPORT
+Membership alone owns the tinted band, at display scale.
+One primary action, one quiet route to a single gift.
+*/
+.support {
+  --region-space: var(--space-2xl-3xl);
+}
+
+.support__main {
+  --flow-space: var(--space-md);
+}
+
+.support__main h2 {
+  font-size: var(--size-step-8);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-none);
+  letter-spacing: -0.02em;
+}
+
+.support__lead {
+  max-width: 34ch;
+  font-size: var(--size-step-4);
+  line-height: var(--leading-normal);
+}
+
+.support__terms {
+  max-width: 60ch;
+  color: var(--color-text-quiet);
+}
+
+.support__actions {
+  --flow-space: var(--space-lg);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-md);
+  align-items: center;
+}
+
+.support__main .button {
+  font-size: var(--size-step-0);
+  --button-y-padding: 1.1em;
+  --button-x-padding: 1.5em;
+}
+
+.support__gift {
+  display: inline-block;
+  padding-block: 0.75em;
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-normal);
+}
+
+/* The class opts it out of the global link hover, so match it here */
+.support__gift:hover {
+  text-underline-offset: 0.2lh;
+}
+
+.support__reassurance {
+  --flow-space: var(--space-md);
+  max-width: 46ch;
+  color: var(--color-text-quiet);
+}

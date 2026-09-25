@@ -1,0 +1,263 @@
+/*
+ISLAND MAP
+The interactive 3D terrain map (src/components/island-map/).
+The stage holds the WebGL canvas with HTML labels and panels on top.
+The places list sits alongside through the sidebar composition.
+*/
+.island-map {
+  --sidebar-size: 16rem;
+  --sidebar-wrap-at: 60%;
+  --sidebar-gap: var(--space-lg);
+}
+
+.island-map__stage {
+  position: relative;
+  overflow: hidden;
+  block-size: min(78svh, 52rem);
+  min-block-size: 26rem;
+  border-radius: 7px;
+  background: var(--color-brand-fog);
+  isolation: isolate;
+}
+
+.island-map__canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+
+.island-map__canvas:active {
+  cursor: grabbing;
+}
+
+.island-map__status {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  text-align: center;
+  color: var(--color-stone-800);
+}
+
+.island-map__status[hidden] {
+  display: none;
+}
+
+.island-map__status p {
+  max-inline-size: 40ch;
+  text-wrap: pretty;
+}
+
+.island-map__status a:not([class]) {
+  color: inherit;
+}
+
+/* Labels are positioned by the viewer each frame via transform. */
+.island-map__labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.island-map__stage:not([data-state="ready"]) .island-map__labels,
+.island-map__stage:not([data-state="ready"]) .island-map__reset {
+  display: none;
+}
+
+.island-map__label {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  translate: -50% -100%;
+  padding: 0.3em 0.6em;
+  border: none;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.9);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.25);
+  color: var(--color-stone-800);
+  font-family: var(--font-sans);
+  font-size: var(--size-step--1);
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  cursor: pointer;
+  pointer-events: auto;
+  will-change: transform;
+}
+
+/* Pointer stalk from the label down to the spot it marks. */
+.island-map__label::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 100%;
+  inset-inline-start: 50%;
+  inline-size: 2px;
+  block-size: 0.6em;
+  translate: -50% 0;
+  background: inherit;
+}
+
+.island-map__label:hover,
+.island-map__label[data-selected] {
+  background: var(--color-brand-dark);
+  color: var(--color-brand-light);
+}
+
+.island-map__label[data-selected] {
+  z-index: 1;
+}
+
+.island-map__info {
+  --flow-space: var(--space-2xs);
+  position: absolute;
+  inset-block-end: var(--space-md);
+  inset-inline-start: var(--space-md);
+  max-inline-size: min(26rem, calc(100% - 2 * var(--space-md)));
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 7px;
+  background: rgb(255 255 255 / 0.95);
+  box-shadow: 0 2px 12px rgb(0 0 0 / 0.2);
+  font-size: var(--size-step-0);
+  /* Above the credit, which wraps under the panel on narrow stages */
+  z-index: 1;
+  /* Leave room for the reset button on short stages; scroll long descriptions */
+  max-block-size: calc(100% - 2 * var(--space-md) - 3rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.island-map__info-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+.island-map__info-head h3 {
+  min-inline-size: 0;
+  padding-block-start: 0.35em;
+}
+
+.island-map__info[hidden] {
+  display: none;
+}
+
+.island-map__info h3 {
+  font-size: var(--size-step-1);
+}
+
+/* 44px target; the negative margin keeps the visible icon aligned with the heading */
+.island-map__close {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  margin-block-start: -0.5rem;
+  margin-inline-end: -0.75rem;
+  padding: 0;
+  border: none;
+  border-radius: 7px;
+  background: none;
+  cursor: pointer;
+  color: var(--color-stone-800);
+  --focus-offset: -2px;
+}
+
+.island-map__close:hover {
+  background: var(--color-neutral-100);
+}
+
+.island-map__reset {
+  position: absolute;
+  inset-block-start: var(--space-sm);
+  inset-inline-end: var(--space-sm);
+}
+
+.island-map__credit {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  padding: 0.4em 0.7em;
+  border-start-start-radius: 7px;
+  background: rgb(255 255 255 / 0.75);
+  font-family: var(--font-sans);
+  font-size: var(--size-step--2);
+  color: var(--color-stone-800);
+}
+
+.island-map__credit a {
+  color: inherit;
+}
+
+.island-map__places h2 {
+  font-size: var(--size-step-3);
+}
+
+.island-map__places ul {
+  --flow-space: var(--space-2xs);
+  padding: 0;
+}
+
+.island-map__place {
+  inline-size: 100%;
+  padding: var(--space-2xs) var(--space-sm);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 7px;
+  background: var(--color-neutral-surface-default);
+  color: inherit;
+  font-family: var(--font-sans);
+  font-size: var(--size-step-0);
+  text-align: start;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  transition: border-color var(--transition-base);
+}
+
+.island-map__place:hover {
+  border-color: var(--color-brand-primary);
+}
+
+.island-map__place[aria-pressed="true"] {
+  border-color: var(--color-brand-dark);
+  background: var(--color-brand-dark);
+  color: var(--color-brand-light);
+}
+
+.island-map__hint {
+  font-size: var(--size-step--1);
+  color: var(--color-text-quiet);
+}
+
+/* Shown in place of the buttons when JavaScript is off */
+.island-map__places noscript {
+  display: block;
+}
+
+.island-map__place-notes {
+  --flow-space: var(--space-sm);
+  font-size: var(--size-step-0);
+}
+
+.island-map__place-notes dt {
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-bold);
+}
+
+@media (forced-colors: active) {
+  .island-map__label,
+  .island-map__info {
+    border: 1px solid CanvasText;
+  }
+
+  .island-map__label[data-selected],
+  .island-map__place[aria-pressed="true"] {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+}

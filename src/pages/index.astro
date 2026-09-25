@@ -5,6 +5,7 @@ import lighthouseImage from "../assets/seguin-island-hero.jpg";
 import Card from "../components/card/Card.astro";
 import Hero from "../components/hero/Hero.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { formatDate, isoDate } from "../lib/format";
 
 const home = await getEntry("home", "index");
 const posts = (await getCollection("blog", ({ data }) => !data.draft))
@@ -16,55 +17,125 @@ if (!home) {
 }
 
 const { Content } = await render(home);
+
+// The newest post leads with the caretakers' own first photo, when the post has one
+const [latest, ...earlier] = posts;
+const latestPhotoMatch = latest?.body?.match(/!\[(?<alt>[^\]]*)\]\((?<src>\S+?)\)/);
+const latestPhoto = latestPhotoMatch?.groups;
+
+// Seguin's verified distinctions, as published in the About page history
+const distinctions = [
+  {
+    term: "Highest in Maine",
+    detail: "Seguin Light stands higher above sea level than any other lighthouse in Maine.",
+  },
+  {
+    term: "First-order Fresnel lens",
+    detail: "The only operational first-order Fresnel lens north of Rhode Island, kept in its tower after FOSILS gathered more than 7,200 signatures in 1998.",
+  },
+  {
+    term: "750-foot tramway",
+    detail: "Built in 1890 to haul coal from the cove to the whistle house, it is the longest light station tramway still in existence.",
+  },
+  {
+    term: "Kept by friends since 1986",
+    detail: "Volunteer caretakers have opened the island to visitors every summer since 1990, from Memorial Day through Labor Day.",
+  },
+];
 ---
 
 <BaseLayout title={home.data.title} description={home.data.description}>
-	<Hero image={lighthouseImage}>
-    <p>{home.data.heroEyebrow}</p>
+  <Hero size="landmark" image={lighthouseImage} alt="Seguin Light's tower and brick keeper's house on the island summit under a summer sky">
     <h1>{home.data.heroHeading}</h1>
+    <p class="hero__coords">{home.data.heroEyebrow}</p>
   </Hero>
-	
-  <div class="region wrapper prose">
-    <p>{home.data.intro}</p>
-    <Content />
+
+  <div class="region wrapper statement">
+    <p class="statement__lead">{home.data.intro}</p>
+    <div class="statement__aside prose flow">
+      <Content />
+    </div>
   </div>
 
-  <div class="region wrapper" data-bg="tinted">
-    <div class="switcher">
-      <div class="card flow">
-        <h2>{home.data.primaryCtaLabel}</h2>
-        <p>Support the island through annual membership and help sustain preservation, education, and visitor access.</p>
-        <p><a class="button" href={home.data.primaryCtaHref}>{home.data.primaryCtaLabel} →</a></p>
-      </div>
+  <section class="region wrapper ledger" aria-labelledby="ledger-heading">
+    <h2 id="ledger-heading" class="ledger__heading">Only on Seguin</h2>
+    <dl class="ledger__list">
+      {distinctions.map((item) => (
+        <div class="ledger__row">
+          <dt>{item.term}</dt>
+          <dd>{item.detail}</dd>
+        </div>
+      ))}
+    </dl>
+    <p class="ledger__more"><a href="/map">Walk the island in 3D →</a></p>
+  </section>
 
-      <div class="card flow">
-        <h2>{home.data.secondaryCtaLabel}</h2>
-        <p>Visiting this historic, active lighthouse is a memorable experience for visitors of all ages.</p>
-        <p><a class="button" data-button-variant="secondary" href={home.data.secondaryCtaHref}>{home.data.secondaryCtaLabel} →</a></p>
+  <section class="region wrapper history" aria-labelledby="history-heading">
+    <h2 id="history-heading" class="history__heading">{home.data.secondaryCtaLabel}</h2>
+    <div class="history__body flow">
+      <p>Visiting this historic, active lighthouse is a memorable experience for visitors of all ages. <a href="/visit">Plan your visit</a> around the tide, the ferry and the climb to the light.</p>
+      <p class="history__more"><a href={home.data.secondaryCtaHref}>Read the full story →</a></p>
+    </div>
+  </section>
+
+  <div class="region support" data-bg="tinted">
+    <div class="wrapper support__inner">
+      <div class="support__main flow">
+        <h2>{home.data.primaryCtaLabel}</h2>
+        <p class="support__lead">Support the island through annual membership and help sustain preservation, education, and visitor access.</p>
+        <p class="support__terms">Memberships start at $50 a year, or become a sustaining member for $10 a month.</p>
+        <p class="support__actions">
+          <a class="button" href={home.data.primaryCtaHref}>{home.data.primaryCtaLabel} →</a>
+          <a class="support__gift" href="/donate">Or make a one-time gift</a>
+        </p>
+        <p class="support__reassurance">Every gift is tax-deductible and goes straight to keeping the tower, museum, and trails open. Thank you for keeping the light going.</p>
       </div>
     </div>
   </div>
 
-  <div class="region wrapper flow">
-    <h2>{home.data.blogHeading}</h2>
+  <section class="region wrapper flow dispatch" aria-labelledby="blog-heading">
+    <h2 id="blog-heading" class="dispatch__heading">{home.data.blogHeading}</h2>
     {
-      posts.length > 0 ? (
-        <ul class="grid" role="list">
-          {posts.map((post) => (
-            <li>
-              <Card href={`/blog/${post.id}/`} label={post.data.title}>
-                <h3>{post.data.title}</h3>
-                <p>{post.data.excerpt}</p>
-                <small>{post.data.publishDate.toLocaleDateString("en-US", { dateStyle: "long" })}</small>
-              </Card>
-            </li>
-          ))}
-        </ul>
+      latest ? (
+        <a class="dispatch__feature" href={`/blog/${latest.id}/`} data-has-photo={latestPhoto ? "" : undefined}>
+          {latestPhoto && (
+            <img
+              class="dispatch__photo"
+              src={latestPhoto.src}
+              alt={latestPhoto.alt}
+              width="1024"
+              height="768"
+              loading="lazy"
+              decoding="async"
+            />
+          )}
+          <div class="dispatch__body flow">
+            <h3>{latest.data.title}</h3>
+            <p>{latest.data.excerpt}</p>
+            <p class="dispatch__meta">
+              <time datetime={isoDate(latest.data.publishDate)}>{formatDate(latest.data.publishDate)}</time>
+              <span class="dispatch__read" aria-hidden="true">Read the post →</span>
+            </p>
+          </div>
+        </a>
       ) : (
-        <p>No blog posts have been published yet.</p>
+        <p class="dispatch__empty">The caretakers haven't posted yet this season. In the meantime, <a href="/map">explore the island in 3D</a>.</p>
       )
     }
-    <p><a href="/blog">Visit the full blog →</a></p>
-  </div>
+    {earlier.length > 0 && (
+      <ul class="grid" role="list" style="--grid-item-min: 20rem">
+        {earlier.map((post) => (
+          <li>
+            <Card href={`/blog/${post.id}/`}>
+              <h3>{post.data.title}</h3>
+              <p>{post.data.excerpt}</p>
+              <small><time datetime={isoDate(post.data.publishDate)}>{formatDate(post.data.publishDate)}</time></small>
+            </Card>
+          </li>
+        ))}
+      </ul>
+    )}
+    {posts.length > 1 && <p class="dispatch__more"><a href="/blog">Visit the full blog →</a></p>}
+  </section>
 
 </BaseLayout>

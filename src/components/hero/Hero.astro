@@ -1,25 +1,30 @@
 ---
-import { Image } from '@unpic/astro';
-import ArrowDownIcon from '/src/assets/arrow-down.svg?raw';
-import { siteData } from '../../data/site-data';
+import { Image } from 'astro:assets';
 
-const { image, width, height, label, href, showIcon = false} = Astro.props;
+const { image, alt = '', width, height, label = 'Learn more', href = '#content', showIcon = false, size } = Astro.props;
+
+// The photo covers a hero that is taller than it is wide on phones, so it renders
+// wider than the viewport there. Match hero.css's min-block-size so phones get a sharp source.
+const minHeight = size === 'landmark' ? 'min(88svh, 58rem)' : 'min(62svh, 36rem)';
+const sizes = `max(100vw, calc(${minHeight} * ${(image.width / image.height).toFixed(3)}))`;
 ---
 
-<div class="hero">
+<div class="hero" data-hero-size={size}>
   <Image
     src={image}
-    alt="hero banner"
-    width={width || 2000}
-    height={height || 1200}
+    alt={alt}
+    width={width}
+    height={height}
+    widths={[640, 960, 1280, image.width].filter((w) => w <= image.width)}
+    sizes={sizes}
     loading="eager"
     fetchpriority="high"
     draggable="false"
   />
   {showIcon && (
-    <a href={href || siteData.heroIcon.href} class="hero__skip-link flow">
-      <span class="hero__skip-link-icon"><div class="hero__skip-link-icon__inner" set:html={ArrowDownIcon}></div></span>
-      <span class="hero__skip-link-label">{label || siteData.heroIcon.label}</span>
+    <a href={href} class="hero__skip-link flow">
+      <span class="hero__skip-link-icon"><span class="hero__skip-link-icon__inner"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg></span></span>
+      <span class="hero__skip-link-label">{label}</span>
     </a>
   )}
   {!showIcon && <div class="hero__content"><slot /></div>}

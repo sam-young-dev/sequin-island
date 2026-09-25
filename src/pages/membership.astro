@@ -1,0 +1,79 @@
+---
+import { getEntry } from "astro:content";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Membership carries priced, comparable tiers, so it gets its own route and a
+// structured content model instead of the generic [slug].astro prose template.
+const membership = await getEntry("membership", "index");
+
+if (!membership) {
+  throw new Error("Missing src/content/membership/index.md");
+}
+
+const { title, description, intro, purchaseHref, included, sustainingNote, tiers } = membership.data;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="region wrapper membership-intro flow">
+    <h1>{title}</h1>
+    <p class="membership-intro__lead">{intro}</p>
+  </div>
+
+  <section class="region wrapper membership-included" aria-labelledby="included-heading">
+    <h2 id="included-heading">Every membership includes</h2>
+    <ul class="membership-included__list">
+      {included.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+
+  <section class="region wrapper membership-tiers" aria-labelledby="tiers-heading">
+    <h2 id="tiers-heading">Membership levels</h2>
+    <ul class="membership-tiers__grid" role="list">
+      {tiers.map((tier) => (
+        <li class="membership-tier">
+          {tier.suggested && <p class="membership-tier__suggested">Suggested</p>}
+          <table class="membership-tier__table">
+            <caption>{tier.name}</caption>
+            <tr>
+              <th scope="row">Per year</th>
+              <td>{tier.price}</td>
+            </tr>
+          </table>
+          {tier.extras.length > 0 ? (
+            <ul class="membership-tier__extras">
+              {tier.extras.map((extra) => <li>{extra}</li>)}
+            </ul>
+          ) : (
+            <p class="membership-tier__extras-none">Includes every benefit above.</p>
+          )}
+          <p class="membership-tier__join">
+            <a
+              href={purchaseHref}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Join at the ${tier.name} level (opens eJoinMe in a new tab)`}
+            >
+              Join at this level →
+            </a>
+          </p>
+        </li>
+      ))}
+    </ul>
+    <p class="membership-tiers__sustaining">{sustainingNote}</p>
+  </section>
+
+  <div class="region support" data-bg="tinted">
+    <div class="wrapper support__inner">
+      <div class="support__main flow">
+        <h2>Become a Member</h2>
+        <p class="support__lead">Support the island through annual membership and help sustain preservation, education, and visitor access.</p>
+        <p class="support__terms">Memberships start at $50 a year, or become a sustaining member for $10 a month.</p>
+        <p class="support__actions">
+          <a class="button" href={purchaseHref} target="_blank" rel="noreferrer">Become a Member → <span class="visually-hidden">(opens eJoinMe in a new tab)</span></a>
+        </p>
+        <p class="support__reassurance">Every membership helps fund the caretakers, the tower, and the trails for another season. Thank you for keeping the light going.</p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

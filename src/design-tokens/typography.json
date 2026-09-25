@@ -2,15 +2,15 @@
   "font": {
     "$type": "fontFamily",
     "body": {
-      "$value": "{font.sans}"
+      "$value": "{font.serif}"
     },
     "heading": {
       "$value": "{font.sans}"
     },
     "sans": {
       "$value": [
-        "Geist",
-        "Inter",
+        "Public Sans Variable",
+        "Public Sans",
         "-apple-system",
         "BlinkMacSystemFont",
         "Segoe UI",
@@ -22,7 +22,7 @@
     },
     "mono": {
       "$value": [
-        "Geist Mono",
+        "ui-monospace",
         "SFMono-Regular",
         "Consolas",
         "Liberation Mono",
@@ -31,14 +31,30 @@
       ]
     },
     "serif": {
-      "$value": ["Georgia", "Cambria", "Times New Roman", "Times", "serif"]
+      "$value": [
+        "Source Serif 4 Variable",
+        "Source Serif 4",
+        "Georgia",
+        "Cambria",
+        "Times New Roman",
+        "Times",
+        "serif"
+      ]
     },
     "weight": {
       "$type": "fontWeight",
-      "normal": { "$value": 400 },
-      "medium": { "$value": 500 },
-      "semibold": { "$value": 600 },
-      "bold": { "$value": 700 }
+      "normal": {
+        "$value": 400
+      },
+      "medium": {
+        "$value": 500
+      },
+      "semibold": {
+        "$value": 600
+      },
+      "bold": {
+        "$value": 700
+      }
     }
   },
   "text": {
@@ -83,15 +99,29 @@
     }
   },
   "heading": {
-    "1": { "$value": "{text.4xl}" },
-    "2": { "$value": "{text.3xl}" },
-    "3": { "$value": "{text.2xl}" },
-    "4": { "$value": "{text.xl}" }
+    "1": {
+      "$value": "{text.4xl}"
+    },
+    "2": {
+      "$value": "{text.3xl}"
+    },
+    "3": {
+      "$value": "{text.2xl}"
+    },
+    "4": {
+      "$value": "{text.xl}"
+    }
   },
   "body": {
-    "default": { "$value": "{text.base}" },
-    "large": { "$value": "{text.lg}" },
-    "small": { "$value": "{text.sm}" }
+    "default": {
+      "$value": "{text.base}"
+    },
+    "large": {
+      "$value": "{text.lg}"
+    },
+    "small": {
+      "$value": "{text.sm}"
+    }
   },
   "caption": {
     "$value": "{text.xs}"
@@ -99,7 +129,7 @@
   "leading": {
     "$type": "number",
     "heading": {
-      "$value": "{leading.none}"
+      "$value": "{leading.snug}"
     },
     "body": {
       "$value": "{leading.normal}"
@@ -107,15 +137,53 @@
     "title": {
       "$value": "{leading.tight}"
     },
-    "none": { "$value": 1 },
-    "tight": { "$value": 1.25 },
-    "normal": { "$value": 1.5 },
-    "relaxed": { "$value": 1.75 }
+    "prose": {
+      "$value": 1.65
+    },
+    "none": {
+      "$value": 1
+    },
+    "snug": {
+      "$value": 1.15
+    },
+    "tight": {
+      "$value": 1.25
+    },
+    "normal": {
+      "$value": 1.5
+    },
+    "relaxed": {
+      "$value": 1.75
+    },
+    "loose": {
+      "$value": 1.85
+    }
   },
   "tracking": {
     "$type": "dimension",
-    "tight": { "$value": { "value": -0.025, "unit": "rem" } },
-    "normal": { "$value": { "value": 0, "unit": "rem" } },
-    "wide": { "$value": { "value": 0.025, "unit": "rem" } }
+    "tight": {
+      "$value": {
+        "value": -0.025,
+        "unit": "rem"
+      }
+    },
+    "normal": {
+      "$value": {
+        "value": 0,
+        "unit": "rem"
+      }
+    },
+    "wide": {
+      "$value": {
+        "value": 0.025,
+        "unit": "rem"
+      }
+    },
+    "label": {
+      "$value": {
+        "value": 0.05,
+        "unit": "rem"
+      }
+    }
   }
 }

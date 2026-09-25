@@ -1,10 +1,14 @@
 ---
-import { Image } from '@unpic/astro';
+import { Image } from 'astro:assets';
 
 import { siteData } from '../../data/site-data'
+import { isCurrentSection } from '../../lib/format'
 import logo from '../../assets/seguin-island-logo.jpg'
+
+const current = (href: string) => (isCurrentSection(Astro.url.pathname, href) ? { 'aria-current': 'page' } : {})
 ---
 
+<a class="skip-link button" href="#main-content">Skip to content</a>
 <header class="site-head">
   <div class="wrapper">
     <div class="repel site-head__inner">
@@ -12,7 +16,7 @@ import logo from '../../assets/seguin-island-logo.jpg'
         <a href="/">
           <Image
             src={logo}
-            alt="logo"
+            alt={`${siteData.title}, home`}
             height={40}
             loading="eager"
             fetchpriority="high"
@@ -24,15 +28,11 @@ import logo from '../../assets/seguin-island-logo.jpg'
         <ul class="cluster" role="list">
           {siteData.navItems.map((item) => (
           <li>
-            <a href={item.href} {...(item.current ? {'aria-current': 'page'} : {})}>{item.label}</a>
+            <a href={item.href} {...current(item.href)}>{item.label}</a>
           </li>
         ))}
           <li>
-            <a href="/donate">
-              <button class="button">
-                Donate
-              </button>
-            </a>
+            <a href="/donate" {...current('/donate')}>Donate</a>
           </li>
         </ul>
       </nav>

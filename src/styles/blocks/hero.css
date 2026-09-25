@@ -5,6 +5,10 @@
   justify-items: center;
   position: relative;
   overflow: hidden;
+  /* Keeps the white heading legible while the photo loads, or if it fails */
+  background-color: var(--color-fill-loud);
+  /* Phones get a real first screen of island, not a letterbox strip */
+  min-block-size: min(62svh, 36rem);
 }
 
 .hero img {
@@ -13,6 +17,8 @@
 
   /* remove these if you don't want the image to cover the whole hero area */
   width: 100%;
+  /* Fill the hero even when a long heading makes it taller than the photo */
+  height: 100%;
   object-fit: cover;
 }
 
@@ -36,11 +42,11 @@
   grid-column: 1;
   grid-row: 2;
   z-index: 1;
-  font-weight: var(--font-medium);
+  font-weight: var(--font-weight-medium);
   font-size: var(--size-step-0);
   text-align: center;
   text-decoration: none;
-  line-height: var(--leading-fine);
+  line-height: var(--leading-heading);
   color: var(--skip-link-color);
   max-width: 12ch;
 }
@@ -72,38 +78,53 @@
   transition: transform var(--transition-bounce);
 }
 
-.hero__label {
-  --skip-link-color: var(--color-neutral-surface-default);
-  --flow-space: var(--space-xs);
-
-  grid-column: 1;
-  grid-row: 2;
-  z-index: 1;
-  font-weight: var(--font-weight-bold);
-  font-size: var(--size-step-8);
-  text-align: center;
-  text-decoration: none;
-  line-height: var(--leading-fine);
-  color: var(--skip-link-color);
-  max-width: 20ch;
-}
-
 .hero__content {
   --skip-link-color: var(--color-neutral-surface-default);
   --flow-space: var(--space-xs);
 
+  /* Sits at the foot of the photo, where the gradient is darkest,
+     and lines up with the wrapper so the heading shares the page's left edge */
   grid-column: 1;
-  grid-row: 2;
+  grid-row: 1 / 4;
+  align-self: end;
   z-index: 1;
-  /* font-weight: var(--font-weight-bold); */
-  /* font-size: var(--size-step-8); */
-  /* text-align: center; */
-  /* line-height: var(--leading-fine); */
-  /* text-decoration: none; */
-  /* max-width: 20ch; */
+  inline-size: 100%;
+  max-inline-size: var(--wrapper-max-width);
+  padding-inline: var(--wrapper-padding-inline);
+  padding-block: var(--space-xl);
   color: var(--skip-link-color);
 }
 
 .hero__content :is(h1, h2, h3, h4) {
   color: inherit;
+}
+
+.hero__coords {
+  margin-block-start: var(--space-xs);
+  font-family: var(--font-heading);
+  font-size: var(--size-step-0);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-label);
+}
+
+/* Landmark: the home page's first screen. The island fills the view and the
+   heading is set at display scale, anchored where the gradient is darkest. */
+.hero[data-hero-size="landmark"] {
+  min-block-size: min(88svh, 58rem);
+}
+
+.hero[data-hero-size="landmark"] h1 {
+  font-size: var(--size-step-9);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-none);
+  letter-spacing: -0.02em;
+  max-width: 13ch;
+}
+
+.hero[data-hero-size="landmark"] .hero__content {
+  padding-block-end: var(--space-2xl-3xl);
+}
+
+.hero[data-hero-size="landmark"] .hero__coords {
+  margin-block-start: var(--space-sm-md);
 }

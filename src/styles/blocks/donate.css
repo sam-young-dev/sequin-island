@@ -1,0 +1,65 @@
+/*
+DONATE
+The Donate page (src/pages/donate.astro). A short intro, then one tinted ask
+band that carries the single Brick "Donate Now" action and its reassurance
+line right beside it, so the primary online gift reads as one clear step
+ahead of the reference material for other ways to give below it.
+*/
+.donate-intro {
+  --region-space: var(--space-md-lg);
+}
+
+.donate-intro__lead {
+  max-width: 60ch;
+  margin-block-start: var(--space-xs);
+  font-size: var(--size-step-2);
+  line-height: var(--leading-normal);
+  text-wrap: pretty;
+}
+
+.donate-ask {
+  --region-space: var(--space-xl-2xl);
+}
+
+.donate-ask__main {
+  --flow-space: var(--space-md);
+  max-width: 60ch;
+}
+
+.donate-ask__lede {
+  font-size: var(--size-step-3);
+  line-height: var(--leading-normal);
+  text-wrap: pretty;
+}
+
+.donate-ask__actions {
+  --flow-space: var(--space-lg);
+}
+
+.donate-ask__main .button {
+  font-size: var(--size-step-0);
+  --button-y-padding: 1.1em;
+  --button-x-padding: 1.5em;
+}
+
+/* The give-away that "Donate Now" hands off to another site, so losing the
+   tab mid-checkout reads as expected, not as a broken link. */
+.donate-ask__external {
+  flex: none;
+}
+
+.donate-ask__reassurance {
+  --flow-space: var(--space-md);
+  max-width: 52ch;
+  color: var(--color-text-quiet);
+  line-height: var(--leading-prose);
+}
+
+.donate-ask__reassurance a {
+  font-weight: var(--font-weight-semibold);
+  color: inherit;
+}
+
+.donate-more {
+  --region-space: var(--space-lg-xl);
+}

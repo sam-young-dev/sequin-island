@@ -1,0 +1,141 @@
+/*
+ROUTE
+The walk from the landing to the lantern (src/components/visit-route/).
+The stage reuses the island map's Fog stage and labels; the stops are the
+walk in order, strung on one hairline like a trail.
+*/
+.route {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg) var(--space-xl);
+  align-items: start;
+}
+
+.route__stage {
+  flex: 999 1 32rem;
+  block-size: min(70svh, 44rem);
+  min-block-size: 22rem;
+}
+
+/* On phones the stage stacks above the stops; a shorter, wider stage keeps
+   the island large in frame and the stops within a thumb's reach. */
+@media (max-width: 40rem) {
+  .route__stage {
+    block-size: min(55svh, 30rem);
+    min-block-size: 20rem;
+  }
+}
+
+/* While the terrain loads, or where it can't, the island's own aerial photo sits
+   under a veil of Fog, so the stage shows Seguin rather than an empty panel.
+   It's the texture the viewer is about to fetch anyway. */
+.route__stage:is([data-state="loading"], [data-state="error"]) {
+  background:
+    linear-gradient(color-mix(in oklab, var(--color-brand-fog) 82%, transparent), color-mix(in oklab, var(--color-brand-fog) 82%, transparent)),
+    url("/terrain/aerial.jpg") center / cover var(--color-brand-fog);
+}
+
+/* Starts the walk, landing to lantern, and stops it again; it replays as
+   often as asked. It sits where the island map keeps its reset control. */
+.route__walk {
+  position: absolute;
+  inset-block-start: var(--space-sm);
+  inset-inline-end: var(--space-sm);
+}
+
+.route__walk[hidden] {
+  display: none;
+}
+
+.route__stops {
+  flex: 1 1 20rem;
+  max-inline-size: 30rem;
+  /* The thread sits behind the stop buttons */
+  isolation: isolate;
+}
+
+.route__stop {
+  position: relative;
+}
+
+/* The thread between stops */
+.route__stop:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  inset-block: calc(1.05rem + 12px) -1.05rem;
+  inset-inline-start: calc(0.75rem + 5px);
+  border-inline-start: 2px solid var(--color-neutral-200);
+  z-index: -1;
+}
+
+.route__button {
+  position: relative;
+  display: grid;
+  gap: var(--space-3xs);
+  inline-size: 100%;
+  padding: var(--space-xs) var(--space-sm) var(--space-xs) 2.5rem;
+  border: 0;
+  border-radius: 7px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+/* The stop marker: a ring that fills in when the map is there */
+.route__button::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 1.05rem;
+  inset-inline-start: 0.75rem;
+  inline-size: 12px;
+  aspect-ratio: 1;
+  border: 2px solid var(--color-brand-primary);
+  border-radius: 50%;
+  background: var(--color-white);
+}
+
+/* Without JS the stops are a plain list; the script upgrades them to buttons. */
+button.route__button {
+  cursor: pointer;
+}
+
+button.route__button:hover {
+  background: var(--color-neutral-100);
+}
+
+.route__button[aria-pressed="true"] {
+  background: var(--color-brand-dark);
+  color: var(--color-brand-light);
+}
+
+.route__button[aria-pressed="true"]::before {
+  border-color: var(--color-brand-light);
+  background: var(--color-brand-light);
+}
+
+.route__name {
+  font-family: var(--font-heading);
+  font-size: var(--size-step-2);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.route__detail {
+  font-size: var(--size-step-0);
+  line-height: var(--leading-normal);
+  color: var(--color-text-quiet);
+}
+
+.route__button[aria-pressed="true"] .route__detail {
+  color: inherit;
+}
+
+@media (forced-colors: active) {
+  .route__button[aria-pressed="true"] {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+}

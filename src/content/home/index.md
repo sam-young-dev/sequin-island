@@ -2,8 +2,8 @@
 title: Friends of Seguin Island
 description: Preserve, explore, and support Maine's historic Seguin Island Light Station.
 heroEyebrow: 43°42'26"N, 69°45'28"W
-heroHeading: Your Island Adventure Starts Here
-intro: Our mission is to distinguish Seguin Island Light Station as part of Maine's maritime heritage through education and preservation in order to ensure access for generations to come.
+heroHeading: Maine's Highest Light
+intro: Volunteer caretakers keep this real, working lighthouse open every summer, so its history and first-order Fresnel light survive for the next generation.
 primaryCtaLabel: Become a Member
 primaryCtaHref: /membership
 secondaryCtaLabel: Learn Our History

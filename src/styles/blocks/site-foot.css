@@ -1,7 +1,7 @@
 .site-foot {
   background: var(--color-fill-loud);
   color: var(--color-foreground-inverse);
-  line-height: var(--leading-flat);
+  line-height: var(--leading-none);
   padding-block: var(--space-md);
 }
 

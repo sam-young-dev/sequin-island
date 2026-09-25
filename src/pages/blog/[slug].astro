@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content";
 
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatDate, isoDate } from "../../lib/format";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -19,7 +20,8 @@ const { Content } = await render(post);
 <BaseLayout title={post.data.title} description={post.data.description}>
   <article class="region wrapper prose flow">
     <h1>{post.data.title}</h1>
-    <p><small>{post.data.publishDate.toLocaleDateString("en-US", { dateStyle: "long" })}</small></p>
+    <p><small><time datetime={isoDate(post.data.publishDate)}>{formatDate(post.data.publishDate)}</time></small></p>
     <Content />
+    <p><a href="/blog">← All posts from the Keeper's Blog</a></p>
   </article>
 </BaseLayout>

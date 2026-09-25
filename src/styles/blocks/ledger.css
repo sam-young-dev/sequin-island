@@ -1,0 +1,54 @@
+/*
+LEDGER
+Seguin's distinctions as a station log: one fact per ruled row,
+the claim set large in Granite and the evidence in the reading serif.
+*/
+.ledger {
+  --region-space: var(--space-xl-2xl);
+  padding-block-start: 0;
+}
+
+.ledger__heading {
+  font-size: var(--size-step-7);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-none);
+  letter-spacing: -0.015em;
+}
+
+.ledger__list {
+  margin-block-start: var(--space-lg-xl);
+  border-block-end: var(--stroke-solid);
+}
+
+.ledger__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+  gap: var(--space-2xs) var(--space-xl);
+  align-items: baseline;
+  padding-block: var(--space-md-lg);
+  border-block-start: var(--stroke-solid);
+}
+
+.ledger__row dt {
+  font-family: var(--font-heading);
+  font-size: var(--size-step-6);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  color: var(--color-brand-primary);
+}
+
+.ledger__row dd {
+  margin: 0;
+  max-width: 52ch;
+  font-size: var(--size-step-2);
+  line-height: var(--leading-normal);
+}
+
+.ledger__more {
+  margin-block-start: var(--space-md-lg);
+  font-size: var(--size-step-3);
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+}

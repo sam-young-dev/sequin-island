@@ -1,0 +1,149 @@
+/*
+MEMBERSHIP
+Choosing and joining. The shared baseline is stated once, so each tier below
+only has to state its price and what it adds — a plain comparison instead of
+four repeated lists. Prices use the system's dashed price-table figure, the
+same one the mooring table on Plan Your Visit uses.
+*/
+.membership-intro {
+  --region-space: var(--space-md-lg);
+  --flow-space: var(--space-sm);
+}
+
+.membership-intro h1 {
+  font-size: var(--size-step-8);
+  letter-spacing: -0.02em;
+}
+
+.membership-intro__lead {
+  max-width: 60ch;
+  font-size: var(--size-step-2);
+  line-height: var(--leading-normal);
+  text-wrap: pretty;
+}
+
+/* Every membership includes ------------------------------------------------- */
+.membership-included {
+  --region-space: var(--space-lg-xl);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-neutral-100);
+  border-radius: var(--radius-card);
+}
+
+.membership-included h2 {
+  font-size: var(--size-step-3);
+  font-weight: var(--font-weight-semibold);
+}
+
+.membership-included__list {
+  margin-block-start: var(--space-sm);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr));
+  gap: var(--space-2xs) var(--space-xl);
+}
+
+.membership-included__list li {
+  line-height: var(--leading-normal);
+}
+
+/* Tiers ----------------------------------------------------------------------- */
+.membership-tiers {
+  --region-space: var(--space-lg-xl);
+}
+
+.membership-tiers h2 {
+  font-size: var(--size-step-7);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-none);
+  letter-spacing: -0.015em;
+}
+
+.membership-tiers__grid {
+  margin-block-start: var(--space-lg-xl);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
+  gap: var(--space-lg);
+}
+
+.membership-tier {
+  --flow-space: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.5rem;
+  border: 1px solid var(--color-neutral-200);
+  border-radius: 7px;
+  background-color: var(--color-neutral-surface-default);
+}
+
+/* Same annotation-label voice as the Callout's label on Plan Your Visit */
+.membership-tier__suggested {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-heading);
+  font-size: var(--size-step-0);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--color-brand-primary);
+}
+
+/* The price, in the system's small dashed table: caption above, the figure
+   right-aligned in tabular Public Sans (matches .visit-table on Plan Your Visit) */
+.membership-tier__table {
+  width: 100%;
+  font-size: var(--size-step-0);
+}
+
+.membership-tier__table caption {
+  caption-side: top;
+  margin: 0 0 var(--space-2xs);
+  text-align: start;
+  font-family: var(--font-heading);
+  font-size: var(--size-step-2);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-primary);
+}
+
+.membership-tier__table th {
+  font-weight: inherit;
+  line-height: inherit;
+  text-align: start;
+  color: var(--color-text-quiet);
+}
+
+.membership-tier__table td {
+  font-family: var(--font-heading);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-semibold);
+  text-align: end;
+}
+
+.membership-tier__extras {
+  margin-block-start: var(--space-sm);
+}
+
+.membership-tier__extras li + li {
+  margin-block-start: var(--space-2xs);
+}
+
+.membership-tier__extras-none {
+  margin-block-start: var(--space-sm);
+  color: var(--color-text-quiet);
+}
+
+.membership-tier__join {
+  margin-block-start: auto;
+  padding-block-start: var(--space-md);
+}
+
+/* Same quiet exit-link voice as the ledger's "Walk the island in 3D" */
+.membership-tier__join a {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-normal);
+}
+
+.membership-tiers__sustaining {
+  margin-block-start: var(--space-lg);
+  color: var(--color-text-quiet);
+}

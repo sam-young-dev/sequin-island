@@ -1,0 +1,203 @@
+---
+// The walk from the landing to the lantern, on the same 3D terrain as /map.
+// Each stop is a button that flies the camera there; the Lighthouse Trail is
+// drawn heavier than the other trails.
+export interface RouteStop {
+  key: string;
+  name: string;
+  detail: string;
+}
+
+interface Props {
+  stops: RouteStop[];
+}
+
+const { stops } = Astro.props;
+---
+
+<div class="route" data-route>
+  <div class="route__stage island-map__stage" data-stage data-state="idle">
+    <div class="island-map__status" data-status role="status" hidden></div>
+    <p class="visually-hidden" role="status" data-announce></p>
+    <noscript>
+      <div class="island-map__status">
+        <p>The 3D route needs JavaScript. <a href="/terrain/aerial.jpg">View the aerial photo of the island</a>.</p>
+      </div>
+    </noscript>
+    <div class="island-map__labels" aria-hidden="true">
+      {stops.map((stop) => (
+        <button class="island-map__label" type="button" tabindex="-1" data-place={stop.key}>{stop.name}</button>
+      ))}
+    </div>
+    <button class="button route__walk" type="button" data-button-variant="secondary" data-walk hidden>Walk the route</button>
+    <p class="island-map__credit">
+      Elevation and imagery: USGS · Map data ©
+      <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
+    </p>
+  </div>
+
+  <ol class="route__stops" role="list">
+    {stops.map((stop) => (
+      <li class="route__stop">
+        <div class="route__button" data-place={stop.key}>
+          <span class="route__name">{stop.name}</span>
+          <span class="route__detail">{stop.detail}</span>
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<script>
+  import type { IslandMap } from "../island-map/viewer";
+
+  const root = document.querySelector<HTMLElement>("[data-route]")!;
+  const stage = root.querySelector<HTMLElement>("[data-stage]")!;
+  const status = root.querySelector<HTMLElement>("[data-status]")!;
+  const announce = root.querySelector<HTMLElement>("[data-announce]")!;
+
+  // Without JS the stops are a plain list, so they never pose as controls that
+  // do nothing. Here each becomes a toggle that marks the stop and flies there.
+  root.querySelectorAll<HTMLElement>("div.route__button").forEach((stop) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = stop.className;
+    button.dataset.place = stop.dataset.place;
+    button.setAttribute("aria-pressed", "false");
+    button.append(...stop.childNodes);
+    stop.replaceWith(button);
+  });
+  const buttons = [...root.querySelectorAll<HTMLButtonElement>(".route__button")];
+  const labels = [...root.querySelectorAll<HTMLElement>(".island-map__label")];
+  const walk = root.querySelector<HTMLButtonElement>("[data-walk]")!;
+  const TOUR_DWELL_MS = 2600;
+  const SLOW_LOAD_MS = 10_000;
+
+  let map: IslandMap | null = null;
+  let tour: number | null = null;
+
+  function stopTour() {
+    if (tour !== null) window.clearTimeout(tour);
+    tour = null;
+    walk.textContent = "Walk the route";
+  }
+
+  // Walk the stops in order, landing to lantern, when asked. It never starts on
+  // its own: the stage sits beside the climb's access warning, and uninvited
+  // motion would pull the eye from it. Any click, drag, focus or key hands control back.
+  function playTour(index = 0) {
+    const key = buttons[index]?.dataset.place;
+    if (!key) return stopTour();
+    walk.textContent = "Stop the walk";
+    mark(key);
+    map?.select(key);
+    tour = index < buttons.length - 1 ? window.setTimeout(() => playTour(index + 1), TOUR_DWELL_MS) : null;
+    // At the lantern the walk is over; say it can be taken again.
+    if (tour === null) walk.textContent = "Walk it again";
+  }
+
+  walk.addEventListener("click", () => {
+    if (tour !== null) stopTour();
+    else playTour();
+  });
+
+  // Buttons carry the SR-visible copy already, so the announcer just reads the
+  // matched one back — this is also how the unattended tour speaks each stop.
+  function mark(key: string | null) {
+    buttons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.place === key)));
+    const current = buttons.find((button) => button.dataset.place === key);
+    const name = current?.querySelector(".route__name")?.textContent;
+    const detail = current?.querySelector(".route__detail")?.textContent;
+    announce.textContent = name ? `${name}: ${detail ?? ""}` : "";
+  }
+
+  function setStatus(html: string) {
+    status.innerHTML = html;
+    status.hidden = html === "";
+  }
+
+  // The stops read as a list even without the map, so marking them always works.
+  buttons.forEach((button) =>
+    button.addEventListener("click", () => {
+      stopTour();
+      const key = button.getAttribute("aria-pressed") === "true" ? null : button.dataset.place!;
+      mark(key);
+      if (key) map?.select(key);
+      else map?.resetView();
+    }),
+  );
+
+  function hasWebGL() {
+    try {
+      const canvas = document.createElement("canvas");
+      return Boolean(canvas.getContext("webgl2") ?? canvas.getContext("webgl"));
+    } catch {
+      return false;
+    }
+  }
+
+  async function load() {
+    if (!hasWebGL()) {
+      stage.dataset.state = "error";
+      setStatus('<p>This device can’t show the 3D route. The stops beside it follow the same walk.</p><p><a href="/terrain/aerial.jpg">View the aerial photo of the island</a></p>');
+      return;
+    }
+    stage.dataset.state = "loading";
+    setStatus("<p>Loading the island…</p>");
+    const slow = window.setTimeout(
+      () => setStatus("<p>Still loading the island. The terrain is about 1.5 MB, so this can take a while on a slow connection.</p>"),
+      SLOW_LOAD_MS,
+    );
+    try {
+      const { createIslandMap } = await import("../island-map/viewer");
+      map = await createIslandMap(stage, { labels, onSelect: mark, route: ["Lighthouse Trail"] });
+      stage.dataset.state = "ready";
+      setStatus("");
+      watchContext(stage.querySelector("canvas"));
+      walk.hidden = false;
+      // The walk button is the deliberate way to start and stop the tour, so
+      // pressing, focusing or keying it doesn't count as taking over.
+      stage.addEventListener("pointerdown", (event) => {
+        if (event.target !== walk) stopTour();
+      });
+      stage.addEventListener("wheel", stopTour, { passive: true });
+      root.addEventListener("focusin", (event) => {
+        if (event.target !== walk) stopTour();
+      });
+      root.addEventListener("keydown", () => {
+        if (document.activeElement !== walk) stopTour();
+      });
+    } catch (error) {
+      console.error(error);
+      stage.dataset.state = "error";
+      const reason = navigator.onLine ? "The 3D route didn’t load." : "You appear to be offline, so the 3D route couldn’t load.";
+      setStatus(`<p>${reason} The stops beside it follow the same walk. <button class="button" type="button" data-retry>Try again</button></p>`);
+      status.querySelector("[data-retry]")?.addEventListener("click", load, { once: true });
+    } finally {
+      window.clearTimeout(slow);
+    }
+  }
+
+  // The GPU can drop the WebGL context (driver reset, too many tabs). three.js
+  // restores it when the browser allows; until then, say what happened.
+  function watchContext(canvas: HTMLCanvasElement | null) {
+    canvas?.addEventListener("webglcontextlost", () => {
+      stage.dataset.state = "paused";
+      setStatus("<p>The 3D route paused because the graphics driver reset. It should come back in a moment.</p>");
+    });
+    canvas?.addEventListener("webglcontextrestored", () => {
+      stage.dataset.state = "ready";
+      setStatus("");
+    });
+  }
+
+  const loader = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      loader.disconnect();
+      load();
+    },
+    { rootMargin: "200px" },
+  );
+  loader.observe(stage);
+</script>

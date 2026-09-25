@@ -11,6 +11,18 @@
       },
       "light": {
         "$value": "#ffffff"
+      },
+      "brick": {
+        "$value": "#8a4a3c"
+      },
+      "brick-deep": {
+        "$value": "#733b2f"
+      },
+      "navy": {
+        "$value": "#153453"
+      },
+      "fog": {
+        "$value": "#d6e2e8"
       }
     },
 

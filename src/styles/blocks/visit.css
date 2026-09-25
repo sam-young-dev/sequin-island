@@ -1,0 +1,393 @@
+/*
+VISIT
+The Plan Your Visit page (src/pages/visit.astro). A short title over the
+tide band, then the trip in five numbered steps, in the order it happens: across, ashore, up,
+what to carry, where to sleep. Facts sit in ruled rows like the home
+page's ledger, so the page reads as one log of the island.
+*/
+.visit-intro {
+  --region-space: var(--space-md-lg);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-2xl);
+  align-items: end;
+  justify-content: space-between;
+}
+
+.visit-intro h1 {
+  font-size: var(--size-step-8);
+  letter-spacing: -0.02em;
+}
+
+.visit-intro__lead {
+  flex: 0 1 30rem;
+  font-size: var(--size-step-2);
+  line-height: var(--leading-normal);
+  text-wrap: pretty;
+}
+
+/* Steps ------------------------------------------------------------------------
+The five parts of the trip, numbered because the order is the trip. On wide
+screens a rail sits beside the page, strung on a hairline like the route
+stops; on narrow screens it is a strip pinned to the top. The step you are
+reading fills in, the ones behind you stay dark. */
+.visit-body {
+  --steps-marker: 1.75rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: var(--space-2xl);
+  padding-block-end: var(--space-xl-2xl);
+}
+
+.visit-steps {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 2;
+  align-self: start;
+  margin-inline: calc(var(--wrapper-padding-inline, 1rem) * -1);
+  background: var(--color-white);
+  border-block-end: var(--stroke-solid);
+}
+
+.visit-steps ol {
+  display: flex;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--wrapper-padding-inline, 1rem);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  /* Steps that run past either edge fade out into the gutter, so the strip reads as scrollable */
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--wrapper-padding-inline, 1rem),
+    #000 calc(100% - var(--wrapper-padding-inline, 1rem)),
+    transparent
+  );
+}
+
+.visit-steps ol::-webkit-scrollbar {
+  display: none;
+}
+
+.visit-steps__item {
+  position: relative;
+  flex: none;
+  margin: 0;
+}
+
+.visit-steps a {
+  display: flex;
+  gap: 0.55em;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding-inline: 0.35rem 0.6rem;
+  border-radius: 7px;
+  font-family: var(--font-heading);
+  font-size: var(--size-step-0);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-text-quiet);
+  text-decoration: none;
+  transition: color var(--transition-base), background-color var(--transition-base);
+}
+
+.visit-steps a:hover {
+  color: var(--color-text-normal);
+  background: var(--color-neutral-100);
+}
+
+.visit-steps__num,
+.visit-part__num {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  inline-size: var(--steps-marker);
+  aspect-ratio: 1;
+  border: 2px solid var(--color-brand-primary);
+  border-radius: 50%;
+  background: var(--color-white);
+  font-family: var(--font-heading);
+  font-size: var(--size-step--1);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--color-brand-primary);
+  transition: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base);
+}
+
+.visit-steps__item[data-state="passed"] a {
+  color: var(--color-text-normal);
+}
+
+/* Behind you: a dark ring on a light wash, so passed steps read apart from
+   the Granite rings still ahead, even on the narrow strip. */
+.visit-steps__item[data-state="passed"] .visit-steps__num {
+  border-color: var(--color-brand-dark);
+  background: color-mix(in oklab, var(--color-brand-dark) 12%, var(--color-white));
+  color: var(--color-brand-dark);
+}
+
+.visit-steps a[aria-current] {
+  color: var(--color-brand-dark);
+}
+
+.visit-steps a[aria-current] .visit-steps__num {
+  border-color: var(--color-brand-dark);
+  background: var(--color-brand-dark);
+  color: var(--color-brand-light);
+}
+
+@media (min-width: 64rem) {
+  .visit-body {
+    grid-template-columns: 12.5rem minmax(0, 1fr);
+    padding-block-start: var(--space-xl);
+  }
+
+  .visit-steps {
+    inset-block-start: var(--space-lg);
+    margin-inline: 0;
+    background: none;
+    border: 0;
+  }
+
+  .visit-steps ol {
+    display: grid;
+    gap: var(--space-xs);
+    padding: 0;
+    overflow: visible;
+    mask-image: none;
+  }
+
+  /* The thread between markers, darkened behind you */
+  .visit-steps__item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    /* From this marker's foot to the next one's head (items are 2.75rem tall) */
+    inset-block: calc((2.75rem + var(--steps-marker)) / 2) calc((2.75rem - var(--steps-marker)) / -2 - var(--space-xs));
+    inset-inline-start: calc(0.35rem + var(--steps-marker) / 2 - 1px);
+    border-inline-start: 2px solid var(--color-neutral-200);
+    pointer-events: none;
+  }
+
+  .visit-steps__item[data-state="passed"]::after {
+    border-color: var(--color-brand-dark);
+  }
+}
+
+@media (forced-colors: active) {
+  .visit-steps a[aria-current] .visit-steps__num {
+    forced-color-adjust: none;
+    background: Highlight;
+    border-color: Highlight;
+    color: HighlightText;
+  }
+}
+
+/* Parts of the trip ------------------------------------------------------------ */
+.visit-main {
+  container-type: inline-size;
+}
+
+.visit-part {
+  padding-block: var(--space-xl) var(--space-lg);
+  /* The mobile strip's own height (the 2.75rem link plus its ol's block
+     padding), then a bit of breathing room below it. */
+  scroll-margin-block-start: calc(2.75rem + var(--space-2xs) * 2 + var(--space-md));
+}
+
+@media (min-width: 64rem) {
+  .visit-part {
+    scroll-margin-block-start: var(--space-md);
+  }
+
+  .visit-part:first-child {
+    padding-block-start: 0;
+  }
+}
+
+.visit-part > h2 {
+  display: flex;
+  gap: 0.45em;
+  /* The number sits on the heading's first line, even when it wraps */
+  align-items: start;
+  font-size: var(--size-step-6);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.visit-part__num {
+  font-size: 0.55em;
+  inline-size: 2em;
+  /* Centre the 1.1em-tall marker on a --leading-tight line: (leading - 1.1) / 2, in this 0.55em font */
+  margin-block-start: calc((var(--leading-tight) - 1.1) / 1.1 * 1em);
+  border-color: var(--color-brand-dark);
+  background: var(--color-brand-dark);
+  color: var(--color-brand-light);
+}
+
+.visit-part__lead {
+  max-width: 60ch;
+  margin-block-start: var(--space-xs);
+  font-size: var(--size-step-2);
+  line-height: var(--leading-normal);
+  text-wrap: pretty;
+}
+
+.visit-part > :is(.visit-rows, .route, .visit-pack) {
+  margin-block-start: var(--space-md-lg);
+}
+.visit-rows {
+  border-block-end: var(--stroke-solid);
+}
+
+.visit-row {
+  display: grid;
+  gap: var(--space-3xs) var(--space-lg);
+  align-items: baseline;
+  padding-block: var(--space-sm);
+  border-block-start: var(--stroke-solid);
+}
+
+@container (min-width: 40rem) {
+  .visit-row {
+    grid-template-columns: 11rem minmax(0, 1fr);
+  }
+}
+
+.visit-row > dt {
+  font-family: var(--font-heading);
+  font-size: var(--size-step-1);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-brand-primary);
+}
+
+.visit-row > dd {
+  --flow-space: var(--space-xs);
+  margin: 0;
+  max-width: 68ch;
+  line-height: var(--leading-prose);
+}
+
+.visit-row > dd a[href^="tel:"] {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* Rhymes with the tide band's own landing link, so the two halves of the
+   same safety fact read as one cross-referenced pair, not two coincidences. */
+.visit-row__cta {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-primary);
+}
+
+/* Callouts ------------------------------------------------------------------
+   The facts that decide whether a visit happens at all (the landing window,
+   the climb's access), pulled out of the ledger rhythm so they don't read as
+   just another row. The 2px Granite top rule rhymes with the tide band's own
+   "now" marker; both mark what a visitor needs before setting out. Keep it
+   to these two, or it stops meaning "read this first". */
+.visit-callout {
+  /* Granite drops just under AA on the tinted panel, so text on it takes a
+     deeper mix of Granite toward Keeper Black; the top rule keeps pure Granite. */
+  --granite-on-tint: color-mix(in oklab, var(--color-brand-primary), var(--color-brand-dark) 30%);
+  max-width: 68ch;
+  margin-block-start: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-block-start: 2px solid var(--color-brand-primary);
+  background: var(--color-neutral-100);
+  border-radius: 0 var(--radius-card) var(--radius-card) var(--radius-card);
+}
+
+.visit-callout__label {
+  margin-block-end: var(--space-3xs);
+  font-family: var(--font-heading);
+  font-size: var(--size-step-0);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--granite-on-tint);
+}
+
+.visit-callout .visit-row__cta {
+  color: var(--granite-on-tint);
+}
+
+.visit-callout p:last-child {
+  margin: 0;
+  line-height: var(--leading-prose);
+}
+
+/* Mooring donations: a small tabular ledger, dashed like the system's tables */
+.visit-table {
+  inline-size: auto;
+  min-inline-size: min(100%, 24rem);
+  font-size: var(--size-step-0);
+}
+
+.visit-table caption {
+  caption-side: top;
+  margin: 0 0 var(--space-2xs);
+  text-align: start;
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Row headers for screen readers; they read like the rest of the row */
+.visit-table th {
+  font-weight: inherit;
+  line-height: inherit;
+  text-align: start;
+}
+
+.visit-table td:last-child {
+  font-family: var(--font-heading);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-semibold);
+  text-align: end;
+}
+
+/* Bring / leave -------------------------------------------------------------------- */
+.visit-pack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+  gap: var(--space-md) var(--space-xl);
+}
+
+.visit-pack h3 {
+  font-size: var(--size-step-2);
+  padding-block-end: var(--space-xs);
+  border-block-end: var(--stroke-solid);
+}
+
+.visit-pack ul {
+  margin-block-start: var(--space-xs);
+}
+
+.visit-pack li {
+  line-height: var(--leading-normal);
+}
+
+.visit-pack li + li {
+  margin-block-start: var(--space-2xs);
+}
+
+.visit-pack li strong {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
+.visit-note {
+  max-width: 60ch;
+  margin-block-start: var(--space-md);
+  padding-block-start: var(--space-xs);
+  border-block-start: var(--stroke-solid);
+  color: var(--color-text-quiet);
+  line-height: var(--leading-prose);
+}

@@ -1,0 +1,326 @@
+---
+import { getCollection } from "astro:content";
+
+import TideClock from "../components/tide-clock/TideClock.astro";
+import VisitRoute, { type RouteStop } from "../components/visit-route/VisitRoute.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { formatDate, isoDate } from "../lib/format";
+
+// Visitor facts are taken from seguinisland.org's travel, mooring, guidelines
+// and stay pages, and from the About page. Keep them as published.
+const [latest] = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (left, right) => right.data.publishDate.getTime() - left.data.publishDate.getTime(),
+);
+
+const [visitSettings] = await getCollection("settings", ({ id }) => id === "visit");
+const guestRoomClosed = visitSettings?.data.guestRoomClosed ?? false;
+const guestRoomClosedNote = visitSettings?.data.guestRoomClosedNote;
+
+const stops: RouteStop[] = [
+  {
+    key: "landing",
+    name: "The landing",
+    detail: "The small beach in Seguin Cove, where boats put passengers ashore.",
+  },
+  {
+    key: "boat-house",
+    name: "Boat house",
+    detail: "At the foot of the tramway, with the island’s composting toilet.",
+  },
+  {
+    key: "tramway",
+    name: "Lighthouse Trail",
+    detail: "About 130 feet up over roughly 700 feet of trail, beside the 1890 tramway. Walk the trail, not the tramway.",
+  },
+  {
+    key: "museum",
+    name: "Keeper’s house",
+    detail: "The museum and gift shop, where the caretakers live and give tours in season.",
+  },
+  {
+    key: "lighthouse",
+    name: "Seguin Light",
+    detail: "Maine’s highest lighthouse. Go up only with a caretaker, and keep children with an adult.",
+  },
+];
+
+const sections = [
+  { id: "getting-there", label: "Getting there" },
+  { id: "coming-ashore", label: "Coming ashore" },
+  { id: "the-climb", label: "The climb" },
+  { id: "what-to-bring", label: "What to bring" },
+  { id: "staying-over", label: "Staying over" },
+];
+---
+
+<BaseLayout
+  title="Plan Your Visit"
+  description="How to get to Seguin Island: today's tide, the ferry from Boothbay Harbor, moorings and landing, the climb to the light, and what to bring."
+>
+  <div class="region wrapper visit-intro">
+    <h1>Plan your visit</h1>
+    <p class="visit-intro__lead">
+      Seguin has a 9-foot tide and a small landing beach, so every visit starts with the water.
+    </p>
+  </div>
+
+  <TideClock
+    latest={latest && {
+      title: latest.data.title,
+      href: `/blog/${latest.id}/`,
+      date: formatDate(latest.data.publishDate),
+      datetime: isoDate(latest.data.publishDate),
+    }}
+  />
+
+  <div class="wrapper visit-body">
+    <nav class="visit-steps" aria-label="Your visit, step by step" data-visit-steps>
+      <ol class="visit-steps__list" role="list">
+        {sections.map((section, index) => (
+          <li class="visit-steps__item">
+            <a href={`#${section.id}`} data-step={section.id}>
+              <span class="visit-steps__num" aria-hidden="true">{index + 1}</span>
+              <span class="visit-steps__label">{section.label}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+
+    <div class="visit-main">
+      <section id="getting-there" class="visit-part" aria-labelledby="getting-there-heading">
+        <h2 id="getting-there-heading"><span class="visit-part__num" aria-hidden="true">1</span> Getting there</h2>
+        <p class="visit-part__lead">
+          The island sits two and a half miles out to sea at the mouth of the Kennebec River. Come on the ferry, or in your own boat or kayak.
+        </p>
+        <dl class="visit-rows">
+          <div class="visit-row">
+            <dt>By ferry</dt>
+            <dd class="flow">
+              <p>
+                In season, RippleSmith Sailing runs two trips a day from Boothbay Harbor with Captain Shawn Mercer. Call <a href="tel:+12073226726">207-322-6726</a> to book your crossing.
+              </p>
+            </dd>
+          </div>
+          <div class="visit-row">
+            <dt>By your own boat</dt>
+            <dd class="flow">
+              <p>
+                Use a chart plotter — an electronic GPS chart, not paper raster charts — for your approach.
+              </p>
+              <ul>
+                <li>Follow the lobster pot buoys and mooring buoys in; the cove’s eastern edge has shallow rocks, which show as breaking waves at low tide.</li>
+                <li>Watch for sea swell, opposing wind and tide, and a very strong river current.</li>
+                <li>Seguin is one of the foggiest places off the coast of Maine.</li>
+              </ul>
+              <p>
+                Roger Duncan’s cruising guide, <a href="https://nauticalcharts.noaa.gov/publications/coast-pilot/">NOAA’s Coast Pilot</a> and the <a href="https://mita.org/">Maine Island Trail Association’s</a> guide all cover the approach.
+              </p>
+            </dd>
+          </div>
+          <div class="visit-row">
+            <dt>By kayak</dt>
+            <dd class="flow">
+              <p>
+                The same open-water crossing from the mouth of the Kennebec, with the same swell, current and fog, and the same shallow rocks on the cove’s eastern edge. FOSILS doesn’t publish a separate route for paddlers.
+              </p>
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section id="coming-ashore" class="visit-part" aria-labelledby="coming-ashore-heading">
+        <h2 id="coming-ashore-heading"><span class="visit-part__num" aria-hidden="true">2</span> Coming ashore</h2>
+        <p class="visit-part__lead">
+          There’s no anchoring in the cove: a power cable runs under it and it is fished for lobster. Pick up a mooring instead.
+        </p>
+        <aside id="landing-callout" class="visit-callout" aria-labelledby="landing-callout-heading">
+          <p id="landing-callout-heading" class="visit-callout__label">Landing</p>
+          <p>
+            A new pier is under way; until it’s finished, passengers land on the small beach. <a href="#tide-access" class="visit-row__cta">Read today’s tide</a> for the landing rule and the office number. Fog is common here too, so go slow on your approach.
+          </p>
+        </aside>
+        <dl class="visit-rows">
+          <div class="visit-row">
+            <dt>Moorings</dt>
+            <dd class="flow">
+              <p>
+                Five moorings in Seguin Cove, first come, first served. Drop your passengers on the beach, then take a courtesy dinghy out to your mooring and row back.
+                Mooring use is a <a href="/membership">benefit of membership</a>. Non-members are asked for a donation.
+              </p>
+              <table class="visit-table">
+                <caption>Suggested donation for non-members</caption>
+                <tbody>
+                  <tr><th scope="row">Up to 4 hours</th><td>$20</td></tr>
+                  <tr><th scope="row">4 to 8 hours</th><td>$30</td></tr>
+                  <tr><th scope="row">Overnight, 5 pm to 10 am</th><td>$40</td></tr>
+                </tbody>
+              </table>
+            </dd>
+          </div>
+          <div class="visit-row">
+            <dt>The BRAVO mooring</dt>
+            <dd class="flow">
+              <p>
+                For vessels up to 130 feet, for day use only, with someone staying aboard to watch the boat (a watch stander). It may be reserved for educational or research vessels, like the training schooner Harvey Gamage.
+              </p>
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      <section id="the-climb" class="visit-part" aria-labelledby="the-climb-heading">
+        <h2 id="the-climb-heading"><span class="visit-part__num" aria-hidden="true">3</span> The climb</h2>
+        <p class="visit-part__lead">
+          From the cove, the Lighthouse Trail climbs about 130 feet to the light station alongside the tramway.
+        </p>
+        <aside class="visit-callout" aria-labelledby="access-callout-heading">
+          <p id="access-callout-heading" class="visit-callout__label">Access</p>
+          <p>
+            The trail is steep and the island is not accessible to wheelchairs; the way up to the light is on foot, so plan for the climb before you book your crossing. If you have a mobility limitation and are weighing a visit, call the office at <a href="tel:+12074434808">207-443-4808</a> — the caretakers can talk through what a trip to the landing and cove might look like for you.
+          </p>
+        </aside>
+        <VisitRoute stops={stops} />
+        <p class="visit-note">
+          Climb and distance measured from USGS elevation data along the trail. Once you’re up, five hiking trails lead out across the island, including down to Cobble Beach. <a href="/map">Explore them on the island map</a>.
+        </p>
+      </section>
+
+      <section id="what-to-bring" class="visit-part" aria-labelledby="what-to-bring-heading">
+        <h2 id="what-to-bring-heading"><span class="visit-part__num" aria-hidden="true">4</span> What to bring</h2>
+        <p class="visit-part__lead">
+          There’s no drinking water and no trash can on the island. Carry in what you need, and carry it all out again.
+        </p>
+        <div class="visit-pack">
+          <div>
+            <h3>Bring</h3>
+            <ul>
+              <li><strong>Drinking water and food</strong> for everyone, for your whole stay.</li>
+              <li><strong>Layers and sturdy hiking shoes</strong> for the wind and changing temperatures.</li>
+              <li><strong>A bag for your trash</strong>, to take home with you.</li>
+              <li><strong>A leash, water and bags for your dog.</strong> Dogs are welcome on a leash, because seabirds nest on the island.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Please don’t</h3>
+            <ul>
+              <li>Light a fire or fly a drone anywhere on the island.</li>
+              <li>Walk on the tramway.</li>
+              <li>Feed the wildlife, or leave the trails near nesting seabirds.</li>
+              <li>Go into the tower without a caretaker. The Fresnel lens is off-limits; the U.S. Coast Guard maintains it.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="staying-over" class="visit-part" aria-labelledby="staying-over-heading">
+        <h2 id="staying-over-heading"><span class="visit-part__num" aria-hidden="true">5</span> Staying over</h2>
+        <p class="visit-part__lead">
+          Members can camp on the island.{" "}
+          {guestRoomClosed ? (
+            guestRoomClosedNote
+          ) : (
+            <>
+              Ask the office whether the Keeper’s Guest Room has reopened after its renovation: call <a href="tel:+12074434808">207-443-4808</a>.
+            </>
+          )}
+        </p>
+        <dl class="visit-rows">
+          <div class="visit-row">
+            <dt>Camping</dt>
+            <dd class="flow">
+              <p>
+                Camping is a benefit of membership. Tents go in the picnic area along the Cove Trail. There’s room for up to eight guests at a time, about four two-person tents. A donation of $10 per guest per night is paid in full when you reserve.
+              </p>
+            </dd>
+          </div>
+          <div class="visit-row">
+            <dt>Reservations</dt>
+            <dd class="flow">
+              <p>
+                Reservations open March 1 each year through the FOSILS office: call <a href="tel:+12074434808">207-443-4808</a> or email <a href="mailto:keeper@seguinisland.org">keeper@seguinisland.org</a>.
+              </p>
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="region support" data-bg="tinted">
+    <div class="wrapper support__inner">
+      <div class="support__main flow">
+        <h2>Moor and camp as a member</h2>
+        <p class="support__lead">Every membership includes mooring use at Seguin and the chance to reserve a night on the island.</p>
+        <p class="support__terms">A non-member gives $20 to $40 for each mooring visit. Memberships start at $50 a year, or become a sustaining member for $10 a month.</p>
+        <p class="support__actions">
+          <a class="button" href="/membership">Become a Member →</a>
+          <a class="support__gift" href="/donate">Or make a one-time gift</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  // Mark the step you're reading. Without JS the rail is still a list of links.
+  const nav = document.querySelector<HTMLElement>("[data-visit-steps]");
+  const links = [...(nav?.querySelectorAll<HTMLAnchorElement>("a[data-step]") ?? [])];
+  const parts = links
+    .map((link) => document.getElementById(link.dataset.step ?? ""))
+    .filter((part): part is HTMLElement => part !== null);
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  function setCurrent(id: string | null) {
+    const index = links.findIndex((link) => link.dataset.step === id);
+    links.forEach((link, i) => {
+      if (i === index) link.setAttribute("aria-current", "step");
+      else link.removeAttribute("aria-current");
+      link.parentElement!.dataset.state = index === -1 ? "" : i < index ? "passed" : i === index ? "current" : "";
+    });
+    // On the narrow strip, keep the current step in sight without moving the page.
+    const list = nav?.querySelector("ol");
+    const current = links[index]?.parentElement;
+    if (list && current && list.scrollWidth > list.clientWidth) {
+      const left = current.offsetLeft - (list.clientWidth - current.offsetWidth) / 2;
+      list.scrollTo({ left, behavior: reduceMotion.matches ? "auto" : "smooth" });
+    }
+  }
+
+  if (nav && parts.length) {
+    // A part is current once its top passes the upper third of the viewport.
+    const update = () => {
+      const line = window.innerHeight * 0.33;
+      let current: string | null = null;
+      for (const part of parts) {
+        if (part.getBoundingClientRect().top <= line) current = part.id;
+      }
+      const last = parts[parts.length - 1];
+      if (last.getBoundingClientRect().bottom < line) current = null;
+      if (current !== nav.dataset.current) {
+        nav.dataset.current = current ?? "";
+        setCurrent(current);
+      }
+    };
+    let queued = false;
+    const scheduleUpdate = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        update();
+      });
+    };
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate, { passive: true });
+    // Sections can change height without the viewport resizing (the season
+    // note toggling, a font swap, an image loading in), which scroll and
+    // resize alone miss and leave the rail pointing at a passed step.
+    if (typeof ResizeObserver !== "undefined") {
+      const sizeObserver = new ResizeObserver(scheduleUpdate);
+      parts.forEach((part) => sizeObserver.observe(part));
+    }
+    update();
+  }
+</script>

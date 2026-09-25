@@ -1,0 +1,199 @@
+---
+import { mapPlaces } from "../../data/island-map";
+---
+
+<div class="island-map" data-island-map>
+  <div class="island-map__stage" data-stage data-state="idle">
+    <div class="island-map__status" data-status role="status" hidden></div>
+    <noscript>
+      <div class="island-map__status">
+        <p>The 3D map needs JavaScript, which is turned off in this browser.</p>
+        <p><a href="/terrain/aerial.jpg">View the aerial photo of the island</a></p>
+      </div>
+    </noscript>
+
+    <div class="island-map__labels" aria-hidden="true">
+      {mapPlaces.map((place) => (
+        <button class="island-map__label" type="button" tabindex="-1" data-place={place.key}>
+          {place.name}
+        </button>
+      ))}
+    </div>
+
+    <div class="island-map__info flow" data-info aria-live="polite" hidden>
+      <div class="island-map__info-head">
+        <h3 data-info-name></h3>
+        <button class="island-map__close" type="button" data-info-close aria-label="Close place details">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <p data-info-description></p>
+    </div>
+
+    <button class="island-map__reset button" data-button-variant="secondary" type="button" data-reset>
+      Reset view
+    </button>
+
+    <p class="island-map__credit">
+      Elevation and imagery: USGS · Map data ©
+      <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
+    </p>
+  </div>
+
+  <div class="island-map__places sidebar flow">
+    <h2>Places on the island</h2>
+    <ul class="island-map__place-list flow" role="list">
+      {mapPlaces.map((place) => (
+        <li>
+          <button class="island-map__place" type="button" aria-pressed="false" data-place={place.key}>
+            {place.name}
+          </button>
+        </li>
+      ))}
+    </ul>
+    <p class="island-map__hint">
+      Drag to turn the island. Scroll or pinch to zoom. Right-drag or use two fingers to move around.
+    </p>
+    <noscript>
+      <style>
+        .island-map__place-list, .island-map__hint { display: none; }
+      </style>
+      <dl class="island-map__place-notes">
+        {mapPlaces.map((place) => (
+          <>
+            <dt>{place.name}</dt>
+            <dd>{place.description}</dd>
+          </>
+        ))}
+      </dl>
+    </noscript>
+  </div>
+</div>
+
+<script>
+  import { mapPlaces } from "../../data/island-map";
+  import type { IslandMap } from "./viewer";
+
+  const SLOW_LOAD_MS = 10_000;
+  const AERIAL_LINK = '<a href="/terrain/aerial.jpg">View the aerial photo of the island</a>';
+
+  const root = document.querySelector<HTMLElement>("[data-island-map]")!;
+  const stage = root.querySelector<HTMLElement>("[data-stage]")!;
+  const status = root.querySelector<HTMLElement>("[data-status]")!;
+  const info = root.querySelector<HTMLElement>("[data-info]")!;
+  const infoName = root.querySelector<HTMLElement>("[data-info-name]")!;
+  const infoDescription = root.querySelector<HTMLElement>("[data-info-description]")!;
+  const placeButtons = [...root.querySelectorAll<HTMLButtonElement>(".island-map__place")];
+  const labels = [...root.querySelectorAll<HTMLElement>(".island-map__label")];
+
+  let map: IslandMap | null = null;
+
+  /** Show a message over the stage. `html` is trusted, static markup only. */
+  function setStatus(html: string) {
+    status.innerHTML = html;
+    status.hidden = html === "";
+  }
+
+  function showPlace(key: string | null) {
+    const place = mapPlaces.find((p) => p.key === key);
+    placeButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.place === key)));
+    info.hidden = !place;
+    if (place) {
+      infoName.textContent = place.name;
+      infoDescription.textContent = place.description;
+    }
+  }
+
+  function closePlace() {
+    showPlace(null);
+    map?.select(null);
+  }
+
+  placeButtons.forEach((button) =>
+    button.addEventListener("click", () => {
+      const key = button.getAttribute("aria-pressed") === "true" ? null : button.dataset.place!;
+      showPlace(key);
+      map?.select(key);
+    }),
+  );
+
+  root.querySelector("[data-info-close]")!.addEventListener("click", closePlace);
+  root.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !info.hidden) closePlace();
+  });
+
+  root.querySelector("[data-reset]")!.addEventListener("click", () => {
+    showPlace(null);
+    map?.resetView();
+  });
+
+  function hasWebGL() {
+    try {
+      const canvas = document.createElement("canvas");
+      return Boolean(canvas.getContext("webgl2") ?? canvas.getContext("webgl"));
+    } catch {
+      return false;
+    }
+  }
+
+  async function load() {
+    if (!hasWebGL()) {
+      stage.dataset.state = "error";
+      setStatus(
+        `<p>This browser or device can’t show 3D graphics, so the map can’t load here. You can still pick a place from the list to read about it.</p><p>${AERIAL_LINK}</p>`,
+      );
+      return;
+    }
+
+    stage.dataset.state = "loading";
+    setStatus("<p>Loading the 3D map…</p>");
+    const slow = window.setTimeout(
+      () => setStatus("<p>Still loading the 3D map. The terrain is about 1.5 MB, so this can take a while on a slow connection.</p>"),
+      SLOW_LOAD_MS,
+    );
+
+    try {
+      const { createIslandMap } = await import("./viewer");
+      map = await createIslandMap(stage, { labels, onSelect: showPlace });
+      stage.dataset.state = "ready";
+      setStatus("");
+      watchContext(stage.querySelector("canvas"));
+    } catch (error) {
+      console.error(error);
+      stage.dataset.state = "error";
+      const reason = navigator.onLine
+        ? "The map didn’t finish loading."
+        : "You appear to be offline, so the map couldn’t load.";
+      setStatus(
+        `<p>${reason} Check your connection and try again.</p><p><button class="button" type="button" data-retry>Try again</button></p><p>${AERIAL_LINK}</p>`,
+      );
+      status.querySelector("[data-retry]")?.addEventListener("click", load, { once: true });
+    } finally {
+      window.clearTimeout(slow);
+    }
+  }
+
+  // The GPU can drop the WebGL context (driver reset, too many tabs). three.js
+  // restores it when the browser allows; until then, say what happened.
+  function watchContext(canvas: HTMLCanvasElement | null) {
+    canvas?.addEventListener("webglcontextlost", () => {
+      stage.dataset.state = "paused";
+      setStatus("<p>The 3D view paused because the graphics driver reset. It should come back in a moment.</p>");
+    });
+    canvas?.addEventListener("webglcontextrestored", () => {
+      stage.dataset.state = "ready";
+      setStatus("");
+    });
+  }
+
+  // Load three.js and the terrain only when the map is about to scroll into view.
+  const loader = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      loader.disconnect();
+      load();
+    },
+    { rootMargin: "200px" },
+  );
+  loader.observe(stage);
+</script>

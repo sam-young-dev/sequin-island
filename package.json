@@ -1,5 +1,5 @@
 {
-  "name": "astro-sugarcube",
+  "name": "sequin-island",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -13,16 +13,20 @@
     "cms": "decap-server"
   },
   "dependencies": {
+    "@fontsource-variable/public-sans": "^5.3.0",
+    "@fontsource-variable/source-serif-4": "^5.3.0",
     "@sanity/client": "^7.22.1",
     "@sanity/image-url": "^2.1.1",
-    "@unpic/astro": "^1.0.2",
     "astro": "^7.3.2",
+    "sharp": "^0.35.4",
+    "three": "^0.186.0",
     "validation-enhancer": "^1.0.3",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@sugarcube-sh/cli": "^0.1.12",
     "@sugarcube-sh/vite": "^0.1.13",
+    "@types/three": "^0.186.0",
     "decap-server": "^3.2.0"
   },
   "packageManager": "pnpm@12.4.1"

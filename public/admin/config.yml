@@ -18,12 +18,12 @@ collections:
         file: src/content/home/index.md
         fields:
           - { label: Title, name: title, widget: string }
-          - { label: Description, name: description, widget: text }
+          - { label: Description, name: description, widget: text, pattern: ['^[\s\S]{50,200}$', 'Write 50 to 200 characters.'], hint: 'Shown in search results and link previews. 50 to 200 characters.' }
           - { label: Hero Eyebrow, name: heroEyebrow, widget: string }
           - { label: Hero Heading, name: heroHeading, widget: string }
           - { label: Intro, name: intro, widget: text }
           - { label: Primary CTA Label, name: primaryCtaLabel, widget: string }
-          - { label: Primary CTA Link, name: primaryCtaHref, widget: string }
+          - { label: Primary CTA Link, name: primaryCtaHref, widget: string, pattern: ['^(/|#|https?://|mailto:)', 'Start links with "/" for a page on this site, or "https://" for another site.'], hint: 'For example /membership or https://seguinisland.ejoinme.org/membership' }
           - {
               label: Secondary CTA Label,
               name: secondaryCtaLabel,
@@ -33,6 +33,8 @@ collections:
               label: Secondary CTA Link,
               name: secondaryCtaHref,
               widget: string,
+              pattern: ['^(/|#|https?://|mailto:)', 'Start links with "/" for a page on this site, or "https://" for another site.'],
+              hint: 'For example /membership or https://seguinisland.ejoinme.org/membership',
             }
           - { label: Blog Heading, name: blogHeading, widget: string }
           - { label: Body, name: body, widget: markdown }
@@ -46,8 +48,113 @@ collections:
     format: frontmatter
     fields:
       - { label: Title, name: title, widget: string }
-      - { label: Description, name: description, widget: text }
+      - { label: Description, name: description, widget: text, pattern: ['^[\s\S]{50,200}$', 'Write 50 to 200 characters.'], hint: 'Shown in search results and link previews. 50 to 200 characters.' }
+      - { label: 'Intro', name: intro, widget: text, required: false, hint: 'donate.md: the paragraph above the Donate button. about.md: the opening paragraph(s), separated by a blank line.' }
+      - { label: 'Donate page — Lede', name: lede, widget: string, required: false, hint: 'donate.md only: the short line right above the Donate button.' }
+      - { label: 'Donate page — Button label', name: ctaLabel, widget: string, required: false, hint: 'donate.md only.' }
+      - { label: 'Donate page — Button link', name: ctaHref, widget: string, required: false, hint: 'donate.md only: where the Donate button goes.' }
+      - { label: 'Donate page — Reassurance', name: reassurance, widget: text, required: false, hint: 'donate.md only: the tax-deductible statement shown beside the button.' }
+      - { label: 'Donate page — Donor Bill of Rights link', name: donorRightsHref, widget: string, required: false, hint: 'donate.md only.' }
+      - label: 'About page — Timeline'
+        name: timeline
+        widget: list
+        required: false
+        summary: '{{fields.year}} – {{fields.event}}'
+        hint: 'about.md only: the founding timeline, oldest first.'
+        fields:
+          - { label: Year, name: year, widget: number, value_type: int }
+          - { label: Event, name: event, widget: text }
+      - label: 'About page — Facilities'
+        name: facilities
+        widget: list
+        required: false
+        summary: '{{fields.title}}'
+        hint: 'about.md only: the facilities and capital projects list.'
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Detail, name: detail, widget: text }
       - { label: Body, name: body, widget: markdown }
+
+  - name: membership
+    label: Membership
+    files:
+      - name: membership
+        label: Membership Levels
+        file: src/content/membership/index.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, pattern: ['^[\s\S]{50,200}$', 'Write 50 to 200 characters.'], hint: 'Shown in search results and link previews. 50 to 200 characters.' }
+          - { label: Intro, name: intro, widget: text, hint: 'Opens the Membership page, above the tier list.' }
+          - { label: Purchase Link, name: purchaseHref, widget: string, hint: 'The eJoinMe membership page, for example https://seguinisland.ejoinme.org/membership' }
+          - label: Every Membership Includes
+            name: included
+            widget: list
+            hint: 'The benefits every tier gets, listed once above the tiers.'
+            field: { label: Benefit, name: benefit, widget: string }
+          - { label: Sustaining Note, name: sustainingNote, widget: text, hint: 'Shown under the tier list, pointing out the $10/month recurring option.' }
+          - label: Tiers
+            name: tiers
+            widget: list
+            summary: '{{fields.name}} – {{fields.price}}'
+            hint: 'Published low to high, so the page reads as a ladder.'
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Price, name: price, widget: string, hint: 'For example $50 or $1000+' }
+              - label: Extras
+                name: extras
+                widget: list
+                hint: 'Only what this tier adds beyond "Every Membership Includes" above.'
+                field: { label: Extra, name: extra, widget: string }
+              - { label: Suggested, name: suggested, widget: boolean, default: false, hint: 'Marks this tier "Suggested" on the page. Use on at most one tier.' }
+
+  - name: keepers
+    label: Keepers
+    files:
+      - name: keepers
+        label: Keepers Honor Rolls
+        file: src/content/keepers/index.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, pattern: ['^[\s\S]{50,200}$', 'Write 50 to 200 characters.'], hint: 'Shown in search results and link previews. 50 to 200 characters.' }
+          - { label: Intro, name: intro, widget: text, hint: 'Opens the keepers page and the Keepers section of the About page.' }
+          - { label: Station Keepers Intro, name: historicIntro, widget: text }
+          - label: Volunteer Keepers
+            name: volunteers
+            widget: list
+            summary: '{{fields.year}} – {{fields.names}}'
+            hint: 'One entry per season. The About page shows the five most recent.'
+            fields:
+              - { label: Year, name: year, widget: number, value_type: int }
+              - { label: Names, name: names, widget: string }
+          - label: Station Keepers
+            name: historic
+            widget: list
+            summary: '{{fields.name}} ({{fields.service}})'
+            hint: 'In the order published, oldest first.'
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Role and Years, name: service, widget: string, hint: 'For example: 1st assistant, 1857–1861' }
+          - { label: Become a Keeper (shown on the About page), name: body, widget: markdown }
+
+  - name: settings
+    label: Site Settings
+    files:
+      - name: visit
+        label: Plan Your Visit Settings
+        file: src/content/settings/visit.md
+        fields:
+          - {
+              label: Keeper's Guest Room Is Closed,
+              name: guestRoomClosed,
+              widget: boolean,
+              hint: 'Turn on while the Guest Room is closed for renovations. Turn off once it reopens, and the page will point visitors to call the office to ask instead.',
+            }
+          - {
+              label: Closed Note,
+              name: guestRoomClosedNote,
+              widget: string,
+              hint: 'Shown on Plan Your Visit only while "Closed" is on above. For example: “The Keeper’s Guest Room is closed for the 2026 season while renovations are under way.”',
+            }
 
   - name: blog
     label: Blog Posts
@@ -58,9 +165,10 @@ collections:
     format: frontmatter
     fields:
       - { label: Title, name: title, widget: string }
-      - { label: Description, name: description, widget: text }
+      - { label: Description, name: description, widget: text, pattern: ['^[\s\S]{50,200}$', 'Write 50 to 200 characters.'], hint: 'Shown in search results and link previews. 50 to 200 characters.' }
       - { label: Publish Date, name: publishDate, widget: datetime }
-      - { label: Excerpt, name: excerpt, widget: text }
+      - { label: Excerpt, name: excerpt, widget: text, pattern: ['^[\s\S]{40,300}$', 'Write 40 to 300 characters.'], hint: 'One or two sentences shown on the blog list and home page. 40 to 300 characters.' }
+      - { label: Body, name: body, widget: markdown, hint: 'Describe each photo in its image description (alt text) for readers who can''t see it.' }
       - {
           label: Draft,
           name: draft,
@@ -68,4 +176,3 @@ collections:
           required: false,
           default: false,
         }
-      - { label: Body, name: body, widget: markdown }

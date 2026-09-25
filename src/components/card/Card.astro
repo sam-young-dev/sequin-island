@@ -1,9 +1,9 @@
 ---
-const { href, label } = Astro.props;
+const { href } = Astro.props;
 ---
 
-<a class="card" href={href} aria-label={label}>
-  <div class="wrapper flow">
+<a class="card" href={href}>
+  <div class="flow">
     <slot />
   </div>
 </a>

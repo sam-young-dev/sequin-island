@@ -1,19 +1,48 @@
 .closer {
   background: var(--color-interactive-fill-default);
   color: var(--color-foreground-inverse);
-  padding-block: clamp(2rem, 50vb, 4rem) var(--gutter);
-  font-weight: var(--font-bold);
-  padding-top: clamp(1rem, 50vb, 2rem);
-  padding-bottom: 2rem;
+  padding-block: var(--space-xl);
 }
 
-.closer svg[role="img"][width][height] {
-  --color-svg-fill: var(--color-foreground-inverse);
-  --color-svg-stroke: var(--color-foreground-inverse);
-  width: 100%;
-  height: auto;
-  background: unset;
-  padding: unset;
+.closer__inner {
+  --repel-gap: var(--space-xl) var(--space-2xl);
+  --repel-vertical-alignment: flex-start;
+}
+
+.closer__cta {
+  --flow-space: var(--space-sm);
+  flex: 1 1 32rem;
+  max-width: 38ch;
+}
+
+.closer__cta h2 {
+  color: inherit;
+}
+
+.closer__cta > p {
+  font-weight: var(--font-weight-normal);
+  line-height: var(--leading-normal);
+  max-width: 42ch;
+}
+
+.closer__actions {
+  --flow-space: var(--space-md);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.closer__phone {
+  color: inherit;
+  font-weight: var(--font-weight-bold);
+  text-underline-offset: 0.25em;
+}
+
+.closer__brand {
+  --flow-space: var(--space-sm);
+  flex: 0 1 22.5rem;
+  text-align: center;
 }
 
 .logo-container {
@@ -21,13 +50,15 @@
   place-items: center;
 }
 
-.closer__contact {
-  --flow-space: var(--space-sm);
-  text-align: center;
-  font-weight: var(--font-normal);
-  line-height: var(--leading-normal);
+/* The logo is a white-ground JPG: give it a proper plate so the wordmark isn't cropped at the edge */
+.logo-container img {
+  inline-size: min(22.5rem, 100%);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 7px;
+  background: var(--color-white);
 }
 
-.closer__contact a {
-  color: inherit;
+.closer__address {
+  font-weight: var(--font-weight-normal);
+  line-height: var(--leading-normal);
 }

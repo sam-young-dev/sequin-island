@@ -1,0 +1,20 @@
+---
+import IslandMap from "../components/island-map/IslandMap.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Island Map"
+  description="Explore Seguin Island in 3D: the light station, the tramway, the landing and the trails, shown on lidar terrain and aerial photography."
+>
+  <div class="region wrapper flow">
+    <div class="prose flow">
+      <h1>Explore the island</h1>
+      <p>
+        Seguin Island rises steeply from the sea about two and a half miles off the mouth of the Kennebec River. Turn the
+        island, zoom in on the light station, and pick a place to learn more about it.
+      </p>
+    </div>
+    <IslandMap />
+  </div>
+</BaseLayout>

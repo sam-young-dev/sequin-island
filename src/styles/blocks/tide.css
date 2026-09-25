@@ -1,0 +1,627 @@
+/*
+TIDE
+The Plan Your Visit page opens on the water, not a photograph: today's
+predicted tide drawn across a full-bleed Fog band, with the height now at
+display scale and the season beside it. Fog belongs to the sea, so this is
+the one band on the site that takes it outside the map.
+*/
+.tide {
+  --tide-ink: var(--color-stone-800);
+  --tide-ink-quiet: var(--color-stone-600);
+  --tide-water: color-mix(in oklab, var(--color-brand-fog), var(--color-brand-navy) 22%);
+  --tide-rule: color-mix(in oklab, var(--color-brand-fog), var(--color-brand-navy) 30%);
+  padding-block: var(--space-md-lg);
+  background: var(--color-brand-fog);
+  color: var(--tide-ink);
+}
+
+/* Wide screens set the readout, the landing line and the status side by side,
+   so the curve rises into the first view; mid widths stack the landing line
+   under the readout. On narrow screens the curve comes straight after the
+   figure, with landing and status below it. */
+.tide__inner {
+  display: grid;
+  grid-template-columns: fit-content(46ch) minmax(0, 1fr) minmax(13rem, 20rem);
+  grid-template-areas:
+    "readout access status"
+    "chart chart chart";
+  gap: var(--space-sm) var(--space-xl-2xl);
+  align-items: start;
+}
+
+@media (min-width: 72rem) {
+  .tide__access {
+    align-self: end;
+  }
+}
+
+@media (max-width: 72rem) {
+  .tide__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(13rem, 20rem);
+    grid-template-areas:
+      "readout status"
+      "access status"
+      "chart chart";
+  }
+}
+
+@media (max-width: 52rem) {
+  .tide__inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "readout" "chart" "access" "status";
+  }
+}
+
+/* Readout ------------------------------------------------------------------ */
+.tide__readout {
+  grid-area: readout;
+}
+
+.tide__heading {
+  font-size: var(--size-step-4);
+  font-weight: var(--font-weight-semibold);
+  color: var(--tide-ink);
+}
+
+.tide__when {
+  margin-block-start: var(--space-3xs);
+  font-family: var(--font-heading);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--size-step-1);
+}
+
+.tide__height {
+  font-family: var(--font-heading);
+  font-size: var(--size-step-9);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+  line-height: var(--leading-none);
+  letter-spacing: -0.03em;
+  color: var(--color-brand-dark);
+}
+
+.tide__unit {
+  font-size: 0.4em;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0;
+}
+
+.tide__trend {
+  margin-block-start: var(--space-2xs);
+  max-width: 38ch;
+  font-size: var(--size-step-2);
+  line-height: var(--leading-normal);
+  min-block-size: 1lh;
+}
+
+/* Ties the figure above to the one answer the page can give for certain,
+   right where the figure is read, instead of leaving the two facts to be
+   reconciled by the visitor further down the band. */
+.tide__caution {
+  margin-block-start: var(--space-2xs);
+  max-width: 38ch;
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--size-step-0);
+  line-height: var(--leading-normal);
+}
+
+/* Off season only: today's water is for reading, not for going, so point
+   the planner at the dates they will actually sail. */
+.tide__plan {
+  margin-block-start: var(--space-2xs);
+  max-width: 40ch;
+  font-size: var(--size-step-0);
+  line-height: var(--leading-normal);
+}
+
+.tide__plan[hidden] {
+  display: none;
+}
+
+.tide__access {
+  grid-area: access;
+  max-width: 44ch;
+  font-size: var(--size-step-0);
+  line-height: var(--leading-normal);
+}
+
+.tide__access strong {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
+.tide__trend a,
+.tide__plan a,
+.tide__caution a,
+.tide__access a,
+.tide__status a,
+.tide__latest a,
+.tide__source a {
+  color: inherit;
+}
+
+/* The landing question has one answer the page can give for certain: ask the
+   office. So the call is the band's one filled control. */
+.tide__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-sm);
+  align-items: center;
+  margin-block-start: var(--space-xs);
+}
+
+.tide__access .tide__call {
+  display: inline-flex;
+  gap: 0.5em;
+  align-items: center;
+  min-block-size: 2.75rem;
+  padding: 0.35em 0.9em;
+  background: var(--color-brand-dark);
+  color: var(--color-brand-light);
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  text-decoration: none;
+  transition: background-color var(--transition-base);
+}
+
+.tide__call span {
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tide__access .tide__call:hover {
+  background: var(--tide-ink);
+}
+
+/* Rhymes with the "Coming ashore" section's own landing link, so both halves
+   of the cross-referenced safety fact carry the same visual weight. */
+.tide__cta {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* NOAA couldn't be reached, but a saved prediction covers the window: say so
+   once, plainly, under the figures it explains. */
+.tide__saved {
+  margin-block-start: var(--space-2xs);
+  padding-block-start: var(--space-2xs);
+  max-width: 42ch;
+  border-block-start: 1px dashed var(--tide-rule);
+  font-size: var(--size-step-0);
+  line-height: var(--leading-normal);
+}
+
+.tide__saved[hidden] {
+  display: none;
+}
+
+.tide__retry {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.tide[data-state="loading"] .tide__height {
+  opacity: 0.35;
+}
+
+/* Without JS there is no curve to draw: keep the facts and the NOAA link,
+   and don't hold open an empty chart. */
+.tide[data-state="static"] :is(.tide__height, .tide__plot, .tide__controls) {
+  display: none;
+}
+
+/* While NOAA answers (or if it doesn't), a dashed waterline holds the chart's
+   place, so the band reads as waiting rather than broken. */
+.tide:is([data-state="loading"], [data-state="error"]) .tide__plot {
+  background: linear-gradient(to right, var(--tide-rule) 60%, transparent 0) 0 50% / 14px 1px repeat-x;
+}
+
+/* Status column -----------------------------------------------------------
+   A quiet column: it reports what's running today, but the tide figure is
+   the thing the visitor came to read, so this stays smaller and lower-
+   contrast than the readout at every step. */
+/* One quiet block, not three separately-ruled ones: label and value share a
+   line, and a single hairline opens the whole list instead of each item
+   carrying its own, so the column reads as one glance, not three. */
+.tide__status-col {
+  grid-area: status;
+}
+
+.tide__status {
+  margin-block-start: var(--space-sm);
+  padding-block-start: var(--space-2xs);
+  border-block-start: 1px solid color-mix(in oklab, var(--tide-rule), transparent 35%);
+  font-size: var(--size-step--1);
+  line-height: var(--leading-normal);
+  color: var(--tide-ink-quiet);
+}
+
+.tide__status > div {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.4em;
+  padding-block: var(--space-3xs);
+}
+
+.tide__status dt {
+  font-family: var(--font-heading);
+  font-size: var(--size-step--2);
+  font-weight: var(--font-weight-semibold);
+}
+
+.tide__status dt::after {
+  content: ":";
+}
+
+.tide__status dd {
+  margin: 0;
+}
+
+.tide__status strong {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-semibold);
+  color: var(--tide-ink);
+}
+
+.tide__latest {
+  display: block;
+  margin-block-start: var(--space-xs);
+  font-size: var(--size-step--2);
+  color: var(--tide-ink-quiet);
+}
+
+.tide__latest time {
+  font-family: var(--font-heading);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Chart --------------------------------------------------------------------- */
+.tide__chart {
+  grid-area: chart;
+  margin: var(--space-xs) 0 0;
+}
+
+.tide__plot {
+  --plot-h: clamp(9rem, 22svh, 14rem);
+  position: relative;
+  block-size: var(--plot-h);
+  /* Room under the curve for the clock ticks */
+  margin-block-end: 1.75rem;
+  border-block-end: 1px solid var(--tide-ink);
+}
+
+.tide__svg {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+}
+
+.tide__water {
+  fill: var(--tide-water);
+}
+
+.tide__line {
+  fill: none;
+  stroke: var(--color-brand-dark);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+}
+
+/* The curve draws in once, left to right, when the prediction lands.
+   Stepping to another day swaps it without replaying the draw. */
+@media (prefers-reduced-motion: no-preference) {
+  .tide[data-state="ready"]:not([data-drawn]) .tide__svg {
+    animation: tide-draw 1400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .tide[data-state="ready"]:not([data-drawn]) .tide__marks,
+  .tide[data-state="ready"]:not([data-drawn]) .tide__now {
+    animation: tide-settle 600ms 700ms ease-out both;
+  }
+}
+
+@keyframes tide-draw {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes tide-settle {
+  from { opacity: 0; }
+}
+
+.tide__marks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  font-family: var(--font-heading);
+  font-size: var(--size-step--1);
+  font-variant-numeric: tabular-nums;
+}
+
+.tide__tick {
+  position: absolute;
+  inset-block-start: calc(100% + 0.4rem);
+  inset-inline-start: var(--x);
+  translate: -50% 0;
+  white-space: nowrap;
+}
+
+/* Day names sit on a tall hairline so the night between the days reads */
+.tide__tick[data-midnight="true"] {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-brand-dark);
+}
+
+.tide__tick[data-midnight="true"]::before {
+  content: "";
+  position: absolute;
+  inset-block-end: calc(100% + 0.4rem);
+  inset-inline-start: 50%;
+  block-size: var(--plot-h);
+  border-inline-start: 1px dashed var(--tide-rule);
+}
+
+.tide__extreme {
+  position: absolute;
+  inset-inline-start: var(--x);
+  inset-block-start: var(--y);
+  translate: -50% calc(-100% - 0.5rem);
+  white-space: nowrap;
+  line-height: 1.2;
+  text-align: center;
+  /* A fog knockout, so the curve never runs through a label on narrow plots */
+  text-shadow: 0 0 3px var(--color-brand-fog), 0 0 3px var(--color-brand-fog), 0 0 6px var(--color-brand-fog);
+}
+
+.tide__extreme b {
+  display: block;
+  font-size: var(--size-step-0);
+  color: var(--color-brand-dark);
+}
+
+/* Lows read in the open fog above the trough, clear of the clock ticks */
+.tide__extreme[data-type="L"] {
+  translate: -50% calc(-100% - 0.75rem);
+}
+
+.tide[data-narrow] .tide__extreme[data-type="L"] {
+  translate: -50% 0.6rem;
+}
+
+/* Keep labels near the ends inside the band */
+.tide__marks [data-edge="start"] { translate: -0.25rem var(--ty, 0); }
+.tide__marks [data-edge="end"] { translate: calc(-100% + 0.25rem) var(--ty, 0); }
+.tide__extreme[data-edge] { --ty: calc(-100% - 0.5rem); }
+.tide__extreme[data-type="L"][data-edge] { --ty: calc(-100% - 0.75rem); }
+.tide[data-narrow] .tide__extreme[data-type="L"][data-edge] { --ty: 0.6rem; }
+
+.tide__now,
+.tide__cursor {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: var(--x);
+  border-inline-start: 2px solid var(--color-brand-primary);
+  pointer-events: none;
+}
+
+.tide__now[hidden],
+.tide__cursor[hidden] {
+  display: none;
+}
+
+/* The marker's grip: the position dot, flanked by a chevron either way so the
+   curve reads as something to drag. The chevrons sit on a Fog knockout like
+   the high/low labels, so the line never runs through them. Only the marker
+   being read carries them: now, until the visitor takes hold of the cursor. */
+.tide__grip {
+  position: absolute;
+  inset-block-start: var(--y);
+  inset-inline-start: -1px;
+  inline-size: 2.75rem;
+  block-size: 1rem;
+  translate: -50% -50%;
+  overflow: visible;
+}
+
+.tide__grip-halo,
+.tide__grip-arrow {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tide__grip-halo {
+  stroke: var(--color-brand-fog);
+  stroke-width: 6;
+}
+
+.tide__grip-arrow {
+  stroke: var(--color-brand-primary);
+  stroke-width: 2;
+}
+
+.tide__grip-dot {
+  fill: var(--color-brand-primary);
+  stroke: var(--color-brand-fog);
+  stroke-width: 2;
+}
+
+.tide__cursor .tide__grip-arrow {
+  stroke: var(--color-brand-dark);
+}
+
+.tide__cursor .tide__grip-dot {
+  fill: var(--color-brand-dark);
+}
+
+.tide[data-scrubbed] .tide__now :is(.tide__grip-left, .tide__grip-right),
+.tide:not([data-state="ready"]) :is(.tide__grip-left, .tide__grip-right) {
+  display: none;
+}
+
+/* Once the marks have settled, the grip leans out and back twice: the one
+   hint, in motion, that the curve can be read by hand. */
+@media (prefers-reduced-motion: no-preference) {
+  .tide[data-state="ready"]:not([data-drawn]) .tide__now .tide__grip-left {
+    animation: tide-nudge-left 700ms 1400ms cubic-bezier(0.16, 1, 0.3, 1) 2;
+  }
+
+  .tide[data-state="ready"]:not([data-drawn]) .tide__now .tide__grip-right {
+    animation: tide-nudge-right 700ms 1400ms cubic-bezier(0.16, 1, 0.3, 1) 2;
+  }
+}
+
+@keyframes tide-nudge-left {
+  50% { translate: -3px 0; }
+}
+
+@keyframes tide-nudge-right {
+  50% { translate: 3px 0; }
+}
+
+.tide__now-label {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0.4rem;
+  font-family: var(--font-heading);
+  font-size: var(--size-step--1);
+  font-weight: var(--font-weight-bold);
+  color: var(--tide-ink);
+  white-space: nowrap;
+}
+
+.tide__now[data-label="start"] .tide__now-label {
+  inset-inline: auto 0.4rem;
+}
+
+.tide__now[data-label="none"] .tide__now-label {
+  display: none;
+}
+
+.tide__cursor {
+  border-inline-start-color: var(--color-brand-dark);
+}
+
+/* The scrub control is a real range input stretched over the plot:
+   pointer, touch and arrow keys all read the tide at that time. */
+.tide__scrub {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+  touch-action: pan-y;
+}
+
+.tide__scrub:disabled {
+  cursor: default;
+}
+
+.tide__plot:has(.tide__scrub:focus-visible) {
+  outline: 2px solid var(--color-brand-dark);
+  outline-offset: 0.5rem;
+}
+
+.tide__source {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-md);
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0;
+  font-family: var(--font-heading);
+  font-size: var(--size-step--1);
+  color: var(--tide-ink);
+}
+
+.tide__source span {
+  max-width: 80ch;
+}
+
+.tide__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-sm);
+  align-items: center;
+}
+
+/* Quieter than the buttons beside it: the grip on the marker is the
+   affordance, and this sentence only names it and the keys. */
+.tide__hint {
+  color: var(--tide-ink-quiet);
+}
+
+/* Below the width where the source line and the controls no longer share a
+   row, the hint sentence and the day/back buttons still fight for the same
+   line. Give the hint its own row so the buttons never crowd its wrapped text. */
+@media (max-width: 40rem) {
+  .tide__hint {
+    flex-basis: 100%;
+  }
+}
+
+.tide:not([data-state="ready"]) .tide__hint {
+  visibility: hidden;
+}
+
+.tide__days {
+  display: flex;
+  gap: var(--space-3xs);
+}
+
+.tide__button {
+  min-block-size: 2.75rem;
+  padding: 0.35em 0.8em;
+  border: 1px solid var(--tide-ink);
+  border-radius: 0;
+  background: none;
+  color: var(--tide-ink);
+  font-family: var(--font-heading);
+  font-size: var(--size-step--1);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+}
+
+.tide__button:hover:not(:disabled) {
+  background: var(--color-brand-dark);
+  border-color: var(--color-brand-dark);
+  color: var(--color-brand-light);
+}
+
+.tide__button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.tide__button[hidden] {
+  display: none;
+}
+
+.tide ::selection {
+  background: var(--color-brand-dark);
+  color: var(--color-brand-light);
+}
+
+@media (forced-colors: active) {
+  .tide__water { fill: Canvas; }
+  .tide__line { stroke: CanvasText; }
+  .tide__now, .tide__cursor { border-color: Highlight; }
+  .tide__grip-arrow { stroke: Highlight; }
+  .tide__grip-dot { fill: Highlight; stroke: Canvas; }
+  .tide__grip-halo { stroke: Canvas; }
+}

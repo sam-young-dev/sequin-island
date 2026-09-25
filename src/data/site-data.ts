@@ -1,20 +1,15 @@
 export const siteData = {
   title: "Friends of Seguin Island",
+  description: "Friends of Seguin Island Light Station preserves and shares Seguin Island Light Station, off the coast of Maine.",
   contactEmail: "keeper@seguinisland.org",
+  officePhone: "207-443-4808",
+  officePhoneHref: "tel:+12074434808",
   mailingAddress: ["Friends of Seguin Island Light Station", "72 Front St, Suite 3", "Bath, ME 04530"],
   navItems: [
     { label: "About", href: "/about" },
+    { label: "Plan Your Visit", href: "/visit" },
+    { label: "Island Map", href: "/map" },
     { label: "Keeper's Blog", href: "/blog" },
-    { label: "Contact", href: "/contact" },
-    { label: "Membership", href: "/membership", current: false },
+    { label: "Membership", href: "/membership" },
   ],
-  heroIcon: {
-    label: "View Paintings",
-    href: "#content",
-  },
-  masthead: {
-    heading: "Studio Workshop",
-    location: "Nashville, TN",
-    meta: "~ Established 2026 ~",
-  },
 };
