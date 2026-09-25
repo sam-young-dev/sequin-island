@@ -32,7 +32,7 @@
   --cluster-gap: 0 var(--space-sm);
 }
 
-/* Padding lifts the hit area to ~40px; the row is already that tall from the Donate button */
+/* Padding lifts the hit area to ~40px */
 .site-head .nav a:not(.button) {
   display: inline-block;
   padding-block: 0.75em;

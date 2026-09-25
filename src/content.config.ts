@@ -40,6 +40,15 @@ const pages = defineCollection({
   schema: z.object({
     title: text("Title", { max: 70 }),
     description: text("Description", { min: 50, max: 200 }),
+    // Donate-only: the page has its own template (src/pages/donate.astro) so the
+    // single online gift can carry the support-button color and sit beside its
+    // own reassurance line, ahead of the markdown body's other ways to give.
+    intro: text("Intro", { min: 50, max: 400 }).optional(),
+    lede: text("Lede", { min: 10, max: 200 }).optional(),
+    ctaLabel: text("CTA label", { max: 40 }).optional(),
+    ctaHref: href.optional(),
+    reassurance: text("Reassurance", { min: 20, max: 300 }).optional(),
+    donorRightsHref: href.optional(),
   }),
 });
 
@@ -58,6 +67,29 @@ const keepers = defineCollection({
     historic: z
       .array(z.object({ name: text("Keeper name", { max: 80 }), service: text("Role and years", { max: 120 }) }))
       .min(1, "List at least one historic keeper."),
+  }),
+});
+
+// The four annual tiers on /membership, published low to high so a visitor
+// reads the levels as a ladder. Each tier lists only what it adds beyond
+// `included`, the shared benefits every level gets.
+const membership = defineCollection({
+  loader: glob({ pattern: "*.md", base: "./src/content/membership" }),
+  schema: z.object({
+    title: text("Title", { max: 70 }),
+    description: text("Description", { min: 50, max: 200 }),
+    intro: text("Intro", { min: 50, max: 400 }),
+    purchaseHref: href,
+    included: z.array(text("Included benefit", { max: 120 })).min(1, "List at least one benefit every member gets."),
+    tiers: z
+      .array(
+        z.object({
+          name: text("Tier name", { max: 60 }),
+          price: text("Price", { max: 20 }),
+          extras: z.array(text("Extra", { max: 200 })).default([]),
+        }),
+      )
+      .min(1, "List at least one membership tier."),
   }),
 });
 
@@ -99,4 +131,4 @@ const settings = defineCollection({
   }),
 });
 
-export const collections = { home, pages, keepers, blog, settings };
+export const collections = { home, pages, keepers, blog, settings, membership };

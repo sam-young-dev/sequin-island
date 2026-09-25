@@ -49,7 +49,43 @@ collections:
     fields:
       - { label: Title, name: title, widget: string }
       - { label: Description, name: description, widget: text, pattern: ['^[\s\S]{50,200}$', 'Write 50 to 200 characters.'], hint: 'Shown in search results and link previews. 50 to 200 characters.' }
+      - { label: 'Donate page — Intro', name: intro, widget: text, required: false, hint: 'donate.md only: the paragraph above the Donate button.' }
+      - { label: 'Donate page — Lede', name: lede, widget: string, required: false, hint: 'donate.md only: the short line right above the Donate button.' }
+      - { label: 'Donate page — Button label', name: ctaLabel, widget: string, required: false, hint: 'donate.md only.' }
+      - { label: 'Donate page — Button link', name: ctaHref, widget: string, required: false, hint: 'donate.md only: where the Donate button goes.' }
+      - { label: 'Donate page — Reassurance', name: reassurance, widget: text, required: false, hint: 'donate.md only: the tax-deductible statement shown beside the button.' }
+      - { label: 'Donate page — Donor Bill of Rights link', name: donorRightsHref, widget: string, required: false, hint: 'donate.md only.' }
       - { label: Body, name: body, widget: markdown }
+
+  - name: membership
+    label: Membership
+    files:
+      - name: membership
+        label: Membership Levels
+        file: src/content/membership/index.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, pattern: ['^[\s\S]{50,200}$', 'Write 50 to 200 characters.'], hint: 'Shown in search results and link previews. 50 to 200 characters.' }
+          - { label: Intro, name: intro, widget: text, hint: 'Opens the Membership page, above the tier list.' }
+          - { label: Purchase Link, name: purchaseHref, widget: string, hint: 'The eJoinMe membership page, for example https://seguinisland.ejoinme.org/membership' }
+          - label: Every Membership Includes
+            name: included
+            widget: list
+            hint: 'The benefits every tier gets, listed once above the tiers.'
+            field: { label: Benefit, name: benefit, widget: string }
+          - label: Tiers
+            name: tiers
+            widget: list
+            summary: '{{fields.name}} – {{fields.price}}'
+            hint: 'Published low to high, so the page reads as a ladder.'
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Price, name: price, widget: string, hint: 'For example $50 or $1000+' }
+              - label: Extras
+                name: extras
+                widget: list
+                hint: 'Only what this tier adds beyond "Every Membership Includes" above.'
+                field: { label: Extra, name: extra, widget: string }
 
   - name: keepers
     label: Keepers

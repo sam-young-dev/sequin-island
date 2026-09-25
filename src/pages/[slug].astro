@@ -4,8 +4,9 @@ import { getCollection, render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  // About has its own route (src/pages/about/) so it can carry the keepers section
-  const pages = await getCollection("pages", ({ id }) => id !== "about");
+  // About and Donate have their own routes (src/pages/about/, src/pages/donate.astro)
+  // so they can carry the keepers section and the support-button ask, respectively
+  const pages = await getCollection("pages", ({ id }) => id !== "about" && id !== "donate");
 
   return pages.map((page) => ({
     params: { slug: page.id },

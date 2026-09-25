@@ -24,7 +24,8 @@ The whole block is the link.
   text-decoration: none;
 }
 
-.dispatch__feature:not([data-has-photo]) {
+.dispatch__feature:not([data-has-photo]),
+.dispatch__empty {
   padding-block: var(--space-md-lg);
   border-block: var(--stroke-solid);
 }

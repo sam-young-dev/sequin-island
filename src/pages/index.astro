@@ -20,7 +20,8 @@ const { Content } = await render(home);
 
 // The newest post leads with the caretakers' own first photo, when the post has one
 const [latest, ...earlier] = posts;
-const latestPhoto = latest?.body?.match(/!\[([^\]]*)\]\((\S+?)\)/);
+const latestPhotoMatch = latest?.body?.match(/!\[(?<alt>[^\]]*)\]\((?<src>\S+?)\)/);
+const latestPhoto = latestPhotoMatch?.groups;
 
 // Seguin's verified distinctions, as published in the About page history
 const distinctions = [
@@ -73,7 +74,7 @@ const distinctions = [
     <h2 id="history-heading" class="history__heading">{home.data.secondaryCtaLabel}</h2>
     <div class="history__body flow">
       <p>Visiting this historic, active lighthouse is a memorable experience for visitors of all ages. <a href="/visit">Plan your visit</a> around the tide, the ferry and the climb to the light.</p>
-      <p><a class="button" data-button-variant="secondary" href={home.data.secondaryCtaHref}>Read the full story →</a></p>
+      <p class="history__more"><a href={home.data.secondaryCtaHref}>Read the full story →</a></p>
     </div>
   </section>
 
@@ -87,6 +88,7 @@ const distinctions = [
           <a class="button" href={home.data.primaryCtaHref}>{home.data.primaryCtaLabel} →</a>
           <a class="support__gift" href="/donate">Or make a one-time gift</a>
         </p>
+        <p class="support__reassurance">Every gift is tax-deductible and goes straight to keeping the tower, museum, and trails open. Thank you for keeping the light going.</p>
       </div>
     </div>
   </div>
@@ -99,8 +101,8 @@ const distinctions = [
           {latestPhoto && (
             <img
               class="dispatch__photo"
-              src={latestPhoto[2]}
-              alt={latestPhoto[1]}
+              src={latestPhoto.src}
+              alt={latestPhoto.alt}
               width="1024"
               height="768"
               loading="lazy"
@@ -117,7 +119,7 @@ const distinctions = [
           </div>
         </a>
       ) : (
-        <p>The caretakers haven't posted yet this season. In the meantime, <a href="/map">explore the island in 3D</a>.</p>
+        <p class="dispatch__empty">The caretakers haven't posted yet this season. In the meantime, <a href="/map">explore the island in 3D</a>.</p>
       )
     }
     {earlier.length > 0 && (
@@ -133,7 +135,7 @@ const distinctions = [
         ))}
       </ul>
     )}
-    {latest && <p class="dispatch__more"><a href="/blog">Visit the full blog →</a></p>}
+    {posts.length > 1 && <p class="dispatch__more"><a href="/blog">Visit the full blog →</a></p>}
   </section>
 
 </BaseLayout>

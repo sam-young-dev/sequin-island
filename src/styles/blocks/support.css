@@ -55,3 +55,9 @@ One primary action, one quiet route to a single gift.
 .support__gift:hover {
   text-underline-offset: 0.2lh;
 }
+
+.support__reassurance {
+  --flow-space: var(--space-md);
+  max-width: 46ch;
+  color: var(--color-text-quiet);
+}
