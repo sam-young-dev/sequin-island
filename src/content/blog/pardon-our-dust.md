@@ -4,6 +4,10 @@ description: Tower tours are paused through Friday, July 31st while we work on t
 publishDate: 2026-07-28T13:38:00.000-05:00
 excerpt: A busy summer weekend in the cove, tower repairs under way, and four ways to enjoy the island while tower tours are paused through July 31st.
 draft: false
+heroImage: https://seguinisland.org/wp-content/uploads/2026/07/IMG_0933-1024x768.jpeg
+heroImageAlt: Harvey Gamage boat in the cove
+author: "S&S"
+signoff: "Light and love,\nS&S"
 ---
 
 Ahoy, friends! This past weekend was full with summer hosting on Seguin with perfect weather and perfect company. Our cove was a sight to see with full moorings and the crew of the [Harvey Gamage](https://www.sailboston.com/ships/harvey-gamage/). We are honored to be your preferred island choice for a perfect picnic stop!
@@ -41,6 +45,3 @@ Blueberries and raspberries are in season and the best spot is the North Trail. 
 ![A two-masted schooner anchored in the cove, seen over green shrubs from the North Trail](https://seguinisland.org/wp-content/uploads/2026/07/IMG_0931-1-768x1024.jpeg)
 
 We are missing our tower walks too but look forward to returning after this essential project. Thank you for your patience and see you soon!
-
-Light and love,
-S&S

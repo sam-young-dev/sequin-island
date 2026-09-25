@@ -10,16 +10,23 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
 );
 ---
 
-<BaseLayout title="Keeper's Blog" description="Stories and updates from Seguin Island Light Station.">
+<BaseLayout
+  title="Keeper's Blog"
+  description="Stories and updates from Seguin Island Light Station."
+  socialImage={posts[0]?.data.heroImage}
+>
   <div class="region wrapper flow">
     <div class="prose flow">
       <h1>Keeper's Blog</h1>
       <p>Stories, seasonal updates, and preservation news from Seguin Island Light Station.</p>
+      <p><a href="/rss.xml">Subscribe via RSS →</a></p>
     </div>
 
     {
+      // Blog-index visitors are already blog-minded, so the secondary CTA points deeper into
+      // the island's story; the homepage teaser's own empty state points at the map instead.
       posts.length > 0 ? (
-        <ul class="grid" role="list" style="--grid-item-min: 20rem">
+        <ul class="grid" role="list" style="--grid-item-min: 20rem; --grid-placement: auto-fit">
           {posts.map((post) => (
             <li>
               <Card href={`/blog/${post.id}/`}>

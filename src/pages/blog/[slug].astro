@@ -17,11 +17,12 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
+<BaseLayout title={post.data.title} description={post.data.description} socialImage={post.data.heroImage}>
   <article class="region wrapper prose flow">
     <h1>{post.data.title}</h1>
-    <p><small><time datetime={isoDate(post.data.publishDate)}>{formatDate(post.data.publishDate)}</time></small></p>
+    <p><small>{post.data.author && <>By {post.data.author} · </>}<time datetime={isoDate(post.data.publishDate)}>{formatDate(post.data.publishDate)}</time></small></p>
     <Content />
+    {post.data.signoff && <p class="post-signoff">{post.data.signoff}</p>}
     <p><a href="/blog">← All posts from the Keeper's Blog</a></p>
   </article>
 </BaseLayout>
