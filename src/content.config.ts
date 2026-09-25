@@ -3,7 +3,8 @@ import { defineCollection, z } from "astro:content";
 
 // Guards against CMS entries that would ship broken or placeholder text.
 // A failing entry stops the build with the field name, so it never reaches the live site.
-const PLACEHOLDERS = /^(test|testing|desc|description|excerpt|todo|tbd|lorem ipsum.*|placeholder.*|x+|\.+|-+)$/i;
+const PLACEHOLDERS =
+  /^(test|testing|desc|description|excerpt|todo|tbd|lorem ipsum.*|placeholder.*|x+|\.+|-+)$/i;
 
 const text = (label: string, { min = 1, max }: { min?: number; max: number }) =>
   z
@@ -11,13 +12,30 @@ const text = (label: string, { min = 1, max }: { min?: number; max: number }) =>
     .trim()
     .min(min, `${label} needs at least ${min} characters.`)
     .max(max, `${label} must be ${max} characters or fewer.`)
-    .refine((value) => !PLACEHOLDERS.test(value), `${label} still contains placeholder text.`);
+    .refine(
+      (value) => !PLACEHOLDERS.test(value),
+      `${label} still contains placeholder text.`,
+    );
 
 // Site links ("/membership"), full URLs, and email links. Rejects "membership" or "www.example.com".
 const href = z
   .string()
   .trim()
-  .regex(/^(\/|#|https?:\/\/|mailto:)/, 'Links must start with "/", "https://", or "mailto:".');
+  .regex(
+    /^(\/|#|https?:\/\/|mailto:)/,
+    'Links must start with "/", "https://", or "mailto:".',
+  );
+
+// A local asset path or a remote image URL (e.g. the WordPress media library, authorized
+// in astro.config.mjs's image.domains), rendered with <Image inferSize> so it never needs
+// a guessed width/height.
+const imageSrc = z
+  .string()
+  .trim()
+  .regex(
+    /^(\/|https?:\/\/)/,
+    'Images must be a local path or an "https://" URL.',
+  );
 
 const home = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/home" }),
@@ -31,7 +49,9 @@ const home = defineCollection({
     primaryCtaHref: href,
     secondaryCtaLabel: text("Secondary CTA label", { max: 40 }),
     secondaryCtaHref: href,
-    blogHeading: text("Blog heading", { max: 60 }).default("Latest from the island"),
+    blogHeading: text("Blog heading", { max: 60 }).default(
+      "Latest from the island",
+    ),
   }),
 });
 
@@ -84,10 +104,20 @@ const keepers = defineCollection({
     intro: text("Intro", { min: 50, max: 400 }),
     historicIntro: text("Historic keepers intro", { min: 50, max: 400 }),
     volunteers: z
-      .array(z.object({ year: z.number().int().min(1990).max(2100), names: text("Keeper names", { max: 120 }) }))
+      .array(
+        z.object({
+          year: z.number().int().min(1990).max(2100),
+          names: text("Keeper names", { max: 120 }),
+        }),
+      )
       .min(1, "List at least one volunteer keeper."),
     historic: z
-      .array(z.object({ name: text("Keeper name", { max: 80 }), service: text("Role and years", { max: 120 }) }))
+      .array(
+        z.object({
+          name: text("Keeper name", { max: 80 }),
+          service: text("Role and years", { max: 120 }),
+        }),
+      )
       .min(1, "List at least one historic keeper."),
   }),
 });
@@ -102,7 +132,9 @@ const membership = defineCollection({
     description: text("Description", { min: 50, max: 200 }),
     intro: text("Intro", { min: 50, max: 400 }),
     purchaseHref: href,
-    included: z.array(text("Included benefit", { max: 120 })).min(1, "List at least one benefit every member gets."),
+    included: z
+      .array(text("Included benefit", { max: 120 }))
+      .min(1, "List at least one benefit every member gets."),
     sustainingNote: text("Sustaining note", { max: 200 }),
     tiers: z
       .array(
@@ -126,6 +158,15 @@ const blog = defineCollection({
       publishDate: z.coerce.date(),
       excerpt: z.string().trim(),
       draft: z.boolean().default(false),
+      // The caretaker's deliberate choice for the homepage teaser and social-share
+      // preview. Prefer a landscape shot: the teaser crops to 4:3 (see dispatch.css).
+      heroImage: imageSrc.optional(),
+      heroImageAlt: text("Hero image alt text", { max: 160 }).optional(),
+      // Who's signing this update, e.g. "S&S" — shown quietly beside the dateline.
+      author: text("Author", { max: 60 }).optional(),
+      // The post's closing valediction, kept out of the freeform body so it can carry
+      // its own "letter from the island" styling instead of reading as one more paragraph.
+      signoff: text("Signoff", { max: 120 }).optional(),
     })
     // Drafts can be rough; published posts can't.
     .superRefine((post, ctx) => {
@@ -137,8 +178,20 @@ const blog = defineCollection({
       ] as const) {
         const result = schema.safeParse(post[field]);
         if (!result.success) {
-          for (const issue of result.error.issues) ctx.addIssue({ code: "custom", path: [field], message: issue.message });
+          for (const issue of result.error.issues)
+            ctx.addIssue({
+              code: "custom",
+              path: [field],
+              message: issue.message,
+            });
         }
+      }
+      if (post.heroImage && !post.heroImageAlt) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["heroImageAlt"],
+          message: "heroImageAlt is required when heroImage is set.",
+        });
       }
     }),
 });
@@ -149,7 +202,10 @@ const settings = defineCollection({
   loader: glob({ pattern: "*.md", base: "./src/content/settings" }),
   schema: z.object({
     guestRoomClosed: z.boolean().default(false),
-    guestRoomClosedNote: text("Guest room closed note", { min: 10, max: 200 }).default(
+    guestRoomClosedNote: text("Guest room closed note", {
+      min: 10,
+      max: 200,
+    }).default(
       "The Keeper’s Guest Room is closed while renovations are under way.",
     ),
   }),

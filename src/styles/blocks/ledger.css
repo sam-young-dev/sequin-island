@@ -51,4 +51,5 @@ the claim set large in Granite and the evidence in the reading serif.
   font-size: var(--size-step-3);
   font-family: var(--font-heading);
   font-weight: var(--font-weight-semibold);
+  color: var(--color-brand-primary);
 }

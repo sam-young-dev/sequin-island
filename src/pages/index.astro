@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import { getCollection, getEntry, render } from "astro:content";
 
 import lighthouseImage from "../assets/seguin-island-hero.jpg";
@@ -18,10 +19,8 @@ if (!home) {
 
 const { Content } = await render(home);
 
-// The newest post leads with the caretakers' own first photo, when the post has one
+// The newest post leads with its own deliberately chosen heroImage, when it has one
 const [latest, ...earlier] = posts;
-const latestPhotoMatch = latest?.body?.match(/!\[(?<alt>[^\]]*)\]\((?<src>\S+?)\)/);
-const latestPhoto = latestPhotoMatch?.groups;
 
 // Seguin's verified distinctions, as published in the About page history
 const distinctions = [
@@ -44,7 +43,7 @@ const distinctions = [
 ];
 ---
 
-<BaseLayout title={home.data.title} description={home.data.description}>
+<BaseLayout title={home.data.title} description={home.data.description} socialImage={latest?.data.heroImage}>
   <Hero size="landmark" image={lighthouseImage} alt="Seguin Light's tower and brick keeper's house on the island summit under a summer sky">
     <h1>{home.data.heroHeading}</h1>
     <p class="hero__coords">{home.data.heroEyebrow}</p>
@@ -73,13 +72,29 @@ const distinctions = [
   <section class="region wrapper history" aria-labelledby="history-heading">
     <h2 id="history-heading" class="history__heading">{home.data.secondaryCtaLabel}</h2>
     <div class="history__body flow">
-      <p>Visiting this historic, active lighthouse is a memorable experience for visitors of all ages. <a href="/visit">Plan your visit</a> around the tide, the ferry and the climb to the light.</p>
+      <p>The Lighthouse Trail climbs about 130 feet from the cove, past the working tramway, to the tower and Maine's only kept first-order Fresnel lens. <a class="history__plan" href="/visit">Plan your visit →</a></p>
       <p class="history__more"><a href={home.data.secondaryCtaHref}>Read the full story →</a></p>
     </div>
+    <Image
+      class="history__photo"
+      src="https://seguinisland.org/wp-content/uploads/2026/07/IMG_0962-1-1024x768.jpeg"
+      alt="The lighthouse lantern and brick keeper's house seen across tall grass, beside a wooden signpost of mileage signs"
+      inferSize
+      loading="lazy"
+      decoding="async"
+    />
   </section>
 
   <div class="region support" data-bg="tinted">
-    <div class="wrapper support__inner">
+    <div class="wrapper support__inner switcher">
+      <Image
+        class="support__photo"
+        src="https://seguinisland.org/wp-content/uploads/2026/07/IMG_2420-768x1024.jpeg"
+        alt="Four members of the tower crew sitting on the steps of a white clapboard porch beside a brick wall"
+        inferSize
+        loading="lazy"
+        decoding="async"
+      />
       <div class="support__main flow">
         <h2>{home.data.primaryCtaLabel}</h2>
         <p class="support__lead">Support the island through annual membership and help sustain preservation, education, and visitor access.</p>
@@ -96,15 +111,16 @@ const distinctions = [
   <section class="region wrapper flow dispatch" aria-labelledby="blog-heading">
     <h2 id="blog-heading" class="dispatch__heading">{home.data.blogHeading}</h2>
     {
+      // Homepage empty state points at the map (already this page's other CTA); the
+      // blog index's own empty state points at island history instead.
       latest ? (
-        <a class="dispatch__feature" href={`/blog/${latest.id}/`} data-has-photo={latestPhoto ? "" : undefined}>
-          {latestPhoto && (
-            <img
+        <a class="dispatch__feature" href={`/blog/${latest.id}/`} data-has-photo={latest.data.heroImage ? "" : undefined}>
+          {latest.data.heroImage && (
+            <Image
               class="dispatch__photo"
-              src={latestPhoto.src}
-              alt={latestPhoto.alt}
-              width="1024"
-              height="768"
+              src={latest.data.heroImage}
+              alt={latest.data.heroImageAlt ?? ""}
+              inferSize
               loading="lazy"
               decoding="async"
             />
@@ -123,7 +139,7 @@ const distinctions = [
       )
     }
     {earlier.length > 0 && (
-      <ul class="grid" role="list" style="--grid-item-min: 20rem">
+      <ul class="grid" role="list" style="--grid-item-min: 20rem; --grid-placement: auto-fit">
         {earlier.map((post) => (
           <li>
             <Card href={`/blog/${post.id}/`}>

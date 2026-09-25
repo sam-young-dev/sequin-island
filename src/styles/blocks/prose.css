@@ -104,6 +104,17 @@ CUSTOM PROPERTIES AND CONFIGURATION
   font-weight: var(--font-weight-medium, 500);
 }
 
+/* The post's own valediction, set apart from the running text it closes */
+.prose .post-signoff {
+  --flow-space: var(--space-xl, 2.5rem);
+  padding-top: var(--space-sm, 1rem);
+  border-top: var(--stroke-solid);
+  max-width: 40ch;
+  font-style: italic;
+  color: var(--color-text-quiet);
+  white-space: pre-line;
+}
+
 .prose :is(kbd) {
   border-radius: var(--form-control-radius, 0.25rem);
 }

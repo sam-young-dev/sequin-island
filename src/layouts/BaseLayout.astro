@@ -24,6 +24,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="preload" href={sourceSerifLatin} as="font" type="font/woff2" crossorigin />
     <!-- Headings, nav and the hero title are Public Sans: load it with the serif so the first screen doesn't reflow -->
     <link rel="preload" href={publicSansLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="alternate" type="application/rss+xml" title="Keeper's Blog" href="/rss.xml" />
     <MetaInfo
       title={title}
       description={description}

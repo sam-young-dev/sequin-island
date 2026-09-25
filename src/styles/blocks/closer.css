@@ -33,10 +33,27 @@
   gap: var(--space-md);
 }
 
+/* The one place a hand reaches back: the arrow and the phone rule both lean
+   toward the visitor on hover, the same restrained gesture the skip-link and
+   the tide grip use elsewhere on the site. */
+.closer__cta-arrow {
+  display: inline-block;
+  transition: transform var(--transition-bounce);
+}
+
+.closer__actions .button:is(:hover, :focus-visible) .closer__cta-arrow {
+  transform: translateX(0.2em);
+}
+
 .closer__phone {
   color: inherit;
   font-weight: var(--font-weight-bold);
   text-underline-offset: 0.25em;
+  transition: text-underline-offset var(--transition-bounce);
+}
+
+.closer__phone:is(:hover, :focus-visible) {
+  text-underline-offset: 0.4em;
 }
 
 .closer__brand {
